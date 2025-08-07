@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oakridge Secondary College</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts: IBM Plex Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+        ========================================
+        UI/UX Update #3
+        ----------------------------------------
+        Changes Based on Feedback:
+        1.  Replaced the image on top of the title with a dummy logo.
+        2.  Self-Contained Code: HTML and all CSS styles remain in this single file.
+        ========================================
+        */
+
+        /* --- Global Styles --- */
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #5a6a7a; /* --color-text */
+            background-color: #fdfdff;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'IBM Plex Sans', sans-serif;
+            color: #2c3e50; /* --color-dark */
+            font-weight: 600;
+        }
+
+        /* --- Header --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: transparent;
+            position: sticky;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: background-color 0.4s ease, box-shadow 0.4s ease, padding 0.4s ease;
+        }
+
+        .header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 40px;
+        }
+
+        .logo img {
+            height: 45px;
+            margin-right: 12px;
+        }
+
+        .logo-text {
+            font-size: 26px;
+            font-weight: 700;
+            color: #003366; /* --color-primary */
+        }
+
+        .logo-text span {
+            font-size: 13px;
+            display: block;
+            color: #00509E; /* --color-secondary */
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        
+        .nav-menu {
+            display: flex;
+        }
+
+        .nav-menu a {
+            color: #2c3e50; /* --color-dark */
+            text-decoration: none;
+            margin: 0 18px;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #00509E; /* --color-secondary */
+            transition: width 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: #00509E; /* --color-secondary */
+        }
+
+        .nav-menu a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger-menu {
+            display: none;
+            font-size: 24px;
+            color: #2c3e50; /* --color-dark */
+            cursor: pointer;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background-image: url('https://images.pexels.com/photos/8617967/pexels-photo-8617967.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+            background-size: cover;
+            background-position: center 30%;
+            color: white;
+            padding: 220px 0;
+            text-align: center;
+            position: relative;
+            margin-top: -105px;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(0deg, rgba(0, 21, 41, 0.7) 0%, rgba(0, 40, 79, 0.4) 100%);
+            z-index: 1;
+        }
+
+        .hero .container { position: relative; z-index: 2; }
+
+        .hero p {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 700;
+            color: #ffffff; /* --color-light */
+            margin: 0 0 40px 0;
+            line-height: 1.1;
+        }
+
+        /* --- Button Styles --- */
+        .btn {
+            padding: 15px 35px;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px; /* --border-radius */
+            display: inline-block;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-accent { background-color: #FFC300; /* --color-accent */ color: #2c3e50; /* --color-dark */ }
+        .btn-accent:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* --shadow-hover */ background-color: #ffd040; }
+        .btn-primary { background-color: #00509E; /* --color-secondary */ color: white; }
+        .btn-primary:hover { background-color: #003366; /* --color-primary */ transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* --shadow-hover */ }
+
+        /* --- Welcome Section --- */
+        .welcome-section {
+            padding: 100px 0;
+            background: #f9fafb;
+        }
+        .welcome-content { display: flex; align-items: flex-start; gap: 60px; }
+        .welcome-text { flex: 1; }
+        .welcome-text h2 { font-size: 42px; margin-bottom: 25px; line-height: 1.2; }
+        .welcome-text p { line-height: 1.7; margin-bottom: 35px; font-size: 17px; }
+
+        /* --- Features Grid --- */
+        .features-grid { flex: 1.2; display: grid; grid-template-columns: repeat(2, 1fr); gap: 30px; }
+        .feature-item {
+            padding: 30px; background: #ffffff; /* --color-light */
+            border-radius: 8px; /* --border-radius */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* --shadow */
+            text-align: center; transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .feature-item:hover { transform: translateY(-8px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12); /* --shadow-hover */ }
+        .feature-item i { font-size: 40px; color: #00509E; /* --color-secondary */ margin-bottom: 20px; }
+        .feature-item h3 { font-size: 20px; color: #2c3e50; /* --color-dark */ margin-bottom: 10px; }
+        .feature-item p { font-size: 15px; line-height: 1.6; color: #5a6a7a; /* --color-text */ }
+
+        /* --- RESPONSIVE STYLES --- */
+        
+        /* Tablet & Mobile Nav Toggle */
+        @media (max-width: 992px) {
+            .header { padding: 15px 20px; }
+            .header.scrolled { padding: 10px 20px; }
+            .nav-menu {
+                display: none;
+                flex-direction: column; width: 100%;
+                background-color: white; position: absolute;
+                top: 73px; left: 0; padding: 10px 0;
+                box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            }
+            .nav-menu.active { display: flex; }
+            .nav-menu a { padding: 15px; text-align: center; border-bottom: 1px solid #f0f0f0; margin: 0; }
+            .nav-menu a:last-child { border-bottom: none; }
+            .nav-menu a:hover::after { width: 0; }
+            .hamburger-menu { display: block; }
+            .hero { margin-top: -83px; padding: 180px 0; }
+            .hero h1 { font-size: 56px; }
+            .welcome-content { flex-direction: column; gap: 50px; }
+            .welcome-section { padding: 80px 0; }
+            .welcome-text h2 { font-size: 36px; }
+        }
+        
+        /* Smaller Tablets & Large Phones */
+        @media (max-width: 768px) {
+            .hero { padding: 150px 0; }
+            .hero h1 { font-size: 42px; }
+            .hero p { font-size: 16px; }
+            .btn { padding: 14px 28px; font-size: 15px; }
+            .welcome-text h2 { font-size: 28px; text-align: center; }
+            .welcome-text { text-align: center; }
+            .features-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Small Mobile Phones */
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 34px; line-height: 1.2; }
+            .hero p { font-size: 14px; }
+            .welcome-text h2 { font-size: 24px; }
+            .welcome-text p { font-size: 16px; }
+            .feature-item h3{ font-size: 18px; }
+            .feature-item p { font-size: 14px; }
+            .logo-text { font-size: 22px; }
+            .logo img { height: 40px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header" id="header">
+        <a href="#" class="logo" style="text-decoration: none;">
+             <img src="https://via.placeholder.com/150x50.png?text=Logo" alt="Oakridge College Logo">
+            <div class="logo-text">
+                Oakridge
+                <span>Secondary College</span>
+            </div>
+        </a>
+        <nav class="nav-menu" id="nav-menu">
+            <a href="#">Home</a>
+            <a href="#">About</a>
+            <a href="#">Academics</a>
+            <a href="#">News</a>
+            <a href="#">Events</a>
+            <a href="#">Contact</a>
+        </nav>
+        <div class="hamburger-menu" id="hamburger-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <p>WELCOME TO OAKRIDGE COLLEGE</p>
+            <h1>Inspiring Futures,<br>Building Leaders</h1>
+            <a href="#" class="btn btn-accent">GET STARTED <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></a>
+        </div>
+    </section>
+
+    <main class="welcome-section">
+        <div class="container welcome-content">
+            <div class="welcome-text">
+                <h2>Welcome to Oakridge, a prestigious secondary college</h2>
+                <p>We understand that each of our students is a uniquely talented individual. Within our supportive community, students are encouraged to develop positive relationships and seize every opportunity to realize their full potential.</p>
+                <a href="#" class="btn btn-primary">LEARN MORE <i class="fas fa-arrow-right" style="margin-left: 8px;"></i></a>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <i class="fas fa-school"></i>
+                    <h3>Our College</h3>
+                    <p>We take pride in our rich teaching traditions & outstanding achievements.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Why Choose Us?</h3>
+                    <p>Our college consistently ranks among the top institutions for secondary education.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-volleyball-ball"></i>
+                    <h3>Activities</h3>
+                    <p>We offer a wide range of extracurricular activities for holistic development.</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-certificate"></i>
+                    <h3>Certifications</h3>
+                    <p>Recognized for excellence in STEM education and the creative arts.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const hamburger = document.getElementById('hamburger-menu');
+        const navMenu = document.getElementById('nav-menu');
+        const header = document.getElementById('header');
+
+        // Toggle mobile menu
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Add scrolled class to header on scroll for styling
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+    </script>
+
+</body>
+</html>
