@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wixo - Modern E-commerce</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* 
+        ============================================
+        UI/UX UPGRADE - V2
+        ============================================
+        Developer Notes on Changes:
+        1.  CATEGORIES: Replaced 'Accessories' & 'Cosmetics' with 'Ethnic Wear' & 
+            'Casual Wear' and updated imagery accordingly.
+        2.  INTERACTIVE FILTERS: Added JavaScript to make the product filter buttons
+            (Best Selling, Top Rated) interactive. The CSS for the '.active' state
+            now applies dynamically on click.
+        3.  PRODUCT LINKS: Wrapped product images and titles in anchor `<a>` tags to make
+            them ready for linking to product detail pages, improving UX.
+        ============================================
+        */
+
+        /* CSS Variables - The Foundation of the New Design System */
+        :root {
+            --primary-color: #FF6B6B; /* A modern, friendly coral/red */
+            --primary-dark: #e65454;
+            --secondary-color: #4ECDC4;
+            --dark-charcoal: #343a40;
+            --text-light: #6c757d;
+            --border-color: #dee2e6;
+            --background-light: #f8f9fa;
+            --background-white: #ffffff;
+            --font-primary: 'Poppins', sans-serif;
+            --font-display: 'Pacifico', cursive;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 15px rgba(0,0,0,0.1);
+            --border-radius-sm: 6px;
+            --border-radius-md: 10px;
+            --transition-speed: 0.3s ease;
+        }
+
+        /* General Reset & Body Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-primary);
+            color: var(--dark-charcoal);
+            background-color: var(--background-white);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1280px; /* Wider container for a more spacious feel */
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color var(--transition-speed);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* --- UPGRADED HEADER --- */
+        .header {
+            box-shadow: var(--shadow-sm);
+            background: var(--background-white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .top-bar {
+            background-color: var(--background-light);
+            color: var(--text-light);
+            padding: 8px 0;
+            font-size: 13px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .top-bar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .top-bar-left, .top-bar-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .top-bar-right > div {
+            cursor: pointer;
+        }
+
+        .main-header {
+            padding: 20px 0;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark-charcoal);
+        }
+        .logo span { /* Added a span to style the dot differently */
+            color: var(--primary-color);
+        }
+
+        .main-nav ul {
+            display: flex;
+            gap: 40px;
+        }
+
+        .main-nav a {
+            font-weight: 500;
+            font-size: 16px;
+            color: var(--dark-charcoal);
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .main-nav a::after { /* Underline effect on hover */
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-speed);
+        }
+
+        .main-nav a:hover, .main-nav a.active {
+            color: var(--primary-color);
+        }
+        .main-nav a:hover::after, .main-nav a.active::after {
+            transform: scaleX(1);
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 20px;
+        }
+        .header-icons a {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-charcoal);
+        }
+        .header-icons a:hover {
+            color: var(--primary-color);
+        }
+        .header-icons svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        /* --- UPGRADED HERO SECTION --- */
+        .hero-section {
+            background-color: var(--background-light);
+            padding: 80px 0;
+            overflow: hidden;
+        }
+
+        .hero-section .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .hero-content {
+            flex-basis: 45%;
+        }
+
+        .hero-content .sub-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .hero-content .title {
+            font-size: 56px;
+            font-weight: 700;
+            line-height: 1.15;
+            margin-bottom: 20px;
+        }
+
+        .hero-content .discount {
+            font-size: 22px;
+            font-weight: 500;
+            color: var(--text-light);
+            margin-bottom: 35px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 14px 30px;
+            font-weight: 600;
+            font-size: 15px;
+            border-radius: var(--border-radius-sm);
+            transition: all var(--transition-speed);
+            cursor: pointer;
+            border: 2px solid var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(255, 107, 107, 0.4);
+        }
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+        }
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            transform: translateY(-2px);
+        }
+
+        .hero-image {
+            flex-basis: 50%;
+            position: relative;
+        }
+        .hero-image img { /* Added a subtle shadow and rounded corners */
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* --- UPGRADED FEATURES SECTION --- */
+        .features-section {
+            padding: 60px 0;
+            background: var(--background-white);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            transition: all var(--transition-speed);
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .feature-item svg {
+            width: 32px;
+            height: 32px;
+            color: var(--primary-color);
+            flex-shrink: 0;
+        }
+
+        .feature-item h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .feature-item p {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        /* --- UPGRADED CATEGORIES SECTION --- */
+        .categories-section {
+            padding: 80px 0;
+            background-color: var(--background-light);
+        }
+
+        .section-header { /* A reusable header for sections */
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-header .section-title {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        .section-header .section-subtitle {
+            font-size: 16px;
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 250px);
+            gap: 25px;
+        }
+
+        .category-card {
+            background-size: cover;
+            background-position: center;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end; /* Align content to bottom */
+            position: relative;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            color: var(--background-white);
+            transition: transform var(--transition-speed);
+        }
+        .category-card:hover {
+            transform: scale(1.03);
+            box-shadow: var(--shadow-md);
+        }
+        .category-card::before { /* Gradient overlay for text readability */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), rgba(0,0,0,0.1));
+            z-index: 1;
+        }
+        .category-card > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .category-card h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .shop-now-link {
+            font-weight: 600;
+            color: var(--background-white);
+            display: inline-block;
+        }
+        .shop-now-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        /* New Grid Layout for Categories */
+        .cat-women {
+            grid-column: 1 / 3;
+            grid-row: 1 / 3;
+        }
+        .cat-men {
+            grid-column: 3 / 5;
+            grid-row: 1 / 2;
+        }
+        /* UPDATED: Category classes and grid positions */
+        .cat-ethnic {
+            grid-column: 3 / 4;
+            grid-row: 2 / 3;
+        }
+        .cat-casual {
+            grid-column: 4 / 5;
+            grid-row: 2 / 3;
+        }
+        
+        /* --- UPGRADED PRODUCTS SECTION --- */
+        .products-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .product-filters {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .product-filters button {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-light);
+            cursor: pointer;
+            position: relative;
+            padding-bottom: 8px;
+            background: none;
+            border: none;
+            font-family: var(--font-primary);
+            transition: color var(--transition-speed);
+        }
+        .product-filters button:hover {
+            color: var(--dark-charcoal);
+        }
+        .product-filters button.active {
+            color: var(--dark-charcoal);
+            font-weight: 600;
+        }
+        .product-filters button.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            text-align: left;
+        }
+        
+        .product-card {
+            position: relative;
+            background: var(--background-white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            transition: all var(--transition-speed);
+        }
+        .product-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            background-color: var(--background-light);
+            position: relative;
+            overflow: hidden;
+        }
+        .product-image img {
+            transition: transform 0.4s ease;
+        }
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-tag {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: var(--border-radius-sm);
+            background-color: var(--primary-color);
+            z-index: 3;
+        }
+        
+        /* NEW: Hover Actions for Product Card */
+        .product-actions {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity var(--transition-speed), transform var(--transition-speed);
+            z-index: 3;
+        }
+        .product-card:hover .product-actions {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+        .product-actions a {
+            width: 40px;
+            height: 40px;
+            background-color: var(--background-white);
+            color: var(--dark-charcoal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-speed);
+        }
+        .product-actions a:hover {
+            background-color: var(--primary-color);
+            color: #fff;
+            transform: translateY(-3px);
+        }
+        .product-actions svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+        
+        .product-info .category {
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 5px;
+        }
+        
+        .product-info .title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            min-height: 48px;
+            color: var(--dark-charcoal);
+        }
+        .product-info .title:hover {
+            color: var(--primary-color);
+        }
+
+        .product-rating {
+            font-size: 14px;
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+        .product-rating .count {
+            color: var(--text-light);
+            font-size: 13px;
+            margin-left: 5px;
+        }
+        
+        .product-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        
+        .product-price .original-price {
+            color: var(--text-light);
+            text-decoration: line-through;
+            margin-left: 8px;
+            font-weight: 400;
+            font-size: 15px;
+        }
+
+        /* --- UPGRADED SALE BANNERS SECTION --- */
+        .sale-banners-section {
+            padding: 80px 0;
+        }
+        .sale-banners-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        .sale-banner {
+            background-color: var(--background-light);
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: var(--border-radius-md);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .sale-banner-content .sub-title {
+            font-size: 14px;
+            color: var(--text-light);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .sale-banner-content .title {
+            font-size: 32px;
+            font-weight: 700;
+            margin: 5px 0 10px;
+        }
+
+        .sale-banner-content .offer {
+            font-size: 20px;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        .sale-banner img {
+            width: 45%;
+            transition: transform var(--transition-speed);
+        }
+        .sale-banner:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .hero-section .container {
+                flex-direction: column;
+                text-align: center;
+            }
+            .hero-buttons {
+                justify-content: center;
+            }
+            .product-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .categories-grid {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 250px 250px;
+            }
+            .cat-women { grid-column: 1/3; grid-row: 1/2; }
+            .cat-men { grid-column: 1/2; grid-row: 2/3; }
+            .cat-ethnic { grid-column: 2/3; grid-row: 2/3; }
+            .cat-casual { display: none; }
+        }
+
+        @media (max-width: 768px) {
+             .main-nav { display: none; } /* Simplified for demo, would use burger menu */
+             .product-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sale-banners-grid {
+                grid-template-columns: 1fr;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .categories-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 200px);
+            }
+             .cat-women, .cat-men, .cat-ethnic, .cat-casual {
+                grid-column: auto;
+                grid-row: auto;
+                display: flex; /* Ensure hidden casual category is visible here */
+            }
+        }
+        @media (max-width: 480px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            .top-bar { display: none; }
+            .hero-content .title { font-size: 40px; }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="top-bar">
+            <div class="container">
+                <div class="top-bar-left">
+                    <span>✉️ support@wixo.com</span>
+                    <span>📞 +(123) 4567 890</span>
+                </div>
+                <div class="top-bar-right">
+                    <div>English ▾</div>
+                    <div>₹ Rupee (INR) ▾</div>
+                </div>
+            </div>
+        </div>
+        <div class="main-header">
+            <div class="container">
+                <a href="#" class="logo">Wixo<span>.</span></a>
+                <nav class="main-nav">
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#">Women</a></li>
+                        <li><a href="#">Men</a></li>
+                        <li><a href="#">Shop</a></li>
+                    </ul>
+                </nav>
+                <div class="header-icons">
+                    <a href="#" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>
+                    <a href="#" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+                    <a href="#" aria-label="Wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>
+                    <a href="#" aria-label="Shopping Cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <p class="sub-title">Summer Collection</p>
+                    <h1 class="title">NEW ARRIVALS FOR MODERN STYLE</h1>
+                    <p class="discount">Discover the latest trends in clothing and accessories.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-primary">SHOP NOW</a>
+                        <a href="#" class="btn btn-outline">EXPLORE</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="https://images.unsplash.com/photo-1551232864-3f0890e58e0b?auto=format&fit=crop&w=600" alt="Stylish woman posing">
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
+                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
+                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
+                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="categories-section">
+            <div class="container">
+                 <div class="section-header">
+                    <h2 class="section-title">Shop By Category</h2>
+                    <p class="section-subtitle">Explore our curated collections designed for every style and occasion.</p>
+                </div>
+                <div class="categories-grid">
+                    <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1618001789159-ffffe6f96ef2?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    <!-- UPDATED CATEGORIES -->
+                    <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1620799140408-edc6d5f96503?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="products-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Our Featured Products</h2>
+                </div>
+                <div class="product-filters">
+                    <!-- NEW: These buttons are now interactive via JavaScript -->
+                    <button class="active">New Arrival</button>
+                    <button>Best Selling</button>
+                    <button>Top Rated</button>
+                </div>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <!-- NEW: Image is now a clickable link -->
+                            <a href="product-details.html">
+                                <img src="https://via.placeholder.com/300x350.png?text=Product+1" alt="Tan Solid Laptop Backpack">
+                            </a>
+                            <div class="product-tag">SALE</div>
+                            <div class="product-actions">
+                                <a href="#" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a>
+                                <a href="#" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <p class="category">Backpacks</p>
+                            <!-- NEW: Title is a clickable link -->
+                            <a href="product-details.html" class="title">Tan Solid Laptop Backpack</a>
+                            <div class="product-rating">★★★★☆ <span class="count">(12)</span></div>
+                            <p class="product-price">₹1,499.00 <span class="original-price">₹1,850.00</span></p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <a href="product-details.html"><img src="https://via.placeholder.com/300x350.png?text=Product+2" alt="Brown Solid Biker Jacket"></a>
+                             <div class="product-actions"><a href="#" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a><a href="#" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a></div>
+                        </div>
+                        <div class="product-info">
+                            <p class="category">Jackets</p>
+                            <a href="product-details.html" class="title">Brown Solid Biker Jacket</a>
+                            <div class="product-rating">★★★★★ <span class="count">(8)</span></div>
+                            <p class="product-price">₹1,150.00</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <a href="product-details.html"><img src="https://via.placeholder.com/300x350.png?text=Product+3" alt="Men Brown Solid Mid-Top Boots"></a>
+                             <div class="product-actions"><a href="#" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a><a href="#" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a></div>
+                        </div>
+                        <div class="product-info">
+                            <p class="category">Casual Shoes</p>
+                            <a href="product-details.html" class="title">Men Brown Solid Mid-Top Boots</a>
+                            <div class="product-rating">★★★★★ <span class="count">(21)</span></div>
+                            <p class="product-price">₹1,150.00</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="product-image">
+                            <a href="product-details.html"><img src="https://via.placeholder.com/300x350.png?text=Product+4" alt="Petite Olive Green Solid Top"></a>
+                             <div class="product-actions"><a href="#" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a><a href="#" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a></div>
+                        </div>
+                        <div class="product-info">
+                            <p class="category">Tops</p>
+                            <a href="product-details.html" class="title">Petite Olive Green Solid Top</a>
+                            <div class="product-rating">★★★★☆ <span class="count">(5)</span></div>
+                            <p class="product-price">₹499.00</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="sale-banners-section">
+            <div class="container">
+                <div class="sale-banners-grid">
+                    <div class="sale-banner"><div class="sale-banner-content"><p class="sub-title">Limited Time Offer</p><h3 class="title">Men's Fashion</h3><p class="offer">Flat 70% Off</p><a href="#" class="btn btn-outline">Shop Now</a></div><img src="https://via.placeholder.com/250x200.png?text=Sale" alt="Man with a travel bag"></div>
+                    <div class="sale-banner"><div class="sale-banner-content"><p class="sub-title">Fashion Style</p><h3 class="title">Women's Wear</h3><p class="offer">Min. 35-70% Off</p><a href="#" class="btn btn-outline">Shop Now</a></div><img src="https://via.placeholder.com/250x200.png?text=Sale" alt="Woman in a stylish top"></div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- ============================================ -->
+    <!-- NEW JAVASCRIPT FOR INTERACTIVE FILTERS       -->
+    <!-- ============================================ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.product-filters button');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // First, remove 'active' class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Then, add 'active' class to the clicked button
+                    this.classList.add('active');
+
+                    // In a real application, you would add logic here to
+                    // filter and display the products based on the selected filter.
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>
