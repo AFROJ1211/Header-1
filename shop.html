@@ -64,7 +64,6 @@
         .header-icons a:hover { color: var(--primary-color); }
         .header-icons svg { width: 24px; height: 24px; }
 
-        /* CHANGE: Added .wishlist-count to existing rule */
         .cart-count, .wishlist-count {
             position: absolute;
             top: -8px;
@@ -83,7 +82,6 @@
             transform: scale(0);
             transition: transform 0.2s ease-out;
         }
-        /* CHANGE: Added .wishlist-count to existing rule */
         .cart-count.visible, .wishlist-count.visible {
             transform: scale(1);
         }
@@ -92,7 +90,6 @@
         .main-nav li { position: static; }
         .mega-menu { position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--background-white); box-shadow: var(--shadow-md); padding: 40px 0; border-bottom-left-radius: var(--border-radius-md); border-bottom-right-radius: var(--border-radius-md); border-top: 1px solid var(--border-color); opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity var(--transition-speed), transform var(--transition-speed), visibility var(--transition-speed); pointer-events: none; }
         
-        /* MODIFICATION: Combined the :hover and the .mega-menu-active class to allow both triggers */
         .main-nav li:hover > .mega-menu,
         .main-nav li.mega-menu-active > .mega-menu { 
             opacity: 1; 
@@ -174,11 +171,31 @@
         .tag-bestseller { background-color: var(--warning-color); color: var(--dark-charcoal); }
         .product-actions { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; opacity: 0; transition: opacity var(--transition-speed), transform var(--transition-speed); z-index: 3; }
         .product-card:hover .product-actions { opacity: 1; transform: translateX(-50%) translateY(-5px); }
-        .product-actions a { width: 44px; height: 44px; background-color: var(--background-white); color: var(--dark-charcoal); display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-sm); transition: all var(--transition-speed); }
-        .product-actions a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        .product-actions svg { width: 20px; height: 20px; }
+
+        /* MODIFICATION: Made icons larger and more visible */
+        .product-actions a { 
+            width: 48px; 
+            height: 48px; 
+            background-color: var(--background-white); 
+            color: var(--dark-charcoal); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            border-radius: 50%; 
+            box-shadow: 0 3px 12px rgba(0,0,0,0.15); 
+            transition: all var(--transition-speed); 
+        }
+        .product-actions a:hover { 
+            background-color: var(--primary-color); 
+            color: #fff; 
+            transform: translateY(-3px) scale(1.1); 
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2); 
+        }
+        .product-actions svg { 
+            width: 22px; 
+            height: 22px; 
+        }
         
-        /* CHANGE: New style to fill the heart icon red when an item is wishlisted */
         .product-actions a.wishlisted svg {
             fill: var(--primary-color);
             stroke: var(--primary-color);
@@ -204,7 +221,6 @@
         .sale-banner:hover img { transform: scale(1.05); }
 
         /* --- CART PAGE STYLES --- */
-        /* CHANGE: Added .wishlist-section to existing rules for shared styling */
         .cart-section, .wishlist-section { 
             padding: 80px 0; 
             background-color: var(--background-white); 
@@ -242,7 +258,6 @@
             color: var(--text-light); 
         }
 
-        /* CHANGE: All new styles below are for the wishlist page */
         .wishlist-grid { 
             display: grid; 
             grid-template-columns: repeat(4, 1fr); 
@@ -276,7 +291,7 @@
         @media (max-width: 992px) {
             .hero-section .container { flex-direction: column; text-align: center; }
             .hero-buttons { justify-content: center; }
-            .product-grid, .wishlist-grid { grid-template-columns: repeat(3, 1fr); } /* CHANGE: Added .wishlist-grid */
+            .product-grid, .wishlist-grid { grid-template-columns: repeat(3, 1fr); }
             .categories-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 250px 250px; }
             .cat-women { grid-column: 1/3; grid-row: 1/2; }
             .cat-men { grid-column: 1/2; grid-row: 2/3; }
@@ -286,14 +301,14 @@
         }
         @media (max-width: 768px) {
              .main-nav { display: none; }
-             .product-grid, .wishlist-grid { grid-template-columns: repeat(2, 1fr); } /* CHANGE: Added .wishlist-grid */
+             .product-grid, .wishlist-grid { grid-template-columns: repeat(2, 1fr); }
              .sale-banners-grid { grid-template-columns: 1fr; }
              .features-grid { grid-template-columns: 1fr; }
              .categories-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 200px); }
              .cat-women, .cat-men, .cat-ethnic, .cat-casual { grid-column: auto; grid-row: auto; display: flex; }
         }
         @media (max-width: 480px) {
-            .product-grid, .wishlist-grid { grid-template-columns: 1fr; } /* CHANGE: Added .wishlist-grid */
+            .product-grid, .wishlist-grid { grid-template-columns: 1fr; }
             .top-bar { display: none; }
             .hero-content .title { font-size: 40px; }
         }
@@ -436,16 +451,15 @@
                 </nav>
                 <div class="header-icons">
                     <a href="#" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>
-                    <a href="#" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+                    <a href="#" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
                     
-                    <!-- CHANGE: Added an ID and a span for the count to the original wishlist icon link -->
                     <a href="#" id="view-wishlist-link" aria-label="Wishlist">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                         <span class="wishlist-count">0</span>
                     </a>
 
                     <a href="#" id="view-cart-link" aria-label="Shopping Cart">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         <span class="cart-count">0</span>
                     </a>
                 </div>
@@ -475,10 +489,10 @@
             <section class="features-section">
                 <div class="container">
                     <div class="features-grid">
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
                     </div>
                 </div>
             </section>
@@ -490,9 +504,9 @@
                         <p class="section-subtitle">Explore our curated collections designed for every style and occasion.</p>
                     </div>
                     <div class="categories-grid">
-                        <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1581044777550-4cfa6ce670c0?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                        <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1617127365659-3774577d0fbe?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                        <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1594392882283-0571343a41ae?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1621214022588-4566081295b3?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
                         <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
                     </div>
                 </div>
@@ -552,7 +566,6 @@
             </div>
         </section>
 
-        <!-- CHANGE: Added new section for the wishlist page -->
         <section id="wishlist-page" class="wishlist-section" style="display: none;">
             <div class="container">
                 <div class="section-header">
@@ -582,12 +595,10 @@
                         event.preventDefault();
                         const wasActive = parentLi.classList.contains('mega-menu-active');
                         
-                        // Close all other mega menus
                         document.querySelectorAll('.main-nav li.mega-menu-active').forEach(item => {
                             item.classList.remove('mega-menu-active');
                         });
 
-                        // If the clicked menu was not already active, open it
                         if (!wasActive) {
                             parentLi.classList.add('mega-menu-active');
                         }
@@ -595,7 +606,6 @@
                 }
             });
 
-            // Close mega menu when clicking outside of the navigation
             document.addEventListener('click', function(event) {
                 if (!event.target.closest('.main-nav')) {
                     document.querySelectorAll('.main-nav li.mega-menu-active').forEach(item => {
@@ -604,57 +614,50 @@
                 }
             });
             
-            // --- EXISTING PRODUCT, CART, AND WISHLIST LOGIC (UNCHANGED) ---
+            // --- PRODUCT, CART, AND WISHLIST LOGIC ---
 
+            // MODIFICATION: Ensured all product images are relevant and high-quality
             const allProducts = [
-                { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.unsplash.com/photo-1617192213511-37fe1a54c6a6?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 2, name: 'Men\'s Oxford Formal Shirt', category: 'Shirts', price: 1499.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
                 { id: 3, name: 'Floral Chiffon Saree', category: 'Sarees', price: 1899.00, originalPrice: null, rating: 4, reviews: 22, img: 'https://images.unsplash.com/photo-1610170013328-39a1c4a5a73a?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
-                { id: 4, name: 'Linen Blend Casual Shirt', category: 'Shirts', price: 1100.00, originalPrice: 1500.00, rating: 5, reviews: 11, img: 'https://images.unsplash.com/photo-1603252109360-7049af2cb384?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 4, name: 'Linen Blend Casual Shirt', category: 'Shirts', price: 1100.00, originalPrice: 1500.00, rating: 5, reviews: 11, img: 'https://images.unsplash.com/photo-1619428293914-69b82c7324c4?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 5, name: 'Bandhani Print Saree', category: 'Sarees', price: 2999.00, originalPrice: null, rating: 5, reviews: 19, img: 'https://images.unsplash.com/photo-1621214022588-4566081295b3?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
                 { id: 6, name: 'Men\'s Denim Shirt', category: 'Shirts', price: 1899.00, originalPrice: 2499.00, rating: 4, reviews: 25, img: 'https://images.unsplash.com/photo-1605518429451-0d350b4455a2?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 7, name: 'Cotton Silk Saree', category: 'Sarees', price: 2350.00, originalPrice: null, rating: 4, reviews: 9, img: 'https://images.unsplash.com/photo-1596207187313-2413a34658c1?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 8, name: 'Checked Flannel Shirt', category: 'Shirts', price: 1399.00, originalPrice: null, rating: 4, reviews: 18, img: 'https://images.unsplash.com/photo-1589756828854-574a48529235?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
+                { id: 7, name: 'Cotton Silk Saree', category: 'Sarees', price: 2350.00, originalPrice: null, rating: 4, reviews: 9, img: 'https://images.unsplash.com/photo-1617192213511-37fe1a54c6a6?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 8, name: 'Checked Flannel Shirt', category: 'Shirts', price: 1399.00, originalPrice: null, rating: 4, reviews: 18, img: 'https://images.unsplash.com/photo-1631049283120-a685373a6e9a?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
                 { id: 19, name: 'Elegant Tussar Silk Saree', category: 'Sarees', price: 3150.00, originalPrice: null, rating: 4, reviews: 12, img: 'https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 20, name: 'Printed Rayon Shirt', category: 'Shirts', price: 950.00, originalPrice: 1200.00, rating: 4, reviews: 31, img: 'https://images.unsplash.com/photo-1504903173516-a922386b0266?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 21, name: 'Georgette Ruffle Saree', category: 'Sarees', price: 2899.00, originalPrice: null, rating: 5, reviews: 7, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
-                { id: 22, name: 'Cuban Collar Summer Shirt', category: 'Shirts', price: 1650.00, originalPrice: null, rating: 5, reviews: 14, img: 'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 9, name: 'Classic Kanjeevaram Saree', category: 'Sarees', price: 4999.00, originalPrice: 6200.00, rating: 5, reviews: 152, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
+                { id: 20, name: 'Printed Rayon Shirt', category: 'Shirts', price: 950.00, originalPrice: 1200.00, rating: 4, reviews: 31, img: 'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 21, name: 'Georgette Ruffle Saree', category: 'Sarees', price: 2899.00, originalPrice: null, rating: 5, reviews: 7, img: 'https://images.unsplash.com/photo-1617627143750-d6244245d433?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
+                { id: 22, name: 'Cuban Collar Summer Shirt', category: 'Shirts', price: 1650.00, originalPrice: null, rating: 5, reviews: 14, img: 'https://images.unsplash.com/photo-1622524194192-804107a685e1?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 9, name: 'Classic Kanjeevaram Saree', category: 'Sarees', price: 4999.00, originalPrice: 6200.00, rating: 5, reviews: 152, img: 'https://images.unsplash.com/photo-1600863421711-4775d52ac718?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
                 { id: 10, name: 'Men\'s Solid White Shirt', category: 'Shirts', price: 999.00, originalPrice: null, rating: 5, reviews: 250, img: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300', type: ['bestselling'] },
-                { id: 11, name: 'Banarasi Silk Saree', category: 'Sarees', price: 5450.00, originalPrice: 7000.00, rating: 4, reviews: 95, img: 'https://images.unsplash.com/photo-1600863421711-4775d52ac718?auto=format&fit=crop&w=300', type: ['bestselling'] },
+                { id: 11, name: 'Banarasi Silk Saree', category: 'Sarees', price: 5450.00, originalPrice: 7000.00, rating: 4, reviews: 95, img: 'https://images.unsplash.com/photo-1596207187313-2413a34658c1?auto=format&fit=crop&w=300', type: ['bestselling'] },
                 { id: 12, name: 'Striped Casual Shirt', category: 'Shirts', price: 1299.00, originalPrice: null, rating: 5, reviews: 180, img: 'https://images.unsplash.com/photo-1596755094514-7e724d082c89?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
-                { id: 14, name: 'Embroidered Net Saree', category: 'Sarees', price: 3999.00, originalPrice: null, rating: 5, reviews: 99, img: 'https://images.unsplash.com/photo-1617627143750-d6244245d433?auto=format&fit=crop&w=300', type: ['toprated'] },
-                { id: 16, name: 'Men\'s Formal Black Shirt', category: 'Shirts', price: 1500.00, originalPrice: null, rating: 5, reviews: 88, img: 'https://images.unsplash.com/photo-1601762603339-fd6160208136?auto=format&fit=crop&w=300', type: ['toprated'] },
-                { id: 17, name: 'Patola Art Silk Saree', category: 'Sarees', price: 4250.00, originalPrice: 5500.00, rating: 5, reviews: 102, img: 'https://images.unsplash.com/photo-1616543336933-228c2ce79ef3?auto=format&fit=crop&w=300', type: ['toprated'] },
+                { id: 14, name: 'Embroidered Net Saree', category: 'Sarees', price: 3999.00, originalPrice: null, rating: 5, reviews: 99, img: 'https://plus.unsplash.com/premium_photo-1695433436154-2401b33534b4?auto=format&fit=crop&w=300', type: ['toprated'] },
+                { id: 16, name: 'Men\'s Formal Black Shirt', category: 'Shirts', price: 1500.00, originalPrice: null, rating: 5, reviews: 88, img: 'https://images.unsplash.com/photo-1611312449412-6cefac5dc2d0?auto=format&fit=crop&w=300', type: ['toprated'] },
+                { id: 17, name: 'Patola Art Silk Saree', category: 'Sarees', price: 4250.00, originalPrice: 5500.00, rating: 5, reviews: 102, img: 'https://images.unsplash.com/photo-1695753979672-15329348c66a?auto=format&fit=crop&w=300', type: ['toprated'] },
                 { id: 18, name: 'Mandarin Collar Shirt', category: 'Shirts', price: 1350.00, originalPrice: null, rating: 5, reviews: 75, img: 'https://images.unsplash.com/photo-1563178406-412f22c1a056?auto=format&fit=crop&w=300', type: ['toprated'] }
             ];
             
-            // --- DOM ELEMENT REFERENCES ---
             const productGrid = document.getElementById('product-grid');
             const filterButtons = document.querySelectorAll('.product-filters button');
             const mainContentWrapper = document.getElementById('main-content-wrapper');
             const logoLink = document.getElementById('logo-link');
             const homeLink = document.getElementById('home-link');
-
-            // Cart elements
             const cartPage = document.getElementById('cart-page');
             const cartContentWrapper = document.getElementById('cart-content-wrapper');
             const cartLink = document.getElementById('view-cart-link');
             const cartCountEl = document.querySelector('.cart-count');
-
-            // CHANGE: Wishlist element references
             const wishlistPage = document.getElementById('wishlist-page');
             const wishlistGrid = document.getElementById('wishlist-grid');
             const wishlistLink = document.getElementById('view-wishlist-link');
             const wishlistCountEl = document.querySelector('.wishlist-count');
 
-            // --- STATE MANAGEMENT ---
             let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-            let wishlist = JSON.parse(sessionStorage.getItem('wishlist')) || []; // CHANGE: Wishlist state
+            let wishlist = JSON.parse(sessionStorage.getItem('wishlist')) || [];
 
-            // --- PAGE NAVIGATION ---
             const showPage = (pageToShow) => {
-                // CHANGE: Added wishlistPage to the array of pages to manage visibility
                 [mainContentWrapper, cartPage, wishlistPage].forEach(page => {
                     page.style.display = 'none';
                 });
@@ -664,9 +667,8 @@
 
             const showMainPage = () => showPage(mainContentWrapper);
             const showCartPage = () => { showPage(cartPage); renderCart(); };
-            const showWishlistPage = () => { showPage(wishlistPage); renderWishlist(); }; // CHANGE: New function for wishlist page
+            const showWishlistPage = () => { showPage(wishlistPage); renderWishlist(); };
 
-            // --- WISHLIST LOGIC (CHANGE: All new logic) ---
             const saveWishlist = () => { sessionStorage.setItem('wishlist', JSON.stringify(wishlist)); updateWishlistIcon(); };
             
             const updateWishlistIcon = () => {
@@ -677,18 +679,15 @@
             const toggleWishlist = (productId) => {
                 const productIndex = wishlist.findIndex(pId => pId === productId);
                 if (productIndex > -1) {
-                    wishlist.splice(productIndex, 1); // Remove from wishlist
+                    wishlist.splice(productIndex, 1);
                 } else {
-                    wishlist.push(productId); // Add to wishlist
+                    wishlist.push(productId);
                 }
                 saveWishlist();
-                
-                // Re-render the currently visible product grid to update the heart icon's style
                 const activeFilter = document.querySelector('.product-filters button.active').dataset.filter;
                 renderProducts(allProducts.filter(p => p.type.includes(activeFilter)));
             };
 
-            // --- CART LOGIC (Original and unchanged) ---
             const saveCart = () => { sessionStorage.setItem('cart', JSON.stringify(cart)); updateCartIcon(); };
 
             const updateCartIcon = () => {
@@ -721,7 +720,6 @@
                 renderCart();
             };
 
-            // --- RENDER FUNCTIONS ---
             const renderCart = () => {
                  if (cart.length === 0) {
                     cartContentWrapper.innerHTML = `
@@ -775,7 +773,6 @@
                     </div>`;
             };
             
-            // CHANGE: New render function for the wishlist page
             const renderWishlist = () => {
                 if (wishlist.length === 0) {
                     wishlistGrid.innerHTML = `
@@ -825,7 +822,6 @@
                     return;
                 }
                 productsToRender.forEach(product => {
-                    // CHANGE: Check if product is wishlisted to apply a CSS class for styling
                     const isWishlisted = wishlist.includes(product.id);
                     const wishlistedClass = isWishlisted ? 'wishlisted' : '';
 
@@ -847,8 +843,6 @@
                                 ${tagHTML}
                                 <div class="product-actions">
                                     <a href="#" class="add-to-cart-btn" data-product-id="${product.id}" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a>
-                                    
-                                    <!-- CHANGE: Added a class and specific button identifier -->
                                     <a href="#" class="add-to-wishlist-btn ${wishlistedClass}" data-product-id="${product.id}" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>
                                 </div>
                             </div>
@@ -863,7 +857,6 @@
                 });
             };
 
-            // --- EVENT LISTENERS ---
             filterButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     filterButtons.forEach(btn => btn.classList.remove('active'));
@@ -876,13 +869,12 @@
 
             productGrid.addEventListener('click', (e) => {
                 const cartBtn = e.target.closest('.add-to-cart-btn');
-                const wishlistBtn = e.target.closest('.add-to-wishlist-btn'); // CHANGE: Listen for wishlist button click
+                const wishlistBtn = e.target.closest('.add-to-wishlist-btn');
 
                 if (cartBtn) {
                     e.preventDefault();
                     addToCart(parseInt(cartBtn.dataset.productId, 10));
                 }
-                // CHANGE: Handle wishlist button click
                 if (wishlistBtn) { 
                     e.preventDefault();
                     toggleWishlist(parseInt(wishlistBtn.dataset.productId, 10));
@@ -899,7 +891,6 @@
                 else if (e.target.matches('.remove-item-btn')) { updateCartItem(productId, 0); }
             });
 
-            // CHANGE: Added event listener for wishlist grid actions
             wishlistGrid.addEventListener('click', (e) => {
                 e.preventDefault();
                 const moveToCartBtn = e.target.closest('.move-to-cart-btn');
@@ -908,18 +899,17 @@
                 if (moveToCartBtn) {
                     const productId = parseInt(moveToCartBtn.dataset.productId, 10);
                     addToCart(productId);
-                    toggleWishlist(productId); // This removes it from wishlist and re-saves
-                    renderWishlist(); // Re-render the wishlist page to show the change
+                    toggleWishlist(productId);
+                    renderWishlist();
                 }
                 
                 if (removeBtn) {
                     const productId = parseInt(removeBtn.dataset.productId, 10);
-                    toggleWishlist(productId); // This removes it from wishlist and re-saves
-                    renderWishlist(); // Re-render the wishlist page
+                    toggleWishlist(productId);
+                    renderWishlist();
                 }
             });
             
-            // CHANGE: Updated the cart icon listener to toggle the cart page
             cartLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (cartPage.style.display === 'block') {
@@ -929,7 +919,6 @@
                 }
             });
 
-            // CHANGE: Added event listener for wishlist icon to toggle the wishlist page
             wishlistLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (wishlistPage.style.display === 'block') {
@@ -942,10 +931,9 @@
             homeLink.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
             logoLink.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
 
-            // --- INITIALIZATION ---
             document.querySelector('.product-filters button[data-filter="new"]').click();
             updateCartIcon();
-            updateWishlistIcon(); // CHANGE: Update wishlist icon on page load
+            updateWishlistIcon();
         });
     </script>
 
