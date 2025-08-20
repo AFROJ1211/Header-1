@@ -5,27 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wixo - Modern E-commerce</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* 
-        ============================================
-        UI/UX UPGRADE - V7
-        ============================================
-        Developer Notes on Changes:
-        1.  FOCUSED PRODUCT CATALOG: Overhauled the entire product dataset in the
-            JavaScript to exclusively feature sarees and shirts, complete with new,
-            relevant high-quality imagery.
-        2.  DATA ACCURACY: Expanded the product list and adjusted types to ensure
-            all filters, including "Top Rated," now display a full set of 8 products.
-        3.  ICON CLARITY: Enhanced the product card action icons (Wishlist, Cart)
-            by increasing their size and the size of their container, making them
-            bolder and easier to interact with. Added a subtle shadow on hover for
-            better feedback.
-        ============================================
-        */
-
         /* CSS Variables */
         :root {
             --primary-color: #FF6B6B;
@@ -72,7 +55,7 @@
         .logo { font-size: 32px; font-weight: 700; color: var(--dark-charcoal); }
         .logo span { color: var(--primary-color); }
         .main-nav ul { display: flex; gap: 40px; }
-        .main-nav a { font-weight: 500; font-size: 16px; color: var(--dark-charcoal); position: relative; padding-bottom: 5px; }
+        .main-nav a { font-weight: 500; font-size: 16px; color: var(--dark-charcoal); position: relative; padding-bottom: 5px; cursor: pointer; }
         .main-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--primary-color); transform: scaleX(0); transform-origin: left; transition: transform var(--transition-speed); }
         .main-nav a:hover, .main-nav a.active { color: var(--primary-color); }
         .main-nav a:hover::after, .main-nav a.active::after { transform: scaleX(1); }
@@ -80,6 +63,28 @@
         .header-icons a { position: relative; display: flex; align-items: center; justify-content: center; color: var(--dark-charcoal); }
         .header-icons a:hover { color: var(--primary-color); }
         .header-icons svg { width: 24px; height: 24px; }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -10px;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            transform: scale(0);
+            transition: transform 0.2s ease-out;
+        }
+        .cart-count.visible {
+            transform: scale(1);
+        }
 
         /* --- MEGA MENU STYLES --- */
         .main-nav li { position: static; }
@@ -136,7 +141,15 @@
         .cat-casual { grid-column: 4 / 5; grid-row: 2 / 3; }
 
         /* --- PRODUCTS SECTION --- */
-        .products-section { padding: 80px 0; text-align: center; }
+        /* CHANGE: Reduced top padding */
+        .products-section { padding: 40px 0 80px 0; text-align: center; }
+
+        /* CHANGE: Reduced left/right padding for the product section container */
+        .products-section .container {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
         .product-filters { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; }
         .product-filters button { font-size: 16px; font-weight: 500; color: var(--text-light); cursor: pointer; position: relative; padding-bottom: 8px; background: none; border: none; font-family: var(--font-primary); transition: color var(--transition-speed); }
         .product-filters button:hover { color: var(--dark-charcoal); }
@@ -148,19 +161,15 @@
         .product-image { background-color: var(--background-light); position: relative; overflow: hidden; aspect-ratio: 3 / 3.5; }
         .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .product-card:hover .product-image img { transform: scale(1.05); }
-        
         .product-tag { position: absolute; top: 15px; left: 15px; color: #fff; padding: 5px 10px; font-size: 13px; font-weight: 700; border-radius: var(--border-radius-sm); z-index: 3; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
         .tag-new { background-color: var(--primary-color); }
         .tag-discount { background-color: var(--secondary-color); }
         .tag-bestseller { background-color: var(--warning-color); color: var(--dark-charcoal); }
-        
         .product-actions { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; opacity: 0; transition: opacity var(--transition-speed), transform var(--transition-speed); z-index: 3; }
         .product-card:hover .product-actions { opacity: 1; transform: translateX(-50%) translateY(-5px); }
-        /* CHANGE: Made action buttons bigger and clearer */
         .product-actions a { width: 44px; height: 44px; background-color: var(--background-white); color: var(--dark-charcoal); display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-sm); transition: all var(--transition-speed); }
         .product-actions a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        .product-actions svg { width: 20px; height: 20px; } /* Increased icon size */
-        
+        .product-actions svg { width: 20px; height: 20px; }
         .product-info { padding: 20px; }
         .product-info .category { font-size: 13px; color: var(--text-light); margin-bottom: 5px; }
         .product-info .title { font-size: 16px; font-weight: 600; margin-bottom: 8px; min-height: 48px; color: var(--dark-charcoal); }
@@ -179,6 +188,32 @@
         .sale-banner-content .offer { font-size: 20px; color: var(--primary-color); font-weight: 600; margin-bottom: 25px; }
         .sale-banner img { width: 45%; transition: transform var(--transition-speed); }
         .sale-banner:hover img { transform: scale(1.05); }
+
+        /* --- CART PAGE STYLES --- */
+        .cart-section { padding: 80px 0; background-color: var(--background-white); }
+        .cart-content { margin-top: 20px; }
+        .cart-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 40px; align-items: flex-start;}
+        .cart-items-list { border: 1px solid var(--border-color); border-radius: var(--border-radius-md); }
+        .cart-item { display: flex; padding: 20px; gap: 20px; border-bottom: 1px solid var(--border-color); }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-img { width: 100px; height: 120px; object-fit: cover; border-radius: var(--border-radius-sm); background-color: var(--background-light); }
+        .cart-item-details { flex-grow: 1; display: flex; flex-direction: column; }
+        .cart-item-details .title { font-weight: 600; font-size: 16px; margin-bottom: 8px; }
+        .cart-item-details .price { font-size: 15px; color: var(--text-light); }
+        .quantity-selector { display: flex; align-items: center; gap: 10px; margin-top: auto; }
+        .quantity-selector button { width: 30px; height: 30px; border: 1px solid var(--border-color); background: var(--background-light); border-radius: 50%; cursor: pointer; font-size: 18px; line-height: 1; }
+        .quantity-selector .quantity { font-weight: 600; }
+        .cart-item-actions { text-align: right; }
+        .cart-item-actions .subtotal { font-weight: 700; font-size: 18px; margin-bottom: 20px; }
+        .remove-item-btn { color: var(--text-light); background: none; border: none; cursor: pointer; font-size: 14px; }
+        .remove-item-btn:hover { color: var(--primary-color); text-decoration: underline; }
+        .cart-summary { background-color: var(--background-light); padding: 30px; border-radius: var(--border-radius-md); position: sticky; top: 120px; }
+        .cart-summary h3 { font-size: 20px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 15px; }
+        .summary-row.total { font-size: 18px; font-weight: 700; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .cart-summary .btn { width: 100%; margin-top: 10px; }
+        .cart-empty { text-align: center; padding: 50px 0; }
+        .cart-empty p { font-size: 18px; margin-bottom: 25px; color: var(--text-light); }
         
         /* Responsive Styles */
         @media (max-width: 992px) {
@@ -190,6 +225,7 @@
             .cat-men { grid-column: 1/2; grid-row: 2/3; }
             .cat-ethnic { grid-column: 2/3; grid-row: 2/3; }
             .cat-casual { display: none; }
+            .cart-grid { grid-template-columns: 1fr; }
         }
         @media (max-width: 768px) {
              .main-nav { display: none; }
@@ -223,10 +259,10 @@
         </div>
         <div class="main-header">
             <div class="container">
-                <a href="#" class="logo">Wixo<span>.</span></a>
+                <a href="#" class="logo" id="logo-link">Wixo<span>.</span></a>
                 <nav class="main-nav">
                     <ul>
-                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#" class="active" id="home-link">Home</a></li>
                         <li>
                             <a href="#">Women</a>
                             <div class="mega-menu">
@@ -345,101 +381,121 @@
                     <a href="#" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>
                     <a href="#" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
                     <a href="#" aria-label="Wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>
-                    <a href="#" aria-label="Shopping Cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a>
+                    <a href="#" id="view-cart-link" aria-label="Shopping Cart">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <span class="cart-count">0</span>
+                    </a>
                 </div>
             </div>
         </div>
     </header>
 
     <main>
-        <section class="hero-section">
-            <div class="container">
-                <div class="hero-content">
-                    <p class="sub-title">Summer Collection</p>
-                    <h1 class="title">NEW ARRIVALS FOR MODERN STYLE</h1>
-                    <p class="discount">Discover the latest trends in clothing and accessories.</p>
-                    <div class="hero-buttons">
-                        <a href="#" class="btn btn-primary">SHOP NOW</a>
-                        <a href="#" class="btn btn-outline">EXPLORE</a>
+        <div id="main-content-wrapper">
+            <section class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <p class="sub-title">Summer Collection</p>
+                        <h1 class="title">NEW ARRIVALS FOR MODERN STYLE</h1>
+                        <p class="discount">Discover the latest trends in clothing and accessories.</p>
+                        <div class="hero-buttons">
+                            <a href="#" class="btn btn-primary">SHOP NOW</a>
+                            <a href="#" class="btn btn-outline">EXPLORE</a>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200" alt="Stylish woman in a summer outfit">
                     </div>
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200" alt="Stylish woman in a summer outfit">
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="features-section">
-            <div class="container">
-                <div class="features-grid">
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
+            <section class="features-section">
+                <div class="container">
+                    <div class="features-grid">
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="categories-section">
-            <div class="container">
-                 <div class="section-header">
-                    <h2 class="section-title">Shop By Category</h2>
-                    <p class="section-subtitle">Explore our curated collections designed for every style and occasion.</p>
+            <section class="categories-section">
+                <div class="container">
+                     <div class="section-header">
+                        <h2 class="section-title">Shop By Category</h2>
+                        <p class="section-subtitle">Explore our curated collections designed for every style and occasion.</p>
+                    </div>
+                    <div class="categories-grid">
+                        <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1581044777550-4cfa6ce670c0?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1617127365659-3774577d0fbe?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1594392882283-0571343a41ae?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    </div>
                 </div>
-                <div class="categories-grid">
-                    <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1581044777550-4cfa6ce670c0?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1617127365659-3774577d0fbe?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1594392882283-0571343a41ae?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="products-section">
+            <section class="products-section">
+                <div class="container">
+                    <div class="section-header">
+                        <h2 class="section-title">Our Featured Products</h2>
+                    </div>
+                    <div class="product-filters">
+                        <button class="active" data-filter="new">New Arrival</button>
+                        <button data-filter="bestselling">Best Selling</button>
+                        <button data-filter="toprated">Top Rated</button>
+                    </div>
+                    <div class="product-grid" id="product-grid">
+                        <!-- Products will be injected here by JavaScript -->
+                    </div>
+                </div>
+            </section>
+
+            <section class="sale-banners-section">
+                <div class="container">
+                    <div class="sale-banners-grid">
+                        <div class="sale-banner">
+                            <div class="sale-banner-content">
+                                <p class="sub-title">Limited Time Offer</p>
+                                <h3 class="title">Men's Fashion</h3>
+                                <p class="offer">Flat 70% Off</p>
+                                <a href="#" class="btn btn-outline">Shop Now</a>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1521105906727-31954331a980?auto=format&fit=crop&w=400" alt="Man with a travel bag">
+                        </div>
+                        <div class="sale-banner">
+                            <div class="sale-banner-content">
+                                <p class="sub-title">Fashion Style</p>
+                                <h3 class="title">Women's Wear</h3>
+                                <p class="offer">Min. 35-70% Off</p>
+                                <a href="#" class="btn btn-outline">Shop Now</a>
+                            </div>
+                            <img src="https://images.unsplash.com/photo-1542838334-425abbb322a3?auto=format&fit=crop&w=400" alt="Woman in a stylish top">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <section id="cart-page" class="cart-section" style="display: none;">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Our Featured Products</h2>
+                    <h2 class="section-title">Your Shopping Cart</h2>
+                    <p class="section-subtitle">Review your items and proceed to checkout.</p>
                 </div>
-                <div class="product-filters">
-                    <button class="active" data-filter="new">New Arrival</button>
-                    <button data-filter="bestselling">Best Selling</button>
-                    <button data-filter="toprated">Top Rated</button>
-                </div>
-                <div class="product-grid" id="product-grid">
+                <div class="cart-content" id="cart-content-wrapper">
+                    <!-- Cart content will be dynamically generated by JavaScript -->
                 </div>
             </div>
         </section>
 
-        <section class="sale-banners-section">
-            <div class="container">
-                <div class="sale-banners-grid">
-                    <div class="sale-banner">
-                        <div class="sale-banner-content">
-                            <p class="sub-title">Limited Time Offer</p>
-                            <h3 class="title">Men's Fashion</h3>
-                            <p class="offer">Flat 70% Off</p>
-                            <a href="#" class="btn btn-outline">Shop Now</a>
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1521105906727-31954331a980?auto=format&fit=crop&w=400" alt="Man with a travel bag">
-                    </div>
-                    <div class="sale-banner">
-                        <div class="sale-banner-content">
-                            <p class="sub-title">Fashion Style</p>
-                            <h3 class="title">Women's Wear</h3>
-                            <p class="offer">Min. 35-70% Off</p>
-                            <a href="#" class="btn btn-outline">Shop Now</a>
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1542838334-425abbb322a3?auto=format&fit=crop&w=400" alt="Woman in a stylish top">
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // CHANGE: Expanded product list
             const allProducts = [
-                // New Arrivals
+                // New Arrivals (12 products)
                 { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.unsplash.com/photo-1617192213511-37fe1a54c6a6?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 2, name: 'Men\'s Oxford Formal Shirt', category: 'Shirts', price: 1499.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
                 { id: 3, name: 'Floral Chiffon Saree', category: 'Sarees', price: 1899.00, originalPrice: null, rating: 4, reviews: 22, img: 'https://images.unsplash.com/photo-1610170013328-39a1c4a5a73a?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
@@ -448,22 +504,134 @@
                 { id: 6, name: 'Men\'s Denim Shirt', category: 'Shirts', price: 1899.00, originalPrice: 2499.00, rating: 4, reviews: 25, img: 'https://images.unsplash.com/photo-1605518429451-0d350b4455a2?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 7, name: 'Cotton Silk Saree', category: 'Sarees', price: 2350.00, originalPrice: null, rating: 4, reviews: 9, img: 'https://images.unsplash.com/photo-1596207187313-2413a34658c1?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 8, name: 'Checked Flannel Shirt', category: 'Shirts', price: 1399.00, originalPrice: null, rating: 4, reviews: 18, img: 'https://images.unsplash.com/photo-1589756828854-574a48529235?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
-
-                // Best Selling
+                { id: 19, name: 'Elegant Tussar Silk Saree', category: 'Sarees', price: 3150.00, originalPrice: null, rating: 4, reviews: 12, img: 'https://images.unsplash.com/photo-1620012253295-c15cc3e65df4?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 20, name: 'Printed Rayon Shirt', category: 'Shirts', price: 950.00, originalPrice: 1200.00, rating: 4, reviews: 31, img: 'https://images.unsplash.com/photo-1504903173516-a922386b0266?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 21, name: 'Georgette Ruffle Saree', category: 'Sarees', price: 2899.00, originalPrice: null, rating: 5, reviews: 7, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
+                { id: 22, name: 'Cuban Collar Summer Shirt', category: 'Shirts', price: 1650.00, originalPrice: null, rating: 5, reviews: 14, img: 'https://images.unsplash.com/photo-1578587018452-892bacefd3f2?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 9, name: 'Classic Kanjeevaram Saree', category: 'Sarees', price: 4999.00, originalPrice: 6200.00, rating: 5, reviews: 152, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
                 { id: 10, name: 'Men\'s Solid White Shirt', category: 'Shirts', price: 999.00, originalPrice: null, rating: 5, reviews: 250, img: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300', type: ['bestselling'] },
                 { id: 11, name: 'Banarasi Silk Saree', category: 'Sarees', price: 5450.00, originalPrice: 7000.00, rating: 4, reviews: 95, img: 'https://images.unsplash.com/photo-1600863421711-4775d52ac718?auto=format&fit=crop&w=300', type: ['bestselling'] },
                 { id: 12, name: 'Striped Casual Shirt', category: 'Shirts', price: 1299.00, originalPrice: null, rating: 5, reviews: 180, img: 'https://images.unsplash.com/photo-1596755094514-7e724d082c89?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
-                
-                // Top Rated
                 { id: 14, name: 'Embroidered Net Saree', category: 'Sarees', price: 3999.00, originalPrice: null, rating: 5, reviews: 99, img: 'https://images.unsplash.com/photo-1617627143750-d6244245d433?auto=format&fit=crop&w=300', type: ['toprated'] },
                 { id: 16, name: 'Men\'s Formal Black Shirt', category: 'Shirts', price: 1500.00, originalPrice: null, rating: 5, reviews: 88, img: 'https://images.unsplash.com/photo-1601762603339-fd6160208136?auto=format&fit=crop&w=300', type: ['toprated'] },
                 { id: 17, name: 'Patola Art Silk Saree', category: 'Sarees', price: 4250.00, originalPrice: 5500.00, rating: 5, reviews: 102, img: 'https://images.unsplash.com/photo-1616543336933-228c2ce79ef3?auto=format&fit=crop&w=300', type: ['toprated'] },
-                 { id: 18, name: 'Mandarin Collar Shirt', category: 'Shirts', price: 1350.00, originalPrice: null, rating: 5, reviews: 75, img: 'https://images.unsplash.com/photo-1563178406-412f22c1a056?auto=format&fit=crop&w=300', type: ['toprated'] }, // Added to make 8
+                { id: 18, name: 'Mandarin Collar Shirt', category: 'Shirts', price: 1350.00, originalPrice: null, rating: 5, reviews: 75, img: 'https://images.unsplash.com/photo-1563178406-412f22c1a056?auto=format&fit=crop&w=300', type: ['toprated'] }
             ];
-
+            
+            // --- DOM ELEMENT REFERENCES ---
             const productGrid = document.getElementById('product-grid');
             const filterButtons = document.querySelectorAll('.product-filters button');
+            const mainContentWrapper = document.getElementById('main-content-wrapper');
+            const cartPage = document.getElementById('cart-page');
+            const cartContentWrapper = document.getElementById('cart-content-wrapper');
+            const cartLink = document.getElementById('view-cart-link');
+            const homeLink = document.getElementById('home-link');
+            const logoLink = document.getElementById('logo-link');
+            const cartCountEl = document.querySelector('.cart-count');
+
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+
+            const showCartPage = () => {
+                mainContentWrapper.style.display = 'none';
+                cartPage.style.display = 'block';
+                window.scrollTo(0, 0);
+                renderCart();
+            };
+
+            const showMainPage = () => {
+                cartPage.style.display = 'none';
+                mainContentWrapper.style.display = 'block';
+            };
+
+            const saveCart = () => {
+                sessionStorage.setItem('cart', JSON.stringify(cart));
+                updateCartIcon();
+            };
+
+            const updateCartIcon = () => {
+                const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountEl.textContent = totalItems;
+                cartCountEl.classList.toggle('visible', totalItems > 0);
+            };
+            
+            const addToCart = (productId) => {
+                const product = allProducts.find(p => p.id === productId);
+                if (!product) return;
+
+                const existingItem = cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity++;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                saveCart();
+            };
+
+            const updateCartItem = (productId, newQuantity) => {
+                const itemIndex = cart.findIndex(item => item.id === productId);
+                if (itemIndex === -1) return;
+
+                if (newQuantity <= 0) {
+                    cart.splice(itemIndex, 1);
+                } else {
+                    cart[itemIndex].quantity = newQuantity;
+                }
+                saveCart();
+                renderCart();
+            };
+
+            const renderCart = () => {
+                if (cart.length === 0) {
+                    cartContentWrapper.innerHTML = `
+                        <div class="cart-empty">
+                            <p>Your cart is currently empty.</p>
+                            <a href="#" class="btn btn-primary" id="continue-shopping-btn">Continue Shopping</a>
+                        </div>`;
+                    document.getElementById('continue-shopping-btn').addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showMainPage();
+                    });
+                    return;
+                }
+
+                let subtotal = 0;
+                const cartItemsHTML = cart.map(item => {
+                    const itemSubtotal = item.price * item.quantity;
+                    subtotal += itemSubtotal;
+                    return `
+                        <div class="cart-item" data-product-id="${item.id}">
+                            <img src="${item.img}" alt="${item.name}" class="cart-item-img">
+                            <div class="cart-item-details">
+                                <p class="title">${item.name}</p>
+                                <p class="price">₹${item.price.toFixed(2)}</p>
+                                <div class="quantity-selector">
+                                    <button class="quantity-decrease" aria-label="Decrease quantity">-</button>
+                                    <span class="quantity">${item.quantity}</span>
+                                    <button class="quantity-increase" aria-label="Increase quantity">+</button>
+                                </div>
+                            </div>
+                            <div class="cart-item-actions">
+                                <p class="subtotal">₹${itemSubtotal.toFixed(2)}</p>
+                                <button class="remove-item-btn">Remove</button>
+                            </div>
+                        </div>`;
+                }).join('');
+
+                const shipping = subtotal > 499 ? 0 : 50;
+                const total = subtotal + shipping;
+
+                cartContentWrapper.innerHTML = `
+                    <div class="cart-grid">
+                        <div class="cart-items-list">${cartItemsHTML}</div>
+                        <div class="cart-summary">
+                            <h3>Order Summary</h3>
+                            <div class="summary-row"><span>Subtotal</span><span>₹${subtotal.toFixed(2)}</span></div>
+                            <div class="summary-row"><span>Shipping</span><span>${shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span></div>
+                            <div class="summary-row total"><span>Total</span><span>₹${total.toFixed(2)}</span></div>
+                            <a href="#" class="btn btn-primary">Proceed to Checkout</a>
+                        </div>
+                    </div>`;
+            };
 
             const renderProducts = (productsToRender) => {
                 productGrid.innerHTML = '';
@@ -471,7 +639,6 @@
                     productGrid.innerHTML = '<p>No products found for this category.</p>';
                     return;
                 }
-
                 productsToRender.forEach(product => {
                     let tagHTML = '';
                     if (product.originalPrice) {
@@ -482,19 +649,15 @@
                     } else if (product.type.includes('new')) {
                         tagHTML = `<div class="product-tag tag-new">NEW</div>`;
                     }
-
                     const originalPriceHTML = product.originalPrice ? `<span class="original-price">₹${product.originalPrice.toFixed(2)}</span>` : '';
                     const ratingStars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating);
-                    
                     const productCardHTML = `
                         <div class="product-card">
                             <div class="product-image">
-                                <a href="#">
-                                    <img src="${product.img}" alt="${product.name}">
-                                </a>
+                                <a href="#"><img src="${product.img}" alt="${product.name}"></a>
                                 ${tagHTML}
                                 <div class="product-actions">
-                                    <a href="#" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a>
+                                    <a href="#" class="add-to-cart-btn" data-product-id="${product.id}" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a>
                                     <a href="#" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>
                                 </div>
                             </div>
@@ -513,17 +676,49 @@
                 button.addEventListener('click', function() {
                     filterButtons.forEach(btn => btn.classList.remove('active'));
                     this.classList.add('active');
-
                     const filterType = this.dataset.filter;
                     const filteredProducts = allProducts.filter(p => p.type.includes(filterType));
-                    
-                    const productsToShow = filteredProducts.slice(0, 8);
-                    
-                    renderProducts(productsToShow);
+                    renderProducts(filteredProducts);
                 });
             });
 
+            productGrid.addEventListener('click', (e) => {
+                const cartBtn = e.target.closest('.add-to-cart-btn');
+                if (cartBtn) {
+                    e.preventDefault();
+                    addToCart(parseInt(cartBtn.dataset.productId, 10));
+                }
+            });
+
+            cartContentWrapper.addEventListener('click', (e) => {
+                const itemEl = e.target.closest('.cart-item');
+                if (!itemEl) return;
+                const productId = parseInt(itemEl.dataset.productId, 10);
+                const itemInCart = cart.find(item => item.id === productId);
+                if (e.target.matches('.quantity-increase')) {
+                    updateCartItem(productId, itemInCart.quantity + 1);
+                } else if (e.target.matches('.quantity-decrease')) {
+                    updateCartItem(productId, itemInCart.quantity - 1);
+                } else if (e.target.matches('.remove-item-btn')) {
+                    updateCartItem(productId, 0);
+                }
+            });
+
+            // CHANGE: Updated the cart icon listener to toggle the cart page
+            cartLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (cartPage.style.display === 'block') {
+                    showMainPage();
+                } else {
+                    showCartPage();
+                }
+            });
+
+            homeLink.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
+            logoLink.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
+
             document.querySelector('.product-filters button[data-filter="new"]').click();
+            updateCartIcon();
         });
     </script>
 
