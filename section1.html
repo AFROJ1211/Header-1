@@ -3,20 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Arrivals Showcase - Unified View</title>
+    <title>New Arrivals Showcase - Full Width Loop</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* 
         ----------------------------------------------------
-        UI/UX Update 8.0
+        UI/UX Update 11.0
         ----------------------------------------------------
         Changes Based on Feedback:
-        1.  Mobile "Desktop-Style" View: The mobile view now shows multiple products in a row, mimicking the desktop feel.
-        2.  Clarity on Mobile: To ensure visibility, product cards, fonts, and spacing are responsively scaled down for smaller screens.
-        3.  Adaptive Layout: The layout now shows ~2.5 items on mobile, providing a clear browsing experience.
-        4.  Desktop View Unchanged: All mobile-specific changes are contained within a media query, leaving the desktop experience untouched.
+        1.  Full-Width Loop Effect: Restructured the HTML to separate the header from the carousel. The carousel wrapper is now outside the max-width container, allowing it to span the full viewport width.
+        2.  No Side Padding: The .product-list-container now has no horizontal constraints, making products scroll from edge to edge.
+        3.  Repositioned Arrows: Arrows have been moved to sit inside the viewport (e.g., left: 20px) to work with the new full-width layout.
         ----------------------------------------------------
         */
 
@@ -50,9 +49,10 @@
             width: 100%;
         }
 
+        /* --- This container is now ONLY for the centered text content --- */
         .carousel-container {
             width: 100%;
-            max-width: 1400px;
+            max-width: 1600px;
             margin: 0 auto;
             padding: 0 20px;
             box-sizing: border-box;
@@ -78,8 +78,10 @@
             margin: 0 auto;
         }
 
+        /* CHANGE: The wrapper is now a full-width element */
         .carousel-wrapper {
             position: relative;
+            width: 100%;
         }
         
         .product-list-container {
@@ -121,6 +123,7 @@
             display: block;
             border-top-left-radius: var(--border-radius);
             border-top-right-radius: var(--border-radius);
+            background-color: #e9ecef;
         }
         
         .bestseller-badge { position: absolute; top: 15px; left: 15px; background-color: var(--color-accent); color: var(--color-white); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
@@ -151,28 +154,24 @@
         }
         .arrow:hover { background-color: var(--color-accent-dark); }
         
-        .prev-arrow { left: -25px; }
-        .next-arrow { right: -25px; }
+        /* CHANGE: New arrow positions for full-width layout */
+        .prev-arrow { left: 20px; }
+        .next-arrow { right: 20px; }
 
-        /* --- Responsive Mobile View --- */
         @media (max-width: 768px) {
             .product-carousel { padding: 60px 0; }
             .carousel-header { margin-bottom: 40px; }
             .carousel-header p { font-size: 1rem; }
             
-            /* CHANGE: Arrows are positioned inside the container on mobile */
             .prev-arrow { left: 10px; }
             .next-arrow { right: 10px; }
 
-            /* CHANGE: Adjust card width to show multiple items on mobile */
             .product-card {
-                /* 1/4 of 200% width = 2 items visible in the 100% container */
                 width: 25%; 
                 padding: 0 8px;
                 margin: 5px;
             }
 
-            /* CHANGE: Adjust internal card styles for clarity on smaller screens */
             .product-info { padding: 12px; }
             .product-name { font-size: 0.9rem; margin-bottom: 6px; }
             .product-price { font-size: 0.9rem; }
@@ -189,31 +188,34 @@
 <body>
 
     <section class="product-carousel">
+      <!-- Container for centered text content -->
       <div class="carousel-container">
         <div class="carousel-header">
             <h2>New Arrivals</h2>
             <p>Our latest collection is always on the move. Use the arrows or hover to take a closer look.</p>
         </div>
-        <div class="carousel-wrapper">
-            <button class="arrow prev-arrow" aria-label="Move products left">&#8249;</button>
-            <button class="arrow next-arrow" aria-label="Move products right">&#8250;</button>
+      </div>
+      
+      <!-- Wrapper for the full-width carousel, now a direct child of the section -->
+      <div class="carousel-wrapper">
+          <button class="arrow prev-arrow" aria-label="Move products left">&#8249;</button>
+          <button class="arrow next-arrow" aria-label="Move products right">&#8250;</button>
 
-            <div class="product-list-container">
-                <div class="product-list">
-                    <!-- Original Set -->
-                    <article class="product-card"><a href="#product1"><img src="https://assets.codepen.io/11997879/saree-model.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
-                    <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://assets.codepen.io/11997879/saree-white.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
-                    <article class="product-card"><a href="#product3"><img src="https://assets.codepen.io/11997879/saree-grey.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
-                    <article class="product-card"><a href="#product4"><img src="https://assets.codepen.io/11997879/saree-pink.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
+          <div class="product-list-container">
+              <div class="product-list">
+                  <!-- Original Set -->
+                  <article class="product-card"><a href="#product1"><img src="https://placehold.co/400x440/E9ECEF/495057?text=Product+1" alt="Product Image"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
+                  <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://placehold.co/400x440/DEE2E6/343A40?text=Product+2" alt="Product Image"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
+                  <article class="product-card"><a href="#product3"><img src="https://placehold.co/400x440/CED4DA/212529?text=Product+3" alt="Product Image"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
+                  <article class="product-card"><a href="#product4"><img src="https://placehold.co/400x440/F8F9FA/6c757d?text=Product+4" alt="Product Image"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
 
-                    <!-- Cloned Set for Seamless Loop -->
-                    <article class="product-card"><a href="#product1"><img src="https://assets.codepen.io/11997879/saree-model.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
-                    <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://assets.codepen.io/11997879/saree-white.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
-                    <article class="product-card"><a href="#product3"><img src="https://assets.codepen.io/11997879/saree-grey.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
-                    <article class="product-card"><a href="#product4"><img src="https://assets.codepen.io/11997879/saree-pink.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
-                </div>
-            </div>
-        </div>
+                  <!-- Cloned Set for Seamless Loop -->
+                  <article class="product-card"><a href="#product1"><img src="https://placehold.co/400x440/E9ECEF/495057?text=Product+1" alt="Product Image"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
+                  <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://placehold.co/400x440/DEE2E6/343A40?text=Product+2" alt="Product Image"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
+                  <article class="product-card"><a href="#product3"><img src="https://placehold.co/400x440/CED4DA/212529?text=Product+3" alt="Product Image"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
+                  <article class="product-card"><a href="#product4"><img src="https://placehold.co/400x440/F8F9FA/6c757d?text=Product+4" alt="Product Image"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
+              </div>
+          </div>
       </div>
     </section>
 
@@ -243,7 +245,8 @@
             }
 
             prevBtn.addEventListener('click', () => {
-                const cardWidth = document.querySelector('.product-card').offsetWidth + 10; // card width + new smaller margin
+                const cardMargin = window.innerWidth <= 768 ? 10 : 20;
+                const cardWidth = document.querySelector('.product-card').offsetWidth + cardMargin;
                 position -= cardWidth;
                 if (position <= -scrollWidth) {
                     position = 0;
@@ -252,7 +255,8 @@
             });
 
             nextBtn.addEventListener('click', () => {
-                const cardWidth = document.querySelector('.product-card').offsetWidth + 10;
+                const cardMargin = window.innerWidth <= 768 ? 10 : 20;
+                const cardWidth = document.querySelector('.product-card').offsetWidth + cardMargin;
                 position += cardWidth;
                 if (position > 0) {
                     position = -scrollWidth + cardWidth;
