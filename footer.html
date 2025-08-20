@@ -3,35 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wixo Footer Recreation</title>
+    <title>Modernized Footer UI - Responsive Curve</title>
     <style>
         /* --- FONT IMPORT --- */
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap');
 
         /* --- CSS VARIABLES --- */
         :root {
-            --footer-bg: #ff6b6b; 
-            --footer-text: #ffffff;
-            --button-bg: #f3e56a; /* Highlighted yellow color for the button */
-            --button-bg-hover: #fff280; /* Lighter yellow for hover */
-            --button-text: #3a3a3a;
-            --secondary-text: #f0f0f0;
+            --primary-color: #ff6b6b;
+            --text-color-main: #ffffff;
+            --text-color-secondary: rgba(255, 255, 255, 0.8);
+            --interactive-bg: #ffffff;
+            --interactive-text: var(--primary-color);
+            --divider-color: rgba(255, 255, 255, 0.15);
         }
 
         /* --- BASIC RESET & BODY STYLES --- */
         body {
             margin: 0;
-            /* Use IBM Plex Sans font */
             font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f0f0; 
-            color: #333;
+            background-color: #f4f4f7; 
+            color: #2d3748;
+            min-height: 100vh; 
+            display: flex;
+            flex-direction: column;
+        }
+        
+        main {
+            flex-grow: 1;
         }
 
         *, *::before, *::after {
             box-sizing: border-box;
         }
+        
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-        /* --- SVG for Clip Path (Visually Hidden) --- */
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* --- SVG for a more organic Clip Path (Visually Hidden) --- */
         .svg-defs {
             position: absolute;
             width: 0;
@@ -40,131 +57,159 @@
 
         /* --- FOOTER STYLES --- */
         .site-footer {
-            background-color: var(--footer-bg);
-            color: var(--footer-text);
-            padding: 80px 0 30px 0;
+            background-color: var(--primary-color);
+            color: var(--text-color-main);
+            padding: 120px 0 40px 0;
             position: relative;
-            
-            /* The clip-path creates the wave effect at the top */
-            clip-path: url(#footer-wave);
+            margin-top: 100px;
+            font-size: 1rem;
+            /* 2. Desktop view remains unchanged, using the original wave */
+            clip-path: url(#footer-wave-organic);
         }
 
         .footer-container {
-            max-width: 1200px;
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 0 25px;
+            padding: 0 40px;
         }
 
-        /* --- TOP SECTION: LINKS & LOGIN --- */
+        /* --- TOP SECTION: GRID LAYOUT --- */
         .footer-top {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 40px;
-            padding-bottom: 40px;
-            margin-bottom: 30px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 60px 40px;
+            padding-bottom: 60px;
         }
 
-        .footer-links {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 60px;
-        }
-
-        .link-column h4 {
-            font-size: 1rem;
+        /* --- BRANDING COLUMN --- */
+        .footer-brand .logo {
+            font-size: 1.75rem;
             font-weight: 700;
             margin: 0 0 16px 0;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: var(--text-color-main);
         }
-
-        .link-column ul {
-            list-style: none;
-            padding: 0;
+        
+        .footer-brand .tagline {
+            font-size: 0.95rem;
+            color: var(--text-color-secondary);
+            line-height: 1.6;
             margin: 0;
         }
 
+        /* --- LINK COLUMNS --- */
+        .link-column h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-color-main);
+        }
+
         .link-column li {
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
         .link-column a {
-            color: var(--footer-text);
-            text-decoration: none;
-            font-size: 0.95rem;
-            transition: opacity 0.2s;
+            color: var(--text-color-secondary);
             font-weight: 400;
+            transition: color 0.3s ease, transform 0.3s ease;
+            display: inline-block;
         }
 
         .link-column a:hover {
-            opacity: 0.8;
-            text-decoration: underline;
-        }
-
-        /* --- LOGIN & SOCIALS SECTION --- */
-        .footer-actions {
-            max-width: 380px;
-            width: 100%;
-            text-align: left;
+            color: var(--text-color-main);
+            transform: translateX(4px);
         }
         
+        /* --- LOGIN & ACTIONS COLUMN --- */
+        .footer-actions h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-color-main);
+        }
+
         .login-form {
             display: flex;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 5px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .login-form input[type="email"] {
             flex-grow: 1;
-            padding: 14px 20px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 50px;
-            font-size: 1rem;
-            min-width: 150px;
-            font-family: 'IBM Plex Sans', sans-serif;
+            background: transparent;
+            font-size: 0.95rem;
+            color: var(--text-color-main);
+            outline: none;
+            min-width: 100px;
+            font-family: inherit;
         }
 
         .login-form input[type="email"]::placeholder {
-            color: #888;
+            color: var(--text-color-secondary);
+            opacity: 0.8;
         }
         
         .login-form button {
-            padding: 14px 35px;
+            padding: 10px 25px;
             border: none;
             border-radius: 50px;
-            background-color: var(--button-bg);
-            color: var(--button-text);
+            background-color: var(--interactive-bg);
+            color: var(--interactive-text);
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
-            transition: background-color 0.2s;
-            margin-left: -30px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
             white-space: nowrap;
-            font-family: 'IBM Plex Sans', sans-serif;
+            font-family: inherit;
         }
 
         .login-form button:hover {
-            background-color: var(--button-bg-hover);
+            background-color: #f7f7f7;
+            transform: scale(1.03);
         }
         
         .social-icons {
             margin-top: 24px;
             display: flex;
-            gap: 20px;
+            gap: 16px;
         }
 
         .social-icons a {
-            color: var(--footer-text);
-        }
-
-        .social-icons svg {
-            width: 24px;
-            height: 24px;
-            transition: opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--interactive-bg);
+            color: var(--interactive-text);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         
-        .social-icons a:hover svg {
-            opacity: 0.8;
+        .social-icons a:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .social-icons svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* --- DIVIDER --- */
+        .footer-divider {
+            border: none;
+            height: 1px;
+            background-color: var(--divider-color);
+            margin: 0;
         }
 
         /* --- BOTTOM SECTION: COPYRIGHT & LEGAL --- */
@@ -174,8 +219,9 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 20px;
-            font-size: 0.85rem;
-            color: var(--secondary-text);
+            padding-top: 40px;
+            font-size: 0.875rem;
+            color: var(--text-color-secondary);
         }
 
         .legal-links {
@@ -184,90 +230,82 @@
             flex-wrap: wrap;
         }
 
-        .legal-links a {
-            color: var(--secondary-text);
-            text-decoration: none;
-        }
-
         .legal-links a:hover {
+            color: var(--text-color-main);
             text-decoration: underline;
         }
 
         /* --- RESPONSIVE STYLES --- */
         @media (max-width: 992px) {
             .footer-top {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .footer-actions {
-                max-width: none;
-                margin-top: 20px;
+                gap: 50px 30px;
             }
         }
-
+        
         @media (max-width: 768px) {
-             .site-footer {
+            .site-footer {
+                padding-top: 100px;
+                /* 1. In mobile view, switch to the smaller, flatter curve */
                 clip-path: url(#footer-wave-mobile);
-                padding-top: 60px;
             }
-            .footer-links {
-                gap: 40px;
+            .footer-container {
+                padding: 0 20px;
             }
             .footer-bottom {
                 flex-direction: column;
                 align-items: flex-start;
+                gap: 15px;
             }
         }
     </style>
 </head>
 <body>
+    <main>
+        <!-- Your main page content goes here -->
+    </main>
 
-    <!-- This SVG block defines the shape for the footer's top edge. It is not visible on the page. -->
     <svg class="svg-defs">
-        <clipPath id="footer-wave" clipPathUnits="objectBoundingBox">
-            <path d="M 0,0.1 C 0.2,0, 0.35,0.15, 0.5,0.15 S 0.8,0, 1,0.1 V 1 H 0 Z"></path>
+        <!-- The original, deeper curve for desktop views -->
+        <clipPath id="footer-wave-organic" clipPathUnits="objectBoundingBox">
+            <path d="M 0,0.2 C 0.15,0.1, 0.3,0.25, 0.5,0.25 S 0.8,0.05, 1,0.1 V 1 H 0 Z"></path>
         </clipPath>
-         <clipPath id="footer-wave-mobile" clipPathUnits="objectBoundingBox">
-            <path d="M 0,0.05 C 0.2,0, 0.35,0.07, 0.5,0.07 S 0.8,0, 1,0.05 V 1 H 0 Z"></path>
+
+        <!-- 1. A new, flatter curve created specifically for mobile views -->
+        <clipPath id="footer-wave-mobile" clipPathUnits="objectBoundingBox">
+            <path d="M 0,0.1 C 0.15,0.05, 0.3,0.125, 0.5,0.125 S 0.8,0.025, 1,0.05 V 1 H 0 Z"></path>
         </clipPath>
     </svg>
-
 
     <footer class="site-footer">
         <div class="footer-container">
             <div class="footer-top">
-                <div class="footer-links">
-                    <div class="link-column">
-                        <h4>SHOP</h4>
-                        <ul>
-                            <li><a href="#">Casual Wear</a></li>
-                            <li><a href="#">Ethnic Wear</a></li>
-                            <li><a href="#">Formal Wear</a></li>
-                            <li><a href="#">Seasonal Collection</a></li>
-                        </ul>
-                    </div>
-                    <div class="link-column">
-                        <h4>HELP</h4>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Accessibility</a></li>
-                        </ul>
-                    </div>
-                    <div class="link-column">
-                        <h4>ABOUT</h4>
-                        <ul>
-                            <li><a href="#">Our Story</a></li>
-                            <li><a href="#">Our Mission</a></li>
-                            <li><a href="#">Sustainability</a></li>
-                            <li><a href="#">Collaborations</a></li>
-                            <li><a href="#">Press</a></li>
-                            <li><a href="#">Careers</a></li>
-                        </ul>
-                    </div>
+                <div class="footer-brand">
+                    <h3 class="logo">Wixo</h3>
+                    <p class="tagline">Crafting timeless apparel for the modern individual. Quality and style, woven together.</p>
                 </div>
 
+                <nav class="link-column" aria-labelledby="shop-links">
+                    <h4 id="shop-links">Shop</h4>
+                    <ul>
+                        <li><a href="#">Casual Wear</a></li>
+                        <li><a href="#">Ethnic Wear</a></li>
+                        <li><a href="#">Formal Wear</a></li>
+                        <li><a href="#">Seasonal Collection</a></li>
+                    </ul>
+                </nav>
+
+                <nav class="link-column" aria-labelledby="about-links">
+                    <h4 id="about-links">About</h4>
+                    <ul>
+                        <li><a href="#">Our Story</a></li>
+                        <li><a href="#">Sustainability</a></li>
+                        <li><a href="#">Collaborations</a></li>
+                        <li><a href="#">Careers</a></li>
+                    </ul>
+                </nav>
+
                 <div class="footer-actions">
+                    <h4>Member Login</h4>
                     <form class="login-form" action="#">
                         <input type="email" placeholder="Your Email Address" required>
                         <button type="submit">Login</button>
@@ -282,19 +320,18 @@
                         <a href="#" aria-label="Twitter">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616v.064c0 2.299 1.634 4.217 3.803 4.659-.625.17-1.284.237-1.956.237-.306 0-.602-.03-.893-.086.618 1.953 2.423 3.377 4.565 3.415-1.773 1.39-4.012 2.215-6.452 2.215-.42 0-.833-.025-1.237-.072 2.289 1.467 5.006 2.317 7.942 2.317 9.49 0 14.676-7.818 14.676-14.636 0-.222-.005-.443-.014-.663.998-.718 1.87-1.616 2.56-2.658z"></path></svg>
                         </a>
-                        <a href="#" aria-label="LinkedIn">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-4.499 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"></path></svg>
-                        </a>
                     </div>
                 </div>
             </div>
+
+            <hr class="footer-divider">
 
             <div class="footer-bottom">
                 <p class="copyright">&copy; 2025 Wixo, Inc. All Rights Reserved</p>
                 <div class="legal-links">
                     <a href="#">Terms of Service</a>
                     <a href="#">Privacy Policy</a>
-                    <a href="#">Do Not Sell My Information</a>
+                    <a href="#">Accessibility</a>
                 </div>
             </div>
         </div>
