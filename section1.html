@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Arrivals Showcase - Sectioned Layout</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* 
+        ----------------------------------------------------
+        UI/UX Update 6.0
+        ----------------------------------------------------
+        Changes Based on Feedback:
+        1.  Sectioned Background: The light grey background is now applied ONLY to the .product-carousel section.
+        2.  White Body: The main <body> background has been set to white for a cleaner, more standard page layout.
+        3.  Section Padding: Added padding to the .product-carousel section to give the content proper spacing within its new background.
+        ----------------------------------------------------
+        */
+
+        :root {
+            --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            --font-display: 'Playfair Display', serif;
+            --color-section-bg: #F8F9FA; /* Renamed for clarity */
+            --color-text-dark: #212529;
+            --color-text-light: #6c757d;
+            --color-accent: #ff6b6b;
+            --color-accent-dark: #e65252;
+            --color-white: #ffffff;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+        }
+
+        /* --- General Body Styles --- */
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--color-white); /* Body background is now white */
+            margin: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        /* --- Section-Specific Background --- */
+        .product-carousel {
+            background-color: var(--color-section-bg); /* Grey background applied here */
+            padding: 80px 20px; /* Padding for the section */
+            width: 100%;
+            /* Note: The 'max-width' and 'margin: 0 auto' from the original rule are removed 
+               to allow the background to be full-width. The content inside will be centered. */
+        }
+
+        .carousel-container {
+            width: 100%;
+            max-width: 1400px; /* This new container centers the content within the full-width section */
+            margin: 0 auto;
+        }
+
+        .carousel-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .carousel-header h2 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 500;
+            margin: 0 0 10px 0;
+            color: var(--color-text-dark);
+        }
+        
+        .carousel-header p {
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Carousel Wrapper for Arrows and List --- */
+        .carousel-wrapper {
+            position: relative;
+        }
+        
+        /* --- Container to hide overflowing content --- */
+        .product-list-container {
+            overflow: hidden;
+        }
+        
+        /* --- Product List (Animated by JS) --- */
+        .product-list {
+            display: flex;
+            width: 200%;
+        }
+        
+        /* --- Individual Product Card --- */
+        .product-card {
+            width: 12.5%; 
+            padding: 0 15px;
+            box-sizing: border-box;
+            background-color: var(--color-white); /* Cards are white against the grey section */
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            margin: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .product-card a { text-decoration: none; color: inherit; display: block; }
+        .product-card img {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 1 / 1.1;
+            object-fit: cover;
+            display: block;
+            border-top-left-radius: var(--border-radius);
+            border-top-right-radius: var(--border-radius);
+        }
+        
+        .bestseller-badge { position: absolute; top: 15px; left: 15px; background-color: var(--color-accent); color: var(--color-white); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+        .product-info { padding: 20px; }
+        .product-name { font-size: 1.1rem; font-weight: 500; color: var(--color-text-dark); margin: 0 0 8px 0; }
+        .product-price { font-size: 1.1rem; margin: 0; }
+        .product-price .current-price { font-weight: 500; color: var(--color-text-dark); margin-right: 10px; }
+        .product-price .original-price { text-decoration: line-through; color: var(--color-text-light); }
+
+        /* --- Navigation Arrows --- */
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: var(--color-accent);
+            color: var(--color-white);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+        .arrow:hover { background-color: var(--color-accent-dark); }
+        .prev-arrow { left: -25px; } /* Positioned outside the container */
+        .next-arrow { right: -25px; }
+
+        @media (max-width: 768px) {
+            .arrow { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <section class="product-carousel">
+      <div class="carousel-container">
+        <div class="carousel-header">
+            <h2>New Arrivals</h2>
+            <p>Our latest collection is always on the move. Use the arrows or hover to take a closer look.</p>
+        </div>
+        <div class="carousel-wrapper">
+            <button class="arrow prev-arrow" aria-label="Move products left">&#8249;</button>
+            <button class="arrow next-arrow" aria-label="Move products right">&#8250;</button>
+
+            <div class="product-list-container">
+                <div class="product-list">
+                    <!-- Original Set -->
+                    <article class="product-card"><a href="#product1"><img src="https://assets.codepen.io/11997879/saree-model.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
+                    <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://assets.codepen.io/11997879/saree-white.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
+                    <article class="product-card"><a href="#product3"><img src="https://assets.codepen.io/11997879/saree-grey.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
+                    <article class="product-card"><a href="#product4"><img src="https://assets.codepen.io/11997879/saree-pink.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
+
+                    <!-- Cloned Set for Seamless Loop -->
+                    <article class="product-card"><a href="#product1"><img src="https://assets.codepen.io/11997879/saree-model.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
+                    <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://assets.codepen.io/11997879/saree-white.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
+                    <article class="product-card"><a href="#product3"><img src="https://assets.codepen.io/11997879/saree-grey.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
+                    <article class="product-card"><a href="#product4"><img src="https://assets.codepen.io/11997879/saree-pink.jpg" alt="Saree"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
+                </div>
+            </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- You can add more white content here, before or after the grey section -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const productList = document.querySelector('.product-list');
+            const prevBtn = document.querySelector('.prev-arrow');
+            const nextBtn = document.querySelector('.next-arrow');
+
+            if (!productList || !prevBtn || !nextBtn) return;
+
+            let position = 0;
+            let isPaused = false;
+            const speed = 0.5;
+            
+            const scrollWidth = productList.scrollWidth / 2;
+
+            function animate() {
+                if (!isPaused) {
+                    position -= speed;
+                    if (position <= -scrollWidth) {
+                        position = 0;
+                    }
+                    productList.style.transform = `translateX(${position}px)`;
+                }
+                requestAnimationFrame(animate);
+            }
+
+            prevBtn.addEventListener('click', () => {
+                const cardWidth = document.querySelector('.product-card').offsetWidth + 20;
+                position -= cardWidth;
+                if (position <= -scrollWidth) {
+                    position = 0;
+                }
+                productList.style.transform = `translateX(${position}px)`;
+            });
+
+            nextBtn.addEventListener('click', () => {
+                const cardWidth = document.querySelector('.product-card').offsetWidth + 20;
+                position += cardWidth;
+                if (position > 0) {
+                    position = -scrollWidth + cardWidth;
+                }
+                productList.style.transform = `translateX(${position}px)`;
+            });
+
+            const carouselWrapper = document.querySelector('.carousel-wrapper');
+            carouselWrapper.addEventListener('mouseenter', () => { isPaused = true; });
+            carouselWrapper.addEventListener('mouseleave', () => { isPaused = false; });
+
+            animate();
+        });
+    </script>
+
+</body>
+</html>
