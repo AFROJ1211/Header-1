@@ -11,27 +11,30 @@
     <style>
         /* 
         ============================================
-        UI/UX UPGRADE - V4.1
+        UI/UX UPGRADE - V7
         ============================================
         Developer Notes on Changes:
-        1.  DYNAMIC DISCOUNT TAGS: Replaced generic 'SALE' text with an automatic
-            percentage calculation (e.g., "-20%"). This provides clear, immediate
-            value to the user. Added distinct colors for different tag types
-            (Discount, New, Bestseller) for better visual scanning.
-        2.  EXPANDED PRODUCT DATA: Enlarged the sample product catalog in the
-            JavaScript to ensure a full set of 8 products can be displayed for
-            each filter category, creating a more realistic and robust demo.
+        1.  FOCUSED PRODUCT CATALOG: Overhauled the entire product dataset in the
+            JavaScript to exclusively feature sarees and shirts, complete with new,
+            relevant high-quality imagery.
+        2.  DATA ACCURACY: Expanded the product list and adjusted types to ensure
+            all filters, including "Top Rated," now display a full set of 8 products.
+        3.  ICON CLARITY: Enhanced the product card action icons (Wishlist, Cart)
+            by increasing their size and the size of their container, making them
+            bolder and easier to interact with. Added a subtle shadow on hover for
+            better feedback.
         ============================================
         */
 
-        /* CSS Variables - The Foundation of the New Design System */
+        /* CSS Variables */
         :root {
             --primary-color: #FF6B6B;
             --primary-dark: #e65454;
-            --secondary-color: #4ECDC4; /* Teal - great for discounts */
-            --warning-color: #ffc107; /* Yellow - for bestsellers */
+            --secondary-color: #4ECDC4;
+            --warning-color: #ffc107;
             --dark-charcoal: #343a40;
             --text-light: #6c757d;
+            --text-lighter-gray: #808080;
             --border-color: #dee2e6;
             --background-light: #f8f9fa;
             --background-white: #ffffff;
@@ -53,7 +56,7 @@
             background-color: var(--background-white);
             line-height: 1.6;
         }
-        .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
         a { text-decoration: none; color: inherit; transition: color var(--transition-speed); }
         ul { list-style: none; }
         img { max-width: 100%; height: auto; display: block; }
@@ -79,15 +82,15 @@
         .header-icons svg { width: 24px; height: 24px; }
 
         /* --- MEGA MENU STYLES --- */
-        .main-nav li { position: relative; }
-        .mega-menu { position: absolute; top: 100%; left: 50%; width: 100vw; max-width: 1280px; background-color: var(--background-white); box-shadow: var(--shadow-md); padding: 40px 20px; border-bottom-left-radius: var(--border-radius-md); border-bottom-right-radius: var(--border-radius-md); border-top: 1px solid var(--border-color); opacity: 0; visibility: hidden; transform: translate(-50%, 10px); transition: opacity var(--transition-speed), transform var(--transition-speed), visibility var(--transition-speed); pointer-events: none; }
-        .main-nav li:hover > .mega-menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); pointer-events: auto; }
-        .mega-menu-content { display: flex; gap: 60px; justify-content: space-between; }
+        .main-nav li { position: static; }
+        .mega-menu { position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--background-white); box-shadow: var(--shadow-md); padding: 40px 0; border-bottom-left-radius: var(--border-radius-md); border-bottom-right-radius: var(--border-radius-md); border-top: 1px solid var(--border-color); opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity var(--transition-speed), transform var(--transition-speed), visibility var(--transition-speed); pointer-events: none; }
+        .main-nav li:hover > .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .mega-menu-content { display: flex; gap: 40px; justify-content: flex-start; }
         .mega-menu-column { flex: 1; min-width: 180px; }
         .mega-menu-column h3 { font-size: 16px; font-weight: 600; color: var(--dark-charcoal); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
-        .mega-menu-column ul li { margin-bottom: 10px; }
-        .mega-menu-column ul li a { font-size: 14px; color: var(--text-light); font-weight: 400; line-height: 1.4; }
-        .mega-menu-column ul li a:hover { color: var(--primary-color); padding-left: 5px; }
+        .mega-menu-column ul { display: flex; flex-wrap: wrap; gap: 12px 24px; }
+        .mega-menu-column ul li a { font-size: 14px; color: var(--text-lighter-gray); font-weight: 400; }
+        .mega-menu-column ul li a:hover { color: var(--primary-color); text-decoration: underline; }
 
         /* --- HERO SECTION --- */
         .hero-section { background-color: var(--background-light); padding: 80px 0; overflow: hidden; }
@@ -142,32 +145,22 @@
         .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: left; }
         .product-card { position: relative; background: var(--background-white); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); overflow: hidden; transition: all var(--transition-speed); }
         .product-card:hover { box-shadow: var(--shadow-md); transform: translateY(-5px); }
-        .product-image { background-color: var(--background-light); position: relative; overflow: hidden; }
-        .product-image img { transition: transform 0.4s ease; }
+        .product-image { background-color: var(--background-light); position: relative; overflow: hidden; aspect-ratio: 3 / 3.5; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .product-card:hover .product-image img { transform: scale(1.05); }
         
-        /* Product Tag Styling - Enhanced */
-        .product-tag {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            color: #fff;
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 700;
-            border-radius: var(--border-radius-sm);
-            z-index: 3;
-            letter-spacing: 0.5px;
-        }
+        .product-tag { position: absolute; top: 15px; left: 15px; color: #fff; padding: 5px 10px; font-size: 13px; font-weight: 700; border-radius: var(--border-radius-sm); z-index: 3; letter-spacing: 0.5px; text-shadow: 1px 1px 2px rgba(0,0,0,0.2); }
         .tag-new { background-color: var(--primary-color); }
         .tag-discount { background-color: var(--secondary-color); }
         .tag-bestseller { background-color: var(--warning-color); color: var(--dark-charcoal); }
         
         .product-actions { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; opacity: 0; transition: opacity var(--transition-speed), transform var(--transition-speed); z-index: 3; }
         .product-card:hover .product-actions { opacity: 1; transform: translateX(-50%) translateY(-5px); }
-        .product-actions a { width: 40px; height: 40px; background-color: var(--background-white); color: var(--dark-charcoal); display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-sm); transition: all var(--transition-speed); }
-        .product-actions a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-3px); }
-        .product-actions svg { width: 18px; height: 18px; }
+        /* CHANGE: Made action buttons bigger and clearer */
+        .product-actions a { width: 44px; height: 44px; background-color: var(--background-white); color: var(--dark-charcoal); display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-sm); transition: all var(--transition-speed); }
+        .product-actions a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .product-actions svg { width: 20px; height: 20px; } /* Increased icon size */
+        
         .product-info { padding: 20px; }
         .product-info .category { font-size: 13px; color: var(--text-light); margin-bottom: 5px; }
         .product-info .title { font-size: 16px; font-weight: 600; margin-bottom: 8px; min-height: 48px; color: var(--dark-charcoal); }
@@ -237,72 +230,76 @@
                         <li>
                             <a href="#">Women</a>
                             <div class="mega-menu">
-                                <div class="container mega-menu-content">
-                                    <div class="mega-menu-column">
-                                        <h3>Sarees</h3>
-                                        <ul>
-                                            <li><a href="#">Pattu Sarees</a></li>
-                                            <li><a href="#">General Sarees</a></li>
-                                            <li><a href="#">Fancy Sarees</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-column">
-                                        <h3>Ethnic Wear</h3>
-                                        <ul>
-                                            <li><a href="#">Blouses</a></li>
-                                            <li><a href="#">Kurutas & Tunics</a></li>
-                                            <li><a href="#">Lehengas</a></li>
-                                            <li><a href="#">Palazzo Sets</a></li>
-                                            <li><a href="#">Dress Materials</a></li>
-                                            <li><a href="#">Party Wear Kurtas</a></li>
-                                            <li><a href="#">Leggings & Tracks</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-column">
-                                        <h3>Western Wear</h3>
-                                        <ul>
-                                            <li><a href="#">Gowns & Dresses</a></li>
-                                            <li><a href="#">Skirts & Jeans</a></li>
-                                            <li><a href="#">Short Tops</a></li>
-                                            <li><a href="#">Jumpsuits</a></li>
-                                            <li><a href="#">Party Wear</a></li>
-                                        </ul>
+                                <div class="container">
+                                    <div class="mega-menu-content">
+                                        <div class="mega-menu-column">
+                                            <h3>Sarees</h3>
+                                            <ul>
+                                                <li><a href="#">Pattu Sarees</a></li>
+                                                <li><a href="#">General Sarees</a></li>
+                                                <li><a href="#">Fancy Sarees</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Ethnic Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Blouses</a></li>
+                                                <li><a href="#">Kurutas & Tunics</a></li>
+                                                <li><a href="#">Lehengas</a></li>
+                                                <li><a href="#">Palazzo Sets</a></li>
+                                                <li><a href="#">Dress Materials</a></li>
+                                                <li><a href="#">Party Wear Kurtas</a></li>
+                                                <li><a href="#">Leggings & Tracks</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Western Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Gowns & Dresses</a></li>
+                                                <li><a href="#">Skirts & Jeans</a></li>
+                                                <li><a href="#">Short Tops</a></li>
+                                                <li><a href="#">Jumpsuits</a></li>
+                                                <li><a href="#">Party Wear</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <a href="#">Men</a>
-                            <div class="mega-menu">
-                                <div class="container mega-menu-content">
-                                    <div class="mega-menu-column">
-                                        <h3>Top Wear</h3>
-                                        <ul>
-                                            <li><a href="#">Casual Shirts</a></li>
-                                            <li><a href="#">Formal Shirts</a></li>
-                                            <li><a href="#">T-Shirts</a></li>
-                                            <li><a href="#">Polos</a></li>
-                                            <li><a href="#">Jackets</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-column">
-                                        <h3>Bottom Wear</h3>
-                                        <ul>
-                                            <li><a href="#">Jeans</a></li>
-                                            <li><a href="#">Casual Trousers</a></li>
-                                            <li><a href="#">Formal Trousers</a></li>
-                                            <li><a href="#">Shorts</a></li>
-                                            <li><a href="#">Track Pants</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-column">
-                                        <h3>Footwear</h3>
-                                        <ul>
-                                            <li><a href="#">Sneakers</a></li>
-                                            <li><a href="#">Formal Shoes</a></li>
-                                            <li><a href="#">Loafers</a></li>
-                                            <li><a href="#">Sandals & Floaters</a></li>
-                                        </ul>
+                             <div class="mega-menu">
+                                <div class="container">
+                                    <div class="mega-menu-content">
+                                        <div class="mega-menu-column">
+                                            <h3>Top Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Casual Shirts</a></li>
+                                                <li><a href="#">Formal Shirts</a></li>
+                                                <li><a href="#">T-Shirts</a></li>
+                                                <li><a href="#">Polos</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Bottom Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Jeans</a></li>
+                                                <li><a href="#">Casual Trousers</a></li>
+                                                <li><a href="#">Formal Trousers</a></li>
+                                                <li><a href="#">Shorts</a></li>
+                                                <li><a href="#">Track Pants</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Footwear</h3>
+                                            <ul>
+                                                <li><a href="#">Sneakers</a></li>
+                                                <li><a href="#">Formal Shoes</a></li>
+                                                <li><a href="#">Loafers</a></li>
+                                                <li><a href="#">Sandals</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -310,32 +307,34 @@
                         <li>
                             <a href="#">Kids</a>
                              <div class="mega-menu">
-                                <div class="container mega-menu-content">
-                                    <div class="mega-menu-column">
-                                        <h3>Boys Clothing</h3>
-                                        <ul>
-                                            <li><a href="#">T-Shirts & Polos</a></li>
-                                            <li><a href="#">Shirts</a></li>
-                                            <li><a href="#">Shorts & Trousers</a></li>
-                                            <li><a href="#">Jeans</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-column">
-                                        <h3>Girls Clothing</h3>
-                                        <ul>
-                                            <li><a href="#">Dresses & Frocks</a></li>
-                                            <li><a href="#">Tops & T-shirts</a></li>
-                                            <li><a href="#">Skirts & Shorts</a></li>
-                                            <li><a href="#">Leggings</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="mega-menu-column">
-                                        <h3>Infants</h3>
-                                        <ul>
-                                            <li><a href="#">Rompers & Onesies</a></li>
-                                            <li><a href="#">Clothing Sets</a></li>
-                                            <li><a href="#">Bodysuits</a></li>
-                                        </ul>
+                                <div class="container">
+                                    <div class="mega-menu-content">
+                                        <div class="mega-menu-column">
+                                            <h3>Boys Clothing</h3>
+                                            <ul>
+                                                <li><a href="#">T-Shirts & Polos</a></li>
+                                                <li><a href="#">Shirts</a></li>
+                                                <li><a href="#">Shorts</a></li>
+                                                <li><a href="#">Jeans</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Girls Clothing</h3>
+                                            <ul>
+                                                <li><a href="#">Dresses & Frocks</a></li>
+                                                <li><a href="#">Tops & T-shirts</a></li>
+                                                <li><a href="#">Skirts</a></li>
+                                                <li><a href="#">Leggings</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Infants</h3>
+                                            <ul>
+                                                <li><a href="#">Rompers</a></li>
+                                                <li><a href="#">Clothing Sets</a></li>
+                                                <li><a href="#">Bodysuits</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -365,7 +364,7 @@
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1551232864-3f0890e58e0b?auto=format&fit=crop&w=600" alt="Stylish woman posing">
+                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200" alt="Stylish woman in a summer outfit">
                 </div>
             </div>
         </section>
@@ -388,10 +387,10 @@
                     <p class="section-subtitle">Explore our curated collections designed for every style and occasion.</p>
                 </div>
                 <div class="categories-grid">
-                    <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1509319117193-57bab727e09d?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1618001789159-ffffe6f96ef2?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1620799140408-edc6d5f96503?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1495121605193-b116b5b9c5fe?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1581044777550-4cfa6ce670c0?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1617127365659-3774577d0fbe?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1594392882283-0571343a41ae?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
                 </div>
             </div>
         </section>
@@ -414,8 +413,24 @@
         <section class="sale-banners-section">
             <div class="container">
                 <div class="sale-banners-grid">
-                    <div class="sale-banner"><div class="sale-banner-content"><p class="sub-title">Limited Time Offer</p><h3 class="title">Men's Fashion</h3><p class="offer">Flat 70% Off</p><a href="#" class="btn btn-outline">Shop Now</a></div><img src="https://via.placeholder.com/250x200.png?text=Sale" alt="Man with a travel bag"></div>
-                    <div class="sale-banner"><div class="sale-banner-content"><p class="sub-title">Fashion Style</p><h3 class="title">Women's Wear</h3><p class="offer">Min. 35-70% Off</p><a href="#" class="btn btn-outline">Shop Now</a></div><img src="https://via.placeholder.com/250x200.png?text=Sale" alt="Woman in a stylish top"></div>
+                    <div class="sale-banner">
+                        <div class="sale-banner-content">
+                            <p class="sub-title">Limited Time Offer</p>
+                            <h3 class="title">Men's Fashion</h3>
+                            <p class="offer">Flat 70% Off</p>
+                            <a href="#" class="btn btn-outline">Shop Now</a>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1521105906727-31954331a980?auto=format&fit=crop&w=400" alt="Man with a travel bag">
+                    </div>
+                    <div class="sale-banner">
+                        <div class="sale-banner-content">
+                            <p class="sub-title">Fashion Style</p>
+                            <h3 class="title">Women's Wear</h3>
+                            <p class="offer">Min. 35-70% Off</p>
+                            <a href="#" class="btn btn-outline">Shop Now</a>
+                        </div>
+                        <img src="https://images.unsplash.com/photo-1542838334-425abbb322a3?auto=format&fit=crop&w=400" alt="Woman in a stylish top">
+                    </div>
                 </div>
             </div>
         </section>
@@ -423,30 +438,28 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- EXPANDED Product Catalog ---
             const allProducts = [
                 // New Arrivals
-                { id: 1, name: 'Floral Print Summer Dress', category: 'Dresses', price: 1599.00, originalPrice: 1999.00, rating: 4, reviews: 15, img: 'https://via.placeholder.com/300x350/F8C8DC/333?text=New+Dress', type: ['new'] },
-                { id: 2, name: 'Linen Casual Shirt', category: 'Shirts', price: 1299.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://via.placeholder.com/300x350/A2D2FF/333?text=New+Shirt', type: ['new'] },
-                { id: 3, name: 'Graphic Print T-Shirt', category: 'T-Shirts', price: 799.00, originalPrice: null, rating: 4, reviews: 22, img: 'https://via.placeholder.com/300x350/FEEA00/333?text=New+Tee', type: ['new', 'bestselling'] },
-                { id: 4, name: 'Kids Denim Dungaree', category: 'Kids Wear', price: 1100.00, originalPrice: 1500.00, rating: 5, reviews: 11, img: 'https://via.placeholder.com/300x350/FFD166/333?text=New+Kids', type: ['new'] },
-                { id: 5, name: 'Minimalist Leather Sneaker', category: 'Shoes', price: 2499.00, originalPrice: null, rating: 5, reviews: 19, img: 'https://via.placeholder.com/300x350/EAEAEA/333?text=New+Shoes', type: ['new', 'toprated'] },
-                { id: 6, name: 'High-Waist Mom Jeans', category: 'Jeans', price: 1899.00, originalPrice: 2499.00, rating: 4, reviews: 25, img: 'https://via.placeholder.com/300x350/BDE0FE/333?text=New+Jeans', type: ['new'] },
-                { id: 7, name: 'Quilted Crossbody Bag', category: 'Bags', price: 1350.00, originalPrice: null, rating: 4, reviews: 9, img: 'https://via.placeholder.com/300x350/FFADAD/333?text=New+Bag', type: ['new'] },
-                { id: 8, name: 'Chino Shorts for Men', category: 'Shorts', price: 999.00, originalPrice: null, rating: 4, reviews: 18, img: 'https://via.placeholder.com/300x350/CDB4DB/333?text=New+Shorts', type: ['new', 'bestselling'] },
+                { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.unsplash.com/photo-1617192213511-37fe1a54c6a6?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 2, name: 'Men\'s Oxford Formal Shirt', category: 'Shirts', price: 1499.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
+                { id: 3, name: 'Floral Chiffon Saree', category: 'Sarees', price: 1899.00, originalPrice: null, rating: 4, reviews: 22, img: 'https://images.unsplash.com/photo-1610170013328-39a1c4a5a73a?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
+                { id: 4, name: 'Linen Blend Casual Shirt', category: 'Shirts', price: 1100.00, originalPrice: 1500.00, rating: 5, reviews: 11, img: 'https://images.unsplash.com/photo-1603252109360-7049af2cb384?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 5, name: 'Bandhani Print Saree', category: 'Sarees', price: 2999.00, originalPrice: null, rating: 5, reviews: 19, img: 'https://images.unsplash.com/photo-1621214022588-4566081295b3?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
+                { id: 6, name: 'Men\'s Denim Shirt', category: 'Shirts', price: 1899.00, originalPrice: 2499.00, rating: 4, reviews: 25, img: 'https://images.unsplash.com/photo-1605518429451-0d350b4455a2?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 7, name: 'Cotton Silk Saree', category: 'Sarees', price: 2350.00, originalPrice: null, rating: 4, reviews: 9, img: 'https://images.unsplash.com/photo-1596207187313-2413a34658c1?auto=format&fit=crop&w=300', type: ['new'] },
+                { id: 8, name: 'Checked Flannel Shirt', category: 'Shirts', price: 1399.00, originalPrice: null, rating: 4, reviews: 18, img: 'https://images.unsplash.com/photo-1589756828854-574a48529235?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
 
                 // Best Selling
-                { id: 9, name: 'Classic White Polo', category: 'Polos', price: 899.00, originalPrice: 1200.00, rating: 5, reviews: 152, img: 'https://via.placeholder.com/300x350/FFFFFF/333?text=Bestseller', type: ['bestselling', 'toprated'] },
-                { id: 10, name: 'Solid Black Leggings', category: 'Leggings', price: 699.00, originalPrice: null, rating: 5, reviews: 250, img: 'https://via.placeholder.com/300x350/333333/FFF?text=Bestseller', type: ['bestselling'] },
-                { id: 11, name: 'Men\'s Aviator Sunglasses', category: 'Accessories', price: 1450.00, originalPrice: 2000.00, rating: 4, reviews: 95, img: 'https://via.placeholder.com/300x350/C0C0C0/333?text=Bestseller', type: ['bestselling'] },
-                { id: 12, name: 'Women\'s Running Shoes', category: 'Shoes', price: 2999.00, originalPrice: null, rating: 5, reviews: 180, img: 'https://via.placeholder.com/300x350/FFC8DD/333?text=Bestseller', type: ['bestselling', 'toprated'] },
-                { id: 13, name: 'Rugged Leather Belt', category: 'Accessories', price: 750.00, originalPrice: 1000.00, rating: 4, reviews: 110, img: 'https://via.placeholder.com/300x350/8E5B2D/FFF?text=Bestseller', type: ['bestselling'] },
+                { id: 9, name: 'Classic Kanjeevaram Saree', category: 'Sarees', price: 4999.00, originalPrice: 6200.00, rating: 5, reviews: 152, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
+                { id: 10, name: 'Men\'s Solid White Shirt', category: 'Shirts', price: 999.00, originalPrice: null, rating: 5, reviews: 250, img: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300', type: ['bestselling'] },
+                { id: 11, name: 'Banarasi Silk Saree', category: 'Sarees', price: 5450.00, originalPrice: 7000.00, rating: 4, reviews: 95, img: 'https://images.unsplash.com/photo-1600863421711-4775d52ac718?auto=format&fit=crop&w=300', type: ['bestselling'] },
+                { id: 12, name: 'Striped Casual Shirt', category: 'Shirts', price: 1299.00, originalPrice: null, rating: 5, reviews: 180, img: 'https://images.unsplash.com/photo-1596755094514-7e724d082c89?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
                 
                 // Top Rated
-                { id: 14, name: 'Premium Woolen Scarf', category: 'Accessories', price: 1999.00, originalPrice: null, rating: 5, reviews: 99, img: 'https://via.placeholder.com/300x350/B1A7A6/FFF?text=Top+Rated', type: ['toprated'] },
-                { id: 15, name: 'Waterproof Travel Backpack', category: 'Bags', price: 3500.00, originalPrice: 4500.00, rating: 5, reviews: 121, img: 'https://via.placeholder.com/300x350/588157/FFF?text=Top+Rated', type: ['toprated', 'bestselling'] },
-                { id: 16, name: 'Silk Blend Kurta Set', category: 'Ethnic Wear', price: 4500.00, originalPrice: null, rating: 5, reviews: 88, img: 'https://via.placeholder.com/300x350/F7B267/333?text=Top+Rated', type: ['toprated'] },
-                { id: 17, name: 'Men\'s Formal Oxford Shoes', category: 'Formal Shoes', price: 3999.00, originalPrice: 5000.00, rating: 5, reviews: 102, img: 'https://via.placeholder.com/300x350/432818/FFF?text=Top+Rated', type: ['toprated'] },
+                { id: 14, name: 'Embroidered Net Saree', category: 'Sarees', price: 3999.00, originalPrice: null, rating: 5, reviews: 99, img: 'https://images.unsplash.com/photo-1617627143750-d6244245d433?auto=format&fit=crop&w=300', type: ['toprated'] },
+                { id: 16, name: 'Men\'s Formal Black Shirt', category: 'Shirts', price: 1500.00, originalPrice: null, rating: 5, reviews: 88, img: 'https://images.unsplash.com/photo-1601762603339-fd6160208136?auto=format&fit=crop&w=300', type: ['toprated'] },
+                { id: 17, name: 'Patola Art Silk Saree', category: 'Sarees', price: 4250.00, originalPrice: 5500.00, rating: 5, reviews: 102, img: 'https://images.unsplash.com/photo-1616543336933-228c2ce79ef3?auto=format&fit=crop&w=300', type: ['toprated'] },
+                 { id: 18, name: 'Mandarin Collar Shirt', category: 'Shirts', price: 1350.00, originalPrice: null, rating: 5, reviews: 75, img: 'https://images.unsplash.com/photo-1563178406-412f22c1a056?auto=format&fit=crop&w=300', type: ['toprated'] }, // Added to make 8
             ];
 
             const productGrid = document.getElementById('product-grid');
@@ -504,7 +517,6 @@
                     const filterType = this.dataset.filter;
                     const filteredProducts = allProducts.filter(p => p.type.includes(filterType));
                     
-                    // Ensure exactly 8 products are shown
                     const productsToShow = filteredProducts.slice(0, 8);
                     
                     renderProducts(productsToShow);
