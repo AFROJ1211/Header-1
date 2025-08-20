@@ -91,7 +91,16 @@
         /* --- MEGA MENU STYLES --- */
         .main-nav li { position: static; }
         .mega-menu { position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--background-white); box-shadow: var(--shadow-md); padding: 40px 0; border-bottom-left-radius: var(--border-radius-md); border-bottom-right-radius: var(--border-radius-md); border-top: 1px solid var(--border-color); opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity var(--transition-speed), transform var(--transition-speed), visibility var(--transition-speed); pointer-events: none; }
-        .main-nav li:hover > .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        
+        /* MODIFICATION: Combined the :hover and the .mega-menu-active class to allow both triggers */
+        .main-nav li:hover > .mega-menu,
+        .main-nav li.mega-menu-active > .mega-menu { 
+            opacity: 1; 
+            visibility: visible; 
+            transform: translateY(0); 
+            pointer-events: auto; 
+        }
+
         .mega-menu-content { display: flex; gap: 40px; justify-content: flex-start; }
         .mega-menu-column { flex: 1; min-width: 180px; }
         .mega-menu-column h3 { font-size: 16px; font-weight: 600; color: var(--dark-charcoal); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
@@ -562,7 +571,41 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // NOTE: Using your original product list as provided in the first prompt.
+            // --- MEGA MENU CLICK LOGIC ---
+            const navLinksWithMegaMenu = document.querySelectorAll('.main-nav > ul > li > a');
+
+            navLinksWithMegaMenu.forEach(link => {
+                const parentLi = link.parentElement;
+                const megaMenu = parentLi.querySelector('.mega-menu');
+                if (megaMenu) {
+                    link.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        const wasActive = parentLi.classList.contains('mega-menu-active');
+                        
+                        // Close all other mega menus
+                        document.querySelectorAll('.main-nav li.mega-menu-active').forEach(item => {
+                            item.classList.remove('mega-menu-active');
+                        });
+
+                        // If the clicked menu was not already active, open it
+                        if (!wasActive) {
+                            parentLi.classList.add('mega-menu-active');
+                        }
+                    });
+                }
+            });
+
+            // Close mega menu when clicking outside of the navigation
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.main-nav')) {
+                    document.querySelectorAll('.main-nav li.mega-menu-active').forEach(item => {
+                        item.classList.remove('mega-menu-active');
+                    });
+                }
+            });
+            
+            // --- EXISTING PRODUCT, CART, AND WISHLIST LOGIC (UNCHANGED) ---
+
             const allProducts = [
                 { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.unsplash.com/photo-1617192213511-37fe1a54c6a6?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 2, name: 'Men\'s Oxford Formal Shirt', category: 'Shirts', price: 1499.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
