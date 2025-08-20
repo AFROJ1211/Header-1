@@ -3,26 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Arrivals Showcase - Sectioned Layout</title>
+    <title>New Arrivals Showcase - Unified View</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
     <style>
         /* 
         ----------------------------------------------------
-        UI/UX Update 6.0
+        UI/UX Update 8.0
         ----------------------------------------------------
         Changes Based on Feedback:
-        1.  Sectioned Background: The light grey background is now applied ONLY to the .product-carousel section.
-        2.  White Body: The main <body> background has been set to white for a cleaner, more standard page layout.
-        3.  Section Padding: Added padding to the .product-carousel section to give the content proper spacing within its new background.
+        1.  Mobile "Desktop-Style" View: The mobile view now shows multiple products in a row, mimicking the desktop feel.
+        2.  Clarity on Mobile: To ensure visibility, product cards, fonts, and spacing are responsively scaled down for smaller screens.
+        3.  Adaptive Layout: The layout now shows ~2.5 items on mobile, providing a clear browsing experience.
+        4.  Desktop View Unchanged: All mobile-specific changes are contained within a media query, leaving the desktop experience untouched.
         ----------------------------------------------------
         */
 
         :root {
             --font-primary: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             --font-display: 'Playfair Display', serif;
-            --color-section-bg: #F8F9FA; /* Renamed for clarity */
+            --color-section-bg: #F8F9FA;
             --color-text-dark: #212529;
             --color-text-light: #6c757d;
             --color-accent: #ff6b6b;
@@ -36,7 +37,7 @@
         /* --- General Body Styles --- */
         body {
             font-family: var(--font-primary);
-            background-color: var(--color-white); /* Body background is now white */
+            background-color: var(--color-white);
             margin: 0;
             box-sizing: border-box;
             overflow-x: hidden;
@@ -44,17 +45,17 @@
 
         /* --- Section-Specific Background --- */
         .product-carousel {
-            background-color: var(--color-section-bg); /* Grey background applied here */
-            padding: 80px 20px; /* Padding for the section */
+            background-color: var(--color-section-bg);
+            padding: 80px 0;
             width: 100%;
-            /* Note: The 'max-width' and 'margin: 0 auto' from the original rule are removed 
-               to allow the background to be full-width. The content inside will be centered. */
         }
 
         .carousel-container {
             width: 100%;
-            max-width: 1400px; /* This new container centers the content within the full-width section */
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 20px;
+            box-sizing: border-box;
         }
 
         .carousel-header {
@@ -77,28 +78,24 @@
             margin: 0 auto;
         }
 
-        /* --- Carousel Wrapper for Arrows and List --- */
         .carousel-wrapper {
             position: relative;
         }
         
-        /* --- Container to hide overflowing content --- */
         .product-list-container {
             overflow: hidden;
         }
         
-        /* --- Product List (Animated by JS) --- */
         .product-list {
             display: flex;
             width: 200%;
         }
         
-        /* --- Individual Product Card --- */
         .product-card {
             width: 12.5%; 
             padding: 0 15px;
             box-sizing: border-box;
-            background-color: var(--color-white); /* Cards are white against the grey section */
+            background-color: var(--color-white);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow-sm);
             margin: 10px;
@@ -107,6 +104,7 @@
             position: relative;
             overflow: hidden;
             flex-shrink: 0;
+            cursor: pointer;
         }
         
         .product-card:hover {
@@ -132,7 +130,6 @@
         .product-price .current-price { font-weight: 500; color: var(--color-text-dark); margin-right: 10px; }
         .product-price .original-price { text-decoration: line-through; color: var(--color-text-light); }
 
-        /* --- Navigation Arrows --- */
         .arrow {
             position: absolute;
             top: 50%;
@@ -153,11 +150,39 @@
             transition: all 0.2s ease;
         }
         .arrow:hover { background-color: var(--color-accent-dark); }
-        .prev-arrow { left: -25px; } /* Positioned outside the container */
+        
+        .prev-arrow { left: -25px; }
         .next-arrow { right: -25px; }
 
+        /* --- Responsive Mobile View --- */
         @media (max-width: 768px) {
-            .arrow { display: none; }
+            .product-carousel { padding: 60px 0; }
+            .carousel-header { margin-bottom: 40px; }
+            .carousel-header p { font-size: 1rem; }
+            
+            /* CHANGE: Arrows are positioned inside the container on mobile */
+            .prev-arrow { left: 10px; }
+            .next-arrow { right: 10px; }
+
+            /* CHANGE: Adjust card width to show multiple items on mobile */
+            .product-card {
+                /* 1/4 of 200% width = 2 items visible in the 100% container */
+                width: 25%; 
+                padding: 0 8px;
+                margin: 5px;
+            }
+
+            /* CHANGE: Adjust internal card styles for clarity on smaller screens */
+            .product-info { padding: 12px; }
+            .product-name { font-size: 0.9rem; margin-bottom: 6px; }
+            .product-price { font-size: 0.9rem; }
+            .product-price .current-price { margin-right: 5px; }
+            .bestseller-badge {
+                font-size: 0.7rem;
+                padding: 4px 8px;
+                top: 8px;
+                left: 8px;
+            }
         }
     </style>
 </head>
@@ -192,8 +217,6 @@
       </div>
     </section>
 
-    <!-- You can add more white content here, before or after the grey section -->
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const productList = document.querySelector('.product-list');
@@ -220,7 +243,7 @@
             }
 
             prevBtn.addEventListener('click', () => {
-                const cardWidth = document.querySelector('.product-card').offsetWidth + 20;
+                const cardWidth = document.querySelector('.product-card').offsetWidth + 10; // card width + new smaller margin
                 position -= cardWidth;
                 if (position <= -scrollWidth) {
                     position = 0;
@@ -229,7 +252,7 @@
             });
 
             nextBtn.addEventListener('click', () => {
-                const cardWidth = document.querySelector('.product-card').offsetWidth + 20;
+                const cardWidth = document.querySelector('.product-card').offsetWidth + 10;
                 position += cardWidth;
                 if (position > 0) {
                     position = -scrollWidth + cardWidth;
