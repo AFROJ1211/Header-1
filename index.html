@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wixo - Modern E-commerce</title>
     
-    <!-- FONTS: Combined from all sections -->
+    <!-- FONTS FROM ALL SECTIONS COMBINED -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,19 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 
     <style>
-        /* 
-        ============================================
-        MASTER STYLESHEET - COMBINED SECTIONS
-        ============================================
-        Developer Notes:
-        - This stylesheet merges styles from all three provided sections.
-        - Section 1's CSS variables and base styles are used as the primary theme.
-        - Styles from Sections 2 & 3 have been integrated and scoped to their
-          respective sections to prevent class name conflicts (e.g., .product-card).
-        ============================================
-        */
+        /* =================================================================== */
+        /* --- SECTION 1: GLOBAL & MAIN PAGE STYLES --- */
+        /* =================================================================== */
 
-        /* CSS Variables from Section 1 (Primary) */
+        /* CSS Variables */
         :root {
             --primary-color: #FF6B6B;
             --primary-dark: #e65454;
@@ -48,28 +40,27 @@
 
         /* General Reset & Body Styles */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { 
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
+        html { scroll-behavior: smooth; }
         body {
             font-family: var(--font-primary);
             color: var(--dark-charcoal);
             background-color: var(--background-white);
             line-height: 1.6;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh; 
+            display: flex; /* Added for sticky footer */
+            flex-direction: column; /* Added for sticky footer */
+            min-height: 100vh; /* Added for sticky footer */
+            overflow-x: hidden; /* Added from Section 2 */
         }
         main {
-            flex-grow: 1;
+            flex-grow: 1; /* Added for sticky footer */
         }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        .container-wide { max-width: 1600px; margin: 0 auto; padding: 0 15px; }
         a { text-decoration: none; color: inherit; transition: color var(--transition-speed); }
         ul { list-style: none; }
         img { max-width: 100%; height: auto; display: block; }
 
-        /* --- HEADER (from Section 1) --- */
+        /* --- HEADER --- */
         .header { box-shadow: var(--shadow-sm); background: var(--background-white); position: sticky; top: 0; z-index: 1000; }
         .top-bar { background-color: var(--background-light); color: var(--text-light); padding: 8px 0; font-size: 13px; border-bottom: 1px solid var(--border-color); }
         .top-bar .container { display: flex; justify-content: space-between; align-items: center; }
@@ -80,25 +71,33 @@
         .logo { font-size: 32px; font-weight: 700; color: var(--dark-charcoal); }
         .logo span { color: var(--primary-color); }
         .main-nav ul { display: flex; gap: 40px; }
-        .main-nav a { font-weight: 500; font-size: 16px; color: var(--dark-charcoal); position: relative; padding-bottom: 5px; }
+        .main-nav a { font-weight: 500; font-size: 16px; color: var(--dark-charcoal); position: relative; padding-bottom: 5px; cursor: pointer; }
         .main-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--primary-color); transform: scaleX(0); transform-origin: left; transition: transform var(--transition-speed); }
         .main-nav a:hover, .main-nav a.active { color: var(--primary-color); }
         .main-nav a:hover::after, .main-nav a.active::after { transform: scaleX(1); }
-        .header-icons { display: flex; gap: 20px; }
+        .header-icons { display: flex; align-items: center; gap: 20px; }
         .header-icons a { position: relative; display: flex; align-items: center; justify-content: center; color: var(--dark-charcoal); }
         .header-icons a:hover { color: var(--primary-color); }
         .header-icons svg { width: 24px; height: 24px; }
+        .search-container { position: relative; display: flex; align-items: center; }
+        .search-input { width: 0; padding: 10px 0; border: none; border-bottom: 2px solid transparent; background-color: transparent; position: absolute; right: 35px; opacity: 0; visibility: hidden; transition: all var(--transition-speed); font-size: 15px; outline: none; font-family: var(--font-primary); }
+        .search-container.active .search-input { width: 220px; padding: 10px 15px 10px 5px; border-bottom: 2px solid var(--border-color); opacity: 1; visibility: visible; }
+        .search-input:focus { border-bottom-color: var(--primary-color); }
+        .search-toggle { z-index: 10; }
+        .search-container.active .search-toggle { color: var(--primary-color); }
+        .cart-count, .wishlist-count { position: absolute; top: -8px; right: -10px; background-color: var(--primary-color); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 12px; font-weight: 600; display: flex; align-items: center; justify-content: center; line-height: 1; transform: scale(0); transition: transform 0.2s ease-out; }
+        .cart-count.visible, .wishlist-count.visible { transform: scale(1); }
         .main-nav li { position: static; }
         .mega-menu { position: absolute; top: 100%; left: 0; width: 100%; background-color: var(--background-white); box-shadow: var(--shadow-md); padding: 40px 0; border-bottom-left-radius: var(--border-radius-md); border-bottom-right-radius: var(--border-radius-md); border-top: 1px solid var(--border-color); opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity var(--transition-speed), transform var(--transition-speed), visibility var(--transition-speed); pointer-events: none; }
-        .main-nav li:hover > .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
+        .main-nav li:hover > .mega-menu, .main-nav li.mega-menu-active > .mega-menu { opacity: 1; visibility: visible; transform: translateY(0); pointer-events: auto; }
         .mega-menu-content { display: flex; gap: 40px; justify-content: flex-start; }
         .mega-menu-column { flex: 1; min-width: 180px; }
         .mega-menu-column h3 { font-size: 16px; font-weight: 600; color: var(--dark-charcoal); margin-bottom: 20px; padding-bottom: 10px; border-bottom: 2px solid var(--border-color); }
         .mega-menu-column ul { display: flex; flex-wrap: wrap; gap: 12px 24px; }
         .mega-menu-column ul li a { font-size: 14px; color: var(--text-lighter-gray); font-weight: 400; }
         .mega-menu-column ul li a:hover { color: var(--primary-color); text-decoration: underline; }
-
-        /* --- HERO SECTION (from Section 1) --- */
+        
+        /* --- HERO & CONTENT SECTIONS (Section 1) --- */
         .hero-section { background-color: var(--background-light); padding: 80px 0; overflow: hidden; }
         .hero-section .container { display: flex; align-items: center; justify-content: space-between; gap: 40px; }
         .hero-content { flex-basis: 45%; }
@@ -113,8 +112,6 @@
         .btn-outline:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-2px); }
         .hero-image { flex-basis: 50%; position: relative; }
         .hero-image img { border-radius: var(--border-radius-md); box-shadow: var(--shadow-md); }
-
-        /* --- FEATURES SECTION (from Section 1) --- */
         .features-section { padding: 60px 0; background: var(--background-white); }
         .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; }
         .feature-item { display: flex; align-items: center; gap: 20px; padding: 20px; border: 1px solid var(--border-color); border-radius: var(--border-radius-md); transition: all var(--transition-speed); }
@@ -122,8 +119,6 @@
         .feature-item svg { width: 32px; height: 32px; color: var(--primary-color); flex-shrink: 0; }
         .feature-item h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
         .feature-item p { font-size: 14px; color: var(--text-light); }
-        
-        /* --- CATEGORIES SECTION (from Section 1) --- */
         .categories-section { padding: 80px 0; background-color: var(--background-light); }
         .section-header { text-align: center; margin-bottom: 50px; }
         .section-header .section-title { font-size: 36px; font-weight: 700; margin-bottom: 10px; }
@@ -140,15 +135,13 @@
         .cat-men { grid-column: 3 / 5; grid-row: 1 / 2; }
         .cat-ethnic { grid-column: 3 / 4; grid-row: 2 / 3; }
         .cat-casual { grid-column: 4 / 5; grid-row: 2 / 3; }
-
-        /* --- PRODUCTS SECTION (from Section 1) --- */
-        .products-section { padding: 80px 0; text-align: center; }
+        .products-section { padding: 40px 0 80px 0; text-align: center; }
         .product-filters { display: flex; justify-content: center; gap: 40px; margin-bottom: 50px; }
         .product-filters button { font-size: 16px; font-weight: 500; color: var(--text-light); cursor: pointer; position: relative; padding-bottom: 8px; background: none; border: none; font-family: var(--font-primary); transition: color var(--transition-speed); }
         .product-filters button:hover { color: var(--dark-charcoal); }
         .product-filters button.active { color: var(--dark-charcoal); font-weight: 600; }
         .product-filters button.active::after { content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 40px; height: 3px; background-color: var(--primary-color); border-radius: 2px; }
-        .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: left; }
+        .product-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 30px; text-align: left; }
         .product-card { position: relative; background: var(--background-white); border: 1px solid var(--border-color); border-radius: var(--border-radius-md); overflow: hidden; transition: all var(--transition-speed); }
         .product-card:hover { box-shadow: var(--shadow-md); transform: translateY(-5px); }
         .product-image { background-color: var(--background-light); position: relative; overflow: hidden; aspect-ratio: 3 / 3.5; }
@@ -160,9 +153,10 @@
         .tag-bestseller { background-color: var(--warning-color); color: var(--dark-charcoal); }
         .product-actions { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; opacity: 0; transition: opacity var(--transition-speed), transform var(--transition-speed); z-index: 3; }
         .product-card:hover .product-actions { opacity: 1; transform: translateX(-50%) translateY(-5px); }
-        .product-actions a { width: 44px; height: 44px; background-color: var(--background-white); color: var(--dark-charcoal); display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: var(--shadow-sm); transition: all var(--transition-speed); }
-        .product-actions a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-3px) scale(1.05); box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        .product-actions svg { width: 20px; height: 20px; }
+        .product-actions a { width: 48px; height: 48px; background-color: var(--background-white); color: var(--dark-charcoal); display: flex; align-items: center; justify-content: center; border-radius: 50%; box-shadow: 0 3px 12px rgba(0,0,0,0.15); transition: all var(--transition-speed); }
+        .product-actions a:hover { background-color: var(--primary-color); color: #fff; transform: translateY(-3px) scale(1.1); box-shadow: 0 6px 15px rgba(0,0,0,0.2); }
+        .product-actions svg { width: 22px; height: 22px; }
+        .product-actions a.wishlisted svg { fill: var(--primary-color); stroke: var(--primary-color); }
         .product-info { padding: 20px; }
         .product-info .category { font-size: 13px; color: var(--text-light); margin-bottom: 5px; }
         .product-info .title { font-size: 16px; font-weight: 600; margin-bottom: 8px; min-height: 48px; color: var(--dark-charcoal); }
@@ -171,8 +165,6 @@
         .product-rating .count { color: var(--text-light); font-size: 13px; margin-left: 5px; }
         .product-price { font-size: 18px; font-weight: 700; color: var(--primary-color); }
         .product-price .original-price { color: var(--text-light); text-decoration: line-through; margin-left: 8px; font-weight: 400; font-size: 15px; }
-
-        /* --- SALE BANNERS SECTION (from Section 1) --- */
         .sale-banners-section { padding: 80px 0; }
         .sale-banners-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
         .sale-banner { background-color: var(--background-light); padding: 40px; display: flex; align-items: center; justify-content: space-between; border-radius: var(--border-radius-md); overflow: hidden; position: relative; }
@@ -182,37 +174,134 @@
         .sale-banner img { width: 45%; transition: transform var(--transition-speed); }
         .sale-banner:hover img { transform: scale(1.05); }
         
-        /* --- PRODUCT CAROUSEL (from Section 2) --- */
+        /* --- HIDDEN PAGES STYLES (Section 1) --- */
+        .cart-section, .wishlist-section, .login-section { padding: 80px 0; background-color: var(--background-white); }
+        .cart-content, .wishlist-content { margin-top: 20px; }
+        .cart-grid { display: grid; grid-template-columns: 2.5fr 1fr; gap: 40px; align-items: flex-start;}
+        .cart-items-list { border: 1px solid var(--border-color); border-radius: var(--border-radius-md); }
+        .cart-item { display: flex; padding: 20px; gap: 20px; border-bottom: 1px solid var(--border-color); }
+        .cart-item:last-child { border-bottom: none; }
+        .cart-item-img { width: 100px; height: 120px; object-fit: cover; border-radius: var(--border-radius-sm); background-color: var(--background-light); }
+        .cart-item-details { flex-grow: 1; display: flex; flex-direction: column; }
+        .cart-item-details .title { font-weight: 600; font-size: 16px; margin-bottom: 8px; }
+        .cart-item-details .price { font-size: 15px; color: var(--text-light); }
+        .quantity-selector { display: flex; align-items: center; gap: 10px; margin-top: auto; }
+        .quantity-selector button { width: 30px; height: 30px; border: 1px solid var(--border-color); background: var(--background-light); border-radius: 50%; cursor: pointer; font-size: 18px; line-height: 1; }
+        .quantity-selector .quantity { font-weight: 600; }
+        .cart-item-actions { text-align: right; }
+        .cart-item-actions .subtotal { font-weight: 700; font-size: 18px; margin-bottom: 20px; }
+        .remove-item-btn { color: var(--text-light); background: none; border: none; cursor: pointer; font-size: 14px; }
+        .remove-item-btn:hover { color: var(--primary-color); text-decoration: underline; }
+        .cart-summary { background-color: var(--background-light); padding: 30px; border-radius: var(--border-radius-md); position: sticky; top: 120px; }
+        .cart-summary h3 { font-size: 20px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color); }
+        .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; font-size: 15px; }
+        .summary-row.total { font-size: 18px; font-weight: 700; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+        .cart-summary .btn { width: 100%; margin-top: 10px; }
+        .cart-empty, .wishlist-empty { text-align: center; padding: 50px 0; }
+        .cart-empty p, .wishlist-empty p { font-size: 18px; margin-bottom: 25px; color: var(--text-light); }
+        .wishlist-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; text-align: left; }
+        .wishlist-card-actions { padding: 15px 20px; display: flex; flex-direction: column; gap: 10px; border-top: 1px solid var(--border-color); }
+        .wishlist-card-actions .btn { padding: 10px 20px; font-size: 14px; width: 100%; }
+        .wishlist-card-actions .remove-wishlist-btn { color: var(--text-light); text-align: center; font-size: 13px; cursor: pointer; }
+        .wishlist-card-actions .remove-wishlist-btn:hover { color: var(--primary-color); text-decoration: underline; }
+        .login-form-wrapper { max-width: 450px; margin: 40px auto 0; padding: 40px; background-color: var(--background-white); border-radius: var(--border-radius-md); box-shadow: var(--shadow-md); border: 1px solid var(--border-color); }
+        .form-group { margin-bottom: 25px; }
+        .form-group label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--dark-charcoal); }
+        .form-group input { width: 100%; padding: 12px 15px; font-size: 15px; border: 1px solid var(--border-color); border-radius: var(--border-radius-sm); transition: border-color var(--transition-speed), box-shadow var(--transition-speed); }
+        .form-group input:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2); }
+        .login-form-wrapper .btn { width: 100%; }
+        .form-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 14px; }
+        .form-footer a { color: var(--primary-color); font-weight: 500; }
+        .form-footer a:hover { text-decoration: underline; color: var(--primary-dark); }
+
+        /* --- Responsive Styles (Section 1) --- */
+        @media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+        @media (max-width: 992px) {
+            .hero-content .title { font-size: 48px; }
+            .hero-content .sub-title { font-size: 36px; }
+            .section-title { font-size: 32px; }
+            .product-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 768px) {
+            body { font-size: 15px; }
+            .hero-content .title { font-size: 40px; }
+            .hero-content .sub-title { font-size: 30px; }
+            .logo { font-size: 28px; }
+            .main-nav ul { gap: 20px; }
+            .main-nav a { font-size: 15px; }
+            .product-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 480px) {
+            body { font-size: 14px; }
+            .hero-content .title { font-size: 32px; }
+            .hero-content .discount { font-size: 18px; }
+            .main-nav ul { gap: 15px; }
+            .main-nav a { font-size: 14px; }
+            .product-grid { grid-template-columns: 1fr; }
+        }
+        
+        /* =================================================================== */
+        /* --- SECTION 2: PRODUCT CAROUSEL STYLES (SCOPED) --- */
+        /* =================================================================== */
+
         .product-carousel {
-            background-color: var(--background-light);
+            /* Scoped CSS Variables from Section 2 */
+            --font-display-carousel: 'Playfair Display', serif;
+            --color-section-bg: #F8F9FA;
+            --color-text-dark: #212529;
+            --color-text-light: #6c757d;
+            --color-accent: #ff6b6b;
+            --color-accent-dark: #e65252;
+            --color-white: #ffffff;
+            --shadow-sm-carousel: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --shadow-md-carousel: 0 6px 20px rgba(0, 0, 0, 0.1);
+            --border-radius-carousel: 12px;
+
+            /* Original Styles from Section 2 */
+            background-color: var(--color-section-bg);
             padding: 80px 0;
             width: 100%;
         }
-        .carousel-container {
+
+        .product-carousel .carousel-container {
             width: 100%;
             max-width: 1600px;
             margin: 0 auto;
             padding: 0 20px;
             box-sizing: border-box;
         }
-        .carousel-header { text-align: center; margin-bottom: 60px; }
-        .carousel-header h2 {
-            font-family: 'Playfair Display', serif; /* Using section-specific font */
-            font-size: clamp(2.5rem, 5vw, 3.5rem);
-            font-weight: 500; margin: 0 0 10px 0; color: var(--dark-charcoal);
+
+        .product-carousel .carousel-header {
+            text-align: center;
+            margin-bottom: 60px;
         }
-        .carousel-header p { font-size: 1.1rem; color: var(--text-light); max-width: 600px; margin: 0 auto; }
-        .carousel-wrapper { position: relative; width: 100%; }
-        .product-list-container { overflow: hidden; }
-        .product-list { display: flex; width: 200%; }
-        /* SCOPED: Styles for product-card within the carousel to avoid conflict */
+
+        .product-carousel .carousel-header h2 {
+            font-family: var(--font-display-carousel);
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 500;
+            margin: 0 0 10px 0;
+            color: var(--color-text-dark);
+        }
+        
+        .product-carousel .carousel-header p {
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .product-carousel .carousel-wrapper { position: relative; width: 100%; }
+        .product-carousel .product-list-container { overflow: hidden; }
+        .product-carousel .product-list { display: flex; width: 200%; }
+        
+        /* CRITICAL: Scoped .product-card to avoid conflict with Section 1 */
         .product-carousel .product-card {
             width: 12.5%; 
             padding: 0 15px;
             box-sizing: border-box;
-            background-color: var(--background-white);
-            border-radius: 12px;
-            box-shadow: var(--shadow-sm);
+            background-color: var(--color-white);
+            border-radius: var(--border-radius-carousel);
+            box-shadow: var(--shadow-sm-carousel);
             margin: 10px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             text-align: left;
@@ -220,105 +309,120 @@
             overflow: hidden;
             flex-shrink: 0;
             cursor: pointer;
-            border: none; /* Override default border */
+            border: none; /* Override border from Section 1 */
         }
-        .product-carousel .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md); }
+        
+        .product-carousel .product-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-md-carousel); }
         .product-carousel .product-card a { text-decoration: none; color: inherit; display: block; }
-        .product-carousel .product-card img { width: 100%; height: auto; aspect-ratio: 1 / 1.1; object-fit: cover; display: block; border-top-left-radius: 12px; border-top-right-radius: 12px; background-color: #e9ecef; }
-        .bestseller-badge { position: absolute; top: 15px; left: 15px; background-color: var(--primary-color); color: var(--background-white); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
-        /* SCOPED: .product-info styles */
+        .product-carousel .product-card img {
+            width: 100%; height: auto; aspect-ratio: 1 / 1.1; object-fit: cover;
+            display: block; border-top-left-radius: var(--border-radius-carousel);
+            border-top-right-radius: var(--border-radius-carousel); background-color: #e9ecef;
+        }
+        
+        .product-carousel .bestseller-badge { position: absolute; top: 15px; left: 15px; background-color: var(--color-accent); color: var(--color-white); padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 500; }
+        
+        /* CRITICAL: Scoped .product-info to avoid conflict */
         .product-carousel .product-info { padding: 20px; }
-        .product-carousel .product-name { font-size: 1.1rem; font-weight: 500; color: var(--dark-charcoal); margin: 0 0 8px 0; }
+        .product-carousel .product-name { font-size: 1.1rem; font-weight: 500; color: var(--color-text-dark); margin: 0 0 8px 0; }
+        
+        /* CRITICAL: Scoped .product-price to avoid conflict */
         .product-carousel .product-price { font-size: 1.1rem; margin: 0; }
-        .product-carousel .product-price .current-price { font-weight: 500; color: var(--dark-charcoal); margin-right: 10px; }
-        .product-carousel .product-price .original-price { text-decoration: line-through; color: var(--text-light); }
-        .arrow { position: absolute; top: 50%; transform: translateY(-50%); background-color: var(--primary-color); color: var(--background-white); border: none; width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer; z-index: 10; display: flex; justify-content: center; align-items: center; box-shadow: var(--shadow-sm); transition: all 0.2s ease; }
-        .arrow:hover { background-color: var(--primary-dark); }
-        .prev-arrow { left: 20px; }
-        .next-arrow { right: 20px; }
+        .product-carousel .product-price .current-price { font-weight: 500; color: var(--color-text-dark); margin-right: 10px; }
+        .product-carousel .product-price .original-price { text-decoration: line-through; color: var(--color-text-light); }
 
-        /* --- FOOTER STYLES (from Section 3) --- */
+        .product-carousel .arrow {
+            position: absolute; top: 50%; transform: translateY(-50%);
+            background-color: var(--color-accent); color: var(--color-white); border: none;
+            width: 50px; height: 50px; border-radius: 50%; font-size: 24px; cursor: pointer;
+            z-index: 10; display: flex; justify-content: center; align-items: center;
+            box-shadow: var(--shadow-sm-carousel); transition: all 0.2s ease;
+        }
+        .product-carousel .arrow:hover { background-color: var(--color-accent-dark); }
+        .product-carousel .prev-arrow { left: 20px; }
+        .product-carousel .next-arrow { right: 20px; }
+
+        @media (max-width: 768px) {
+            .product-carousel { padding: 60px 0; }
+            .product-carousel .carousel-header { margin-bottom: 40px; }
+            .product-carousel .carousel-header p { font-size: 1rem; }
+            .product-carousel .prev-arrow { left: 10px; }
+            .product-carousel .next-arrow { right: 10px; }
+            .product-carousel .product-card { width: 25%; padding: 0 8px; margin: 5px; }
+            .product-carousel .product-info { padding: 12px; }
+            .product-carousel .product-name { font-size: 0.9rem; margin-bottom: 6px; }
+            .product-carousel .product-price { font-size: 0.9rem; }
+            .product-carousel .product-price .current-price { margin-right: 5px; }
+            .product-carousel .bestseller-badge { font-size: 0.7rem; padding: 4px 8px; top: 8px; left: 8px; }
+        }
+        
+        /* =================================================================== */
+        /* --- SECTION 3: FOOTER STYLES (SCOPED) --- */
+        /* =================================================================== */
+        
         .svg-defs { position: absolute; width: 0; height: 0; }
+        
         .site-footer {
-            background-color: var(--primary-color);
-            color: #ffffff; /* Footer-specific text color */
+            /* Scoped CSS Variables from Section 3 */
+            --primary-color-footer: #ff6b6b;
+            --text-color-main: #ffffff;
+            --text-color-secondary: rgba(255, 255, 255, 0.8);
+            --interactive-bg: #ffffff;
+            --interactive-text: var(--primary-color-footer);
+            --divider-color: rgba(255, 255, 255, 0.15);
+            
+            /* Original Styles from Section 3 */
+            background-color: var(--primary-color-footer);
+            color: var(--text-color-main);
             padding: 120px 0 40px 0;
             position: relative;
             margin-top: 100px;
             font-size: 1rem;
-            font-family: 'IBM Plex Sans', sans-serif; /* Footer-specific font */
             clip-path: url(#footer-wave-organic);
+            font-family: 'IBM Plex Sans', sans-serif;
         }
-        .footer-container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
-        .footer-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 60px 40px; padding-bottom: 60px; }
-        .footer-brand .logo { font-size: 1.75rem; font-weight: 700; margin: 0 0 16px 0; color: #ffffff; }
-        .footer-brand .tagline { font-size: 0.95rem; color: rgba(255, 255, 255, 0.8); line-height: 1.6; margin: 0; }
-        .link-column h4 { font-size: 1rem; font-weight: 700; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; }
-        .link-column li { margin-bottom: 14px; }
-        .link-column a { color: rgba(255, 255, 255, 0.8); font-weight: 400; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
-        .link-column a:hover { color: #ffffff; transform: translateX(4px); }
-        .footer-actions h4 { font-size: 1rem; font-weight: 700; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; color: #ffffff; }
-        .login-form { display: flex; background-color: rgba(255, 255, 255, 0.1); border-radius: 50px; padding: 5px; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .login-form input[type="email"] { flex-grow: 1; padding: 10px 20px; border: none; background: transparent; font-size: 0.95rem; color: #ffffff; outline: none; min-width: 100px; font-family: inherit; }
-        .login-form input[type="email"]::placeholder { color: rgba(255, 255, 255, 0.8); opacity: 0.8; }
-        .login-form button { padding: 10px 25px; border: none; border-radius: 50px; background-color: #ffffff; color: var(--primary-color); font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; white-space: nowrap; font-family: inherit; }
-        .login-form button:hover { background-color: #f7f7f7; transform: scale(1.03); }
-        .social-icons { margin-top: 24px; display: flex; gap: 16px; }
-        .social-icons a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background-color: #ffffff; color: var(--primary-color); transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .social-icons a:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
-        .social-icons svg { width: 20px; height: 20px; }
-        .footer-divider { border: none; height: 1px; background-color: rgba(255, 255, 255, 0.15); margin: 0; }
-        .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 40px; font-size: 0.875rem; color: rgba(255, 255, 255, 0.8); }
-        .legal-links { display: flex; gap: 25px; flex-wrap: wrap; }
-        .legal-links a:hover { color: #ffffff; text-decoration: underline; }
 
-        /* --- RESPONSIVE STYLES (Combined) --- */
-        @media (max-width: 992px) {
-            .hero-section .container { flex-direction: column; text-align: center; }
-            .hero-buttons { justify-content: center; }
-            .product-grid { grid-template-columns: repeat(3, 1fr); }
-            .categories-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 250px 250px; }
-            .cat-women { grid-column: 1/3; grid-row: 1/2; }
-            .cat-men { grid-column: 1/2; grid-row: 2/3; }
-            .cat-ethnic { grid-column: 2/3; grid-row: 2/3; }
-            .cat-casual { display: none; }
-            .footer-top { gap: 50px 30px; }
+        .site-footer .footer-container { max-width: 1280px; margin: 0 auto; padding: 0 40px; }
+        .site-footer .footer-top { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 60px 40px; padding-bottom: 60px; }
+        
+        /* CRITICAL: Scoped .logo to avoid conflict with header */
+        .site-footer .footer-brand .logo {
+            font-size: 1.75rem; font-weight: 700;
+            margin: 0 0 16px 0; color: var(--text-color-main);
         }
+        .site-footer .footer-brand .tagline { font-size: 0.95rem; color: var(--text-color-secondary); line-height: 1.6; margin: 0; }
+        .site-footer .link-column h4 { font-size: 1rem; font-weight: 700; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color-main); }
+        .site-footer .link-column li { margin-bottom: 14px; }
+        .site-footer .link-column a { color: var(--text-color-secondary); font-weight: 400; transition: color 0.3s ease, transform 0.3s ease; display: inline-block; }
+        .site-footer .link-column a:hover { color: var(--text-color-main); transform: translateX(4px); }
+        .site-footer .footer-actions h4 { font-size: 1rem; font-weight: 700; margin: 0 0 20px 0; text-transform: uppercase; letter-spacing: 1px; color: var(--text-color-main); }
+        .site-footer .login-form { display: flex; background-color: rgba(255, 255, 255, 0.1); border-radius: 50px; padding: 5px; border: 1px solid rgba(255, 255, 255, 0.2); }
+        .site-footer .login-form input[type="email"] { flex-grow: 1; padding: 10px 20px; border: none; background: transparent; font-size: 0.95rem; color: var(--text-color-main); outline: none; min-width: 100px; font-family: inherit; }
+        .site-footer .login-form input[type="email"]::placeholder { color: var(--text-color-secondary); opacity: 0.8; }
+        .site-footer .login-form button { padding: 10px 25px; border: none; border-radius: 50px; background-color: var(--interactive-bg); color: var(--interactive-text); font-weight: 700; font-size: 0.95rem; cursor: pointer; transition: background-color 0.3s ease, transform 0.2s ease; white-space: nowrap; font-family: inherit; }
+        .site-footer .login-form button:hover { background-color: #f7f7f7; transform: scale(1.03); }
+        .site-footer .social-icons { margin-top: 24px; display: flex; gap: 16px; }
+        .site-footer .social-icons a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background-color: var(--interactive-bg); color: var(--interactive-text); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .site-footer .social-icons a:hover { transform: translateY(-3px); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); }
+        .site-footer .social-icons svg { width: 20px; height: 20px; }
+        .site-footer .footer-divider { border: none; height: 1px; background-color: var(--divider-color); margin: 0; }
+        .site-footer .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; padding-top: 40px; font-size: 0.875rem; color: var(--text-color-secondary); }
+        .site-footer .legal-links { display: flex; gap: 25px; flex-wrap: wrap; }
+        .site-footer .legal-links a:hover { color: var(--text-color-main); text-decoration: underline; }
+        @media (max-width: 992px) { .site-footer .footer-top { gap: 50px 30px; } }
         @media (max-width: 768px) {
-             .main-nav { display: none; }
-             .product-grid { grid-template-columns: repeat(2, 1fr); }
-             .sale-banners-grid { grid-template-columns: 1fr; }
-             .features-grid { grid-template-columns: 1fr; }
-             .categories-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 200px); }
-             .cat-women, .cat-men, .cat-ethnic, .cat-casual { grid-column: auto; grid-row: auto; display: flex; }
-             /* Carousel Responsive */
-             .product-carousel { padding: 60px 0; }
-             .carousel-header { margin-bottom: 40px; }
-             .carousel-header p { font-size: 1rem; }
-             .prev-arrow { left: 10px; }
-             .next-arrow { right: 10px; }
-             .product-carousel .product-card { width: 25%; padding: 0 8px; margin: 5px; }
-             .product-carousel .product-info { padding: 12px; }
-             .product-carousel .product-name { font-size: 0.9rem; margin-bottom: 6px; }
-             .product-carousel .product-price { font-size: 0.9rem; }
-             .bestseller-badge { font-size: 0.7rem; padding: 4px 8px; top: 8px; left: 8px; }
-             /* Footer Responsive */
-             .site-footer { padding-top: 100px; clip-path: url(#footer-wave-mobile); }
-             .footer-container { padding: 0 20px; }
-             .footer-bottom { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .site-footer { padding-top: 100px; clip-path: url(#footer-wave-mobile); }
+            .site-footer .footer-container { padding: 0 20px; }
+            .site-footer .footer-bottom { flex-direction: column; align-items: flex-start; gap: 15px; }
         }
-        @media (max-width: 480px) {
-            .product-grid { grid-template-columns: 1fr; }
-            .top-bar { display: none; }
-            .hero-content .title { font-size: 40px; }
-        }
+
     </style>
 </head>
 <body>
 
-    <!-- ================================== -->
-    <!-- SECTION 1: HEADER & MAIN CONTENT   -->
-    <!-- ================================== -->
+    <!-- ======================= -->
+    <!-- SECTION 1: HEADER       -->
+    <!-- ======================= -->
     <header class="header">
         <div class="top-bar">
             <div class="container">
@@ -334,164 +438,316 @@
         </div>
         <div class="main-header">
             <div class="container">
-                <a href="#" class="logo">Wixo<span>.</span></a>
+                <a href="#" class="logo" id="logo-link">Wixo<span>.</span></a>
                 <nav class="main-nav">
                     <ul>
-                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#" class="active" id="home-link">Home</a></li>
                         <li>
                             <a href="#">Women</a>
                             <div class="mega-menu">
                                 <div class="container">
                                     <div class="mega-menu-content">
-                                        <div class="mega-menu-column"><h3>Sarees</h3><ul><li><a href="#">Pattu Sarees</a></li><li><a href="#">General Sarees</a></li><li><a href="#">Fancy Sarees</a></li></ul></div>
-                                        <div class="mega-menu-column"><h3>Ethnic Wear</h3><ul><li><a href="#">Blouses</a></li><li><a href="#">Kurutas & Tunics</a></li><li><a href="#">Lehengas</a></li><li><a href="#">Palazzo Sets</a></li><li><a href="#">Dress Materials</a></li><li><a href="#">Party Wear Kurtas</a></li><li><a href="#">Leggings & Tracks</a></li></ul></div>
-                                        <div class="mega-menu-column"><h3>Western Wear</h3><ul><li><a href="#">Gowns & Dresses</a></li><li><a href="#">Skirts & Jeans</a></li><li><a href="#">Short Tops</a></li><li><a href="#">Jumpsuits</a></li><li><a href="#">Party Wear</a></li></ul></div>
+                                        <div class="mega-menu-column">
+                                            <h3>Sarees</h3>
+                                            <ul>
+                                                <li><a href="#">Pattu Sarees</a></li>
+                                                <li><a href="#">General Sarees</a></li>
+                                                <li><a href="#">Fancy Sarees</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Ethnic Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Blouses</a></li>
+                                                <li><a href="#">Kurutas & Tunics</a></li>
+                                                <li><a href="#">Lehengas</a></li>
+                                                <li><a href="#">Palazzo Sets</a></li>
+                                                <li><a href="#">Dress Materials</a></li>
+                                                <li><a href="#">Party Wear Kurtas</a></li>
+                                                <li><a href="#">Leggings & Tracks</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Western Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Gowns & Dresses</a></li>
+                                                <li><a href="#">Skirts & Jeans</a></li>
+                                                <li><a href="#">Short Tops</a></li>
+                                                <li><a href="#">Jumpsuits</a></li>
+                                                <li><a href="#">Party Wear</a></li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </li>
                         <li>
                             <a href="#">Men</a>
-                            <div class="mega-menu"><div class="container"><div class="mega-menu-content"><div class="mega-menu-column"><h3>Top Wear</h3><ul><li><a href="#">Casual Shirts</a></li><li><a href="#">Formal Shirts</a></li><li><a href="#">T-Shirts</a></li><li><a href="#">Polos</a></li><li><a href="#">Jackets</a></li></ul></div><div class="mega-menu-column"><h3>Bottom Wear</h3><ul><li><a href="#">Jeans</a></li><li><a href="#">Casual Trousers</a></li><li><a href="#">Formal Trousers</a></li><li><a href="#">Shorts</a></li><li><a href="#">Track Pants</a></li></ul></div><div class="mega-menu-column"><h3>Footwear</h3><ul><li><a href="#">Sneakers</a></li><li><a href="#">Formal Shoes</a></li><li><a href="#">Loafers</a></li><li><a href="#">Sandals</a></li></ul></div></div></div></div>
+                             <div class="mega-menu">
+                                <div class="container">
+                                    <div class="mega-menu-content">
+                                        <div class="mega-menu-column">
+                                            <h3>Top Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Casual Shirts</a></li>
+                                                <li><a href="#">Formal Shirts</a></li>
+                                                <li><a href="#">T-Shirts</a></li>
+                                                <li><a href="#">Polos</a></li>
+                                                <li><a href="#">Jackets</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Bottom Wear</h3>
+                                            <ul>
+                                                <li><a href="#">Jeans</a></li>
+                                                <li><a href="#">Casual Trousers</a></li>
+                                                <li><a href="#">Formal Trousers</a></li>
+                                                <li><a href="#">Shorts</a></li>
+                                                <li><a href="#">Track Pants</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Footwear</h3>
+                                            <ul>
+                                                <li><a href="#">Sneakers</a></li>
+                                                <li><a href="#">Formal Shoes</a></li>
+                                                <li><a href="#">Loafers</a></li>
+                                                <li><a href="#">Sandals</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                         <li>
                             <a href="#">Kids</a>
-                            <div class="mega-menu"><div class="container"><div class="mega-menu-content"><div class="mega-menu-column"><h3>Boys Clothing</h3><ul><li><a href="#">T-Shirts & Polos</a></li><li><a href="#">Shirts</a></li><li><a href="#">Shorts</a></li><li><a href="#">Jeans</a></li></ul></div><div class="mega-menu-column"><h3>Girls Clothing</h3><ul><li><a href="#">Dresses & Frocks</a></li><li><a href="#">Tops & T-shirts</a></li><li><a href="#">Skirts</a></li><li><a href="#">Leggings</a></li></ul></div><div class="mega-menu-column"><h3>Infants</h3><ul><li><a href="#">Rompers</a></li><li><a href="#">Clothing Sets</a></li><li><a href="#">Bodysuits</a></li></ul></div></div></div></div>
+                             <div class="mega-menu">
+                                <div class="container">
+                                    <div class="mega-menu-content">
+                                        <div class="mega-menu-column">
+                                            <h3>Boys Clothing</h3>
+                                            <ul>
+                                                <li><a href="#">T-Shirts & Polos</a></li>
+                                                <li><a href="#">Shirts</a></li>
+                                                <li><a href="#">Shorts</a></li>
+                                                <li><a href="#">Jeans</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Girls Clothing</h3>
+                                            <ul>
+                                                <li><a href="#">Dresses & Frocks</a></li>
+                                                <li><a href="#">Tops & T-shirts</a></li>
+                                                <li><a href="#">Skirts</a></li>
+                                                <li><a href="#">Leggings</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="mega-menu-column">
+                                            <h3>Infants</h3>
+                                            <ul>
+                                                <li><a href="#">Rompers</a></li>
+                                                <li><a href="#">Clothing Sets</a></li>
+                                                <li><a href="#">Bodysuits</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </nav>
                 <div class="header-icons">
-                    <a href="#" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>
-                    <a href="#" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
-                    <a href="#" aria-label="Wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>
-                    <a href="#" aria-label="Shopping Cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a>
+                    <div class="search-container">
+                        <input type="search" class="search-input" id="searchInput" placeholder="Search for products...">
+                        <a href="#" class="search-toggle" id="searchToggle" aria-label="Search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </a>
+                    </div>
+                    <a href="#" id="account-link" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+                    <a href="#" id="view-wishlist-link" aria-label="Wishlist">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        <span class="wishlist-count">0</span>
+                    </a>
+                    <a href="#" id="view-cart-link" aria-label="Shopping Cart">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <span class="cart-count">0</span>
+                    </a>
                 </div>
             </div>
         </div>
     </header>
 
     <main>
-        <section class="hero-section">
-            <div class="container">
-                <div class="hero-content">
-                    <p class="sub-title">Summer Collection</p>
-                    <h1 class="title">NEW ARRIVALS FOR MODERN STYLE</h1>
-                    <p class="discount">Discover the latest trends in clothing and accessories.</p>
-                    <div class="hero-buttons">
-                        <a href="#" class="btn btn-primary">SHOP NOW</a>
-                        <a href="#" class="btn btn-outline">EXPLORE</a>
+        <!-- ============================================= -->
+        <!-- SECTION 1: MAIN CONTENT (HERO, FEATURES ETC)  -->
+        <!-- ============================================= -->
+        <div id="main-content-wrapper">
+            <section class="hero-section">
+                <div class="container">
+                    <div class="hero-content">
+                        <p class="sub-title">Summer Collection</p>
+                        <h1 class="title">NEW ARRIVALS FOR MODERN STYLE</h1>
+                        <p class="discount">Discover the latest trends in clothing and accessories.</p>
+                        <div class="hero-buttons">
+                            <a href="#" class="btn btn-primary">SHOP NOW</a>
+                            <a href="#" class="btn btn-outline">EXPLORE</a>
+                        </div>
+                    </div>
+                    <div class="hero-image">
+                        <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200" alt="Stylish woman in a summer outfit">
                     </div>
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1200" alt="Stylish woman in a summer outfit">
+            </section>
+            <section class="features-section">
+                <div class="container">
+                    <div class="features-grid">
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
+                    </div>
                 </div>
-            </div>
-        </section>
-
-        <section class="features-section">
-            <div class="container">
-                <div class="features-grid">
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
-                    <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
+            </section>
+            <section class="categories-section">
+                <div class="container">
+                     <div class="section-header">
+                        <h2 class="section-title">Shop By Category</h2>
+                        <p class="section-subtitle">Explore our curated collections designed for every style and occasion.</p>
+                    </div>
+                    <div class="categories-grid">
+                        <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1490114538077-0a7f8cb49891?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-ethnic" style="background-image: url('https://images.pexels.com/photos/15831693/pexels-photo-15831693/free-photo-of-woman-in-sari-and-jewelry.jpeg?auto=compress&cs=tinysrgb&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                        <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+            <section class="products-section">
+                <div class="container-wide">
+                    <div class="section-header">
+                        <h2 class="section-title">Our Featured Products</h2>
+                    </div>
+                    <div class="product-filters">
+                        <button class="active" data-filter="new">New Arrival</button>
+                        <button data-filter="bestselling">Best Selling</button>
+                        <button data-filter="toprated">Top Rated</button>
+                    </div>
+                    <div class="product-grid" id="product-grid">
+                        <!-- Products from Section 1 JS will be injected here -->
+                    </div>
+                </div>
+            </section>
 
-        <section class="categories-section">
+            <!-- ============================================= -->
+            <!-- SECTION 2: PRODUCT CAROUSEL IS INSERTED HERE  -->
+            <!-- ============================================= -->
+            <section class="product-carousel">
+                <div class="carousel-container">
+                  <div class="carousel-header">
+                      <h2>New Arrivals</h2>
+                      <p>Our latest collection is always on the move. Use the arrows or hover to take a closer look.</p>
+                  </div>
+                </div>
+                <div class="carousel-wrapper">
+                    <button class="arrow prev-arrow" aria-label="Move products left">&#8249;</button>
+                    <button class="arrow next-arrow" aria-label="Move products right">&#8250;</button>
+                    <div class="product-list-container">
+                        <div class="product-list">
+                            <!-- Original Set -->
+                            <article class="product-card"><a href="#product1"><img src="https://placehold.co/400x440/E9ECEF/495057?text=Product+1" alt="Product Image"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
+                            <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://placehold.co/400x440/DEE2E6/343A40?text=Product+2" alt="Product Image"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
+                            <article class="product-card"><a href="#product3"><img src="https://placehold.co/400x440/CED4DA/212529?text=Product+3" alt="Product Image"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
+                            <article class="product-card"><a href="#product4"><img src="https://placehold.co/400x440/F8F9FA/6c757d?text=Product+4" alt="Product Image"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
+                            <!-- Cloned Set for Seamless Loop -->
+                            <article class="product-card"><a href="#product1"><img src="https://placehold.co/400x440/E9ECEF/495057?text=Product+1" alt="Product Image"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
+                            <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://placehold.co/400x440/DEE2E6/343A40?text=Product+2" alt="Product Image"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
+                            <article class="product-card"><a href="#product3"><img src="https://placehold.co/400x440/CED4DA/212529?text=Product+3" alt="Product Image"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
+                            <article class="product-card"><a href="#product4"><img src="https://placehold.co/400x440/F8F9FA/6c757d?text=Product+4" alt="Product Image"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- ============================================== -->
+            <!-- SECTION 1: CONTINUATION OF MAIN CONTENT        -->
+            <!-- ============================================== -->
+            <section class="sale-banners-section">
+                <div class="container">
+                    <div class="sale-banners-grid">
+                        <div class="sale-banner">
+                            <div class="sale-banner-content">
+                                <p class="sub-title">Limited Time Offer</p>
+                                <h3 class="title">Men's Fashion</h3>
+                                <p class="offer">Flat 70% Off</p>
+                                <a href="#" class="btn btn-outline">Shop Now</a>
+                            </div>
+                            <img src="https://images.pexels.com/photos/837140/pexels-photo-837140.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Stylish man in fashionable clothing">
+                        </div>
+                        <div class="sale-banner">
+                            <div class="sale-banner-content">
+                                <p class="sub-title">Fashion Style</p>
+                                <h3 class="title">Women's Wear</h3>
+                                <p class="offer">Min. 35-70% Off</p>
+                                <a href="#" class="btn btn-outline">Shop Now</a>
+                            </div>
+                            <img src="https://images.pexels.com/photos/3756879/pexels-photo-3756879.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Stylish woman in a fashionable outfit">
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- HIDDEN PAGES from Section 1 -->
+        <section id="login-page" class="login-section" style="display: none;">
             <div class="container">
                  <div class="section-header">
-                    <h2 class="section-title">Shop By Category</h2>
-                    <p class="section-subtitle">Explore our curated collections designed for every style and occasion.</p>
+                    <h2 class="section-title">Login to Your Account</h2>
+                    <p class="section-subtitle">Welcome back! Please enter your details.</p>
                 </div>
-                <div class="categories-grid">
-                    <div class="category-card cat-women" style="background-image: url('https://images.unsplash.com/photo-1581044777550-4cfa6ce670c0?auto=format&fit=crop&w=600');"><h3>Women's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-men" style="background-image: url('https://images.unsplash.com/photo-1617127365659-3774577d0fbe?auto=format&fit=crop&w=600');"><h3>Men's Fashion</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-ethnic" style="background-image: url('https://images.unsplash.com/photo-1594392882283-0571343a41ae?auto=format&fit=crop&w=600');"><h3>Ethnic Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
-                    <div class="category-card cat-casual" style="background-image: url('https://images.unsplash.com/photo-1485230895905-ec40ba36b9bc?auto=format&fit=crop&w=600');"><h3>Casual Wear</h3><a href="#" class="shop-now-link">Shop Now &rarr;</a></div>
+                <div class="login-form-wrapper">
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                        <div class="form-footer">
+                            <a href="#">Forgot Password?</a>
+                            <a href="#">Create an Account</a>
+                        </div>
+                    </form>
                 </div>
             </div>
         </section>
-
-        <section class="products-section">
+        <section id="cart-page" class="cart-section" style="display: none;">
             <div class="container">
                 <div class="section-header">
-                    <h2 class="section-title">Our Featured Products</h2>
+                    <h2 class="section-title">Your Shopping Cart</h2>
+                    <p class="section-subtitle">Review your items and proceed to checkout.</p>
                 </div>
-                <div class="product-filters">
-                    <button class="active" data-filter="new">New Arrival</button>
-                    <button data-filter="bestselling">Best Selling</button>
-                    <button data-filter="toprated">Top Rated</button>
-                </div>
-                <div class="product-grid" id="product-grid">
-                    <!-- Products will be injected here by JavaScript -->
-                </div>
+                <div class="cart-content" id="cart-content-wrapper"></div>
             </div>
         </section>
-
-        <section class="sale-banners-section">
+        <section id="wishlist-page" class="wishlist-section" style="display: none;">
             <div class="container">
-                <div class="sale-banners-grid">
-                    <div class="sale-banner">
-                        <div class="sale-banner-content">
-                            <p class="sub-title">Limited Time Offer</p>
-                            <h3 class="title">Men's Fashion</h3>
-                            <p class="offer">Flat 70% Off</p>
-                            <a href="#" class="btn btn-outline">Shop Now</a>
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1521105906727-31954331a980?auto=format&fit=crop&w=400" alt="Man with a travel bag">
-                    </div>
-                    <div class="sale-banner">
-                        <div class="sale-banner-content">
-                            <p class="sub-title">Fashion Style</p>
-                            <h3 class="title">Women's Wear</h3>
-                            <p class="offer">Min. 35-70% Off</p>
-                            <a href="#" class="btn btn-outline">Shop Now</a>
-                        </div>
-                        <img src="https://images.unsplash.com/photo-1542838334-425abbb322a3?auto=format&fit=crop&w=400" alt="Woman in a stylish top">
-                    </div>
+                <div class="section-header">
+                    <h2 class="section-title">Your Wishlist</h2>
+                    <p class="section-subtitle">Your saved items for later. Add them to your cart when you're ready!</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- ================================== -->
-        <!-- SECTION 2: NEW ARRIVALS CAROUSEL -->
-        <!-- ================================== -->
-        <section class="product-carousel">
-            <div class="carousel-container">
-              <div class="carousel-header">
-                  <h2>New Arrivals</h2>
-                  <p>Our latest collection is always on the move. Use the arrows or hover to take a closer look.</p>
-              </div>
-            </div>
-            
-            <div class="carousel-wrapper">
-                <button class="arrow prev-arrow" aria-label="Move products left">&#8249;</button>
-                <button class="arrow next-arrow" aria-label="Move products right">&#8250;</button>
-      
-                <div class="product-list-container">
-                    <div class="product-list">
-                        <!-- Original Set -->
-                        <article class="product-card"><a href="#product1"><img src="https://images.unsplash.com/photo-1585848943734-33d3c1fe8811?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
-                        <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://images.unsplash.com/photo-1610170013328-39a1c4a5a73a?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
-                        <article class="product-card"><a href="#product3"><img src="https://images.unsplash.com/photo-1594392882283-0571343a41ae?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
-                        <article class="product-card"><a href="#product4"><img src="https://images.unsplash.com/photo-1600863421711-4775d52ac718?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
-      
-                        <!-- Cloned Set for Seamless Loop -->
-                        <article class="product-card"><a href="#product1"><img src="https://images.unsplash.com/photo-1585848943734-33d3c1fe8811?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">Sky Blue Georgette Saree</h3><p class="product-price">₹ 6,696</p></div></a></article>
-                        <article class="product-card"><a href="#product2"><span class="bestseller-badge">Bestseller</span><img src="https://images.unsplash.com/photo-1610170013328-39a1c4a5a73a?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">White and Grey Saree</h3><p class="product-price"><span class="current-price">₹ 5,000</span><span class="original-price">₹ 7,896</span></p></div></a></article>
-                        <article class="product-card"><a href="#product3"><img src="https://images.unsplash.com/photo-1594392882283-0571343a41ae?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">Grey Georgette Saree</h3><p class="product-price">₹ 5,896</p></div></a></article>
-                        <article class="product-card"><a href="#product4"><img src="https://images.unsplash.com/photo-1600863421711-4775d52ac718?auto=format&fit=crop&w=400" alt="Product Image"><div class="product-info"><h3 class="product-name">Onion Pink Georgette Saree</h3><p class="product-price">₹ 14,696</p></div></a></article>
-                    </div>
+                <div class="wishlist-content" id="wishlist-content-wrapper">
+                    <div class="wishlist-grid" id="wishlist-grid"></div>
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- ================================== -->
-    <!-- SECTION 3: FOOTER                  -->
-    <!-- ================================== -->
+    
+    <!-- ============================================== -->
+    <!-- SECTION 3: FOOTER IS INSERTED HERE             -->
+    <!-- ============================================== -->
     <svg class="svg-defs">
         <clipPath id="footer-wave-organic" clipPathUnits="objectBoundingBox"><path d="M 0,0.2 C 0.15,0.1, 0.3,0.25, 0.5,0.25 S 0.8,0.05, 1,0.1 V 1 H 0 Z"></path></clipPath>
         <clipPath id="footer-wave-mobile" clipPathUnits="objectBoundingBox"><path d="M 0,0.1 C 0.15,0.05, 0.3,0.125, 0.5,0.125 S 0.8,0.025, 1,0.05 V 1 H 0 Z"></path></clipPath>
@@ -504,7 +760,6 @@
                     <h3 class="logo">Wixo</h3>
                     <p class="tagline">Crafting timeless apparel for the modern individual. Quality and style, woven together.</p>
                 </div>
-
                 <nav class="link-column" aria-labelledby="shop-links">
                     <h4 id="shop-links">Shop</h4>
                     <ul>
@@ -514,7 +769,6 @@
                         <li><a href="#">Seasonal Collection</a></li>
                     </ul>
                 </nav>
-
                 <nav class="link-column" aria-labelledby="about-links">
                     <h4 id="about-links">About</h4>
                     <ul>
@@ -524,7 +778,6 @@
                         <li><a href="#">Careers</a></li>
                     </ul>
                 </nav>
-
                 <div class="footer-actions">
                     <h4>Member Login</h4>
                     <form class="login-form" action="#">
@@ -549,76 +802,74 @@
             </div>
         </div>
     </footer>
-
+    
+    <!-- COMBINED JAVASCRIPT FOR ALL SECTIONS -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // --- SCRIPT FOR SECTION 1: PRODUCT FILTERING ---
-            const allProducts = [
-                { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.unsplash.com/photo-1617192213511-37fe1a54c6a6?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 2, name: 'Men\'s Oxford Formal Shirt', category: 'Shirts', price: 1499.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
-                { id: 3, name: 'Floral Chiffon Saree', category: 'Sarees', price: 1899.00, originalPrice: null, rating: 4, reviews: 22, img: 'https://images.unsplash.com/photo-1610170013328-39a1c4a5a73a?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
-                { id: 4, name: 'Linen Blend Casual Shirt', category: 'Shirts', price: 1100.00, originalPrice: 1500.00, rating: 5, reviews: 11, img: 'https://images.unsplash.com/photo-1603252109360-7049af2cb384?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 5, name: 'Bandhani Print Saree', category: 'Sarees', price: 2999.00, originalPrice: null, rating: 5, reviews: 19, img: 'https://images.unsplash.com/photo-1621214022588-4566081295b3?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
-                { id: 6, name: 'Men\'s Denim Shirt', category: 'Shirts', price: 1899.00, originalPrice: 2499.00, rating: 4, reviews: 25, img: 'https://images.unsplash.com/photo-1605518429451-0d350b4455a2?auto=format&fit=crop&w=300', type: ['new'] },
-                { id: 7, name: 'Cotton Silk Saree', category: 'Sarees', price: 2350.00, originalPrice: null, rating: 4, reviews: 9, img: 'https://images.unsplash.com/photo-1596207187313-2413a34658c1?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
-                { id: 8, name: 'Checked Flannel Shirt', category: 'Shirts', price: 1399.00, originalPrice: null, rating: 4, reviews: 18, img: 'https://images.unsplash.com/photo-1589756828854-574a48529235?auto=format&fit=crop&w=300', type: ['new', 'bestselling'] },
-                { id: 9, name: 'Classic Kanjeevaram Saree', category: 'Sarees', price: 4999.00, originalPrice: 6200.00, rating: 5, reviews: 152, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
-                { id: 10, name: 'Men\'s Solid White Shirt', category: 'Shirts', price: 999.00, originalPrice: null, rating: 5, reviews: 250, img: 'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
-                { id: 11, name: 'Banarasi Silk Saree', category: 'Sarees', price: 5450.00, originalPrice: 7000.00, rating: 4, reviews: 95, img: 'https://images.unsplash.com/photo-1600863421711-4775d52ac718?auto=format&fit=crop&w=300', type: ['bestselling'] },
-                { id: 12, name: 'Striped Casual Shirt', category: 'Shirts', price: 1299.00, originalPrice: null, rating: 5, reviews: 180, img: 'https://images.unsplash.com/photo-1596755094514-7e724d082c89?auto=format&fit=crop&w=300', type: ['bestselling', 'toprated'] },
-                { id: 19, name: 'Printed Crepe Saree', category: 'Sarees', price: 1550.00, originalPrice: 2100.00, rating: 4, reviews: 85, img: 'https://images.unsplash.com/photo-1616543336933-228c2ce79ef3?auto=format&fit=crop&w=300&q=80', type: ['bestselling']},
-                { id: 20, name: 'Slim Fit Poplin Shirt', category: 'Shirts', price: 1150.00, originalPrice: null, rating: 4, reviews: 130, img: 'https://images.unsplash.com/photo-1596755315023-9a0395721473?auto=format&fit=crop&w=300&q=80', type: ['bestselling']},
-                { id: 14, name: 'Embroidered Net Saree', category: 'Sarees', price: 3999.00, originalPrice: null, rating: 5, reviews: 99, img: 'https://images.unsplash.com/photo-1617627143750-d6244245d433?auto=format&fit=crop&w=300', type: ['toprated'] },
-                { id: 16, name: 'Men\'s Formal Black Shirt', category: 'Shirts', price: 1500.00, originalPrice: null, rating: 5, reviews: 88, img: 'https://images.unsplash.com/photo-1601762603339-fd6160208136?auto=format&fit=crop&w=300', type: ['toprated'] },
-                { id: 17, name: 'Patola Art Silk Saree', category: 'Sarees', price: 4250.00, originalPrice: 5500.00, rating: 5, reviews: 102, img: 'https://images.unsplash.com/photo-1616543336933-228c2ce79ef3?auto=format&fit=crop&w=300', type: ['toprated'] },
-                { id: 18, name: 'Mandarin Collar Shirt', category: 'Shirts', price: 1350.00, originalPrice: null, rating: 5, reviews: 75, img: 'https://images.unsplash.com/photo-1563178406-412f22c1a056?auto=format&fit=crop&w=300', type: ['toprated'] },
-            ];
 
+            // --- SCRIPT LOGIC FROM SECTION 1 ---
+
+            const searchToggle = document.getElementById('searchToggle');
+            const searchContainer = document.querySelector('.search-container');
+            const searchInput = document.getElementById('searchInput');
+            searchToggle.addEventListener('click', function(event) { event.preventDefault(); searchContainer.classList.toggle('active'); if (searchContainer.classList.contains('active')) { searchInput.focus(); } });
+            document.addEventListener('click', function(event) { if (!event.target.closest('.search-container') && searchContainer.classList.contains('active')) { searchContainer.classList.remove('active'); } });
+            const navLinksWithMegaMenu = document.querySelectorAll('.main-nav > ul > li > a');
+            navLinksWithMegaMenu.forEach(link => { const parentLi = link.parentElement; const megaMenu = parentLi.querySelector('.mega-menu'); if (megaMenu) { link.addEventListener('click', function(event) { event.preventDefault(); const wasActive = parentLi.classList.contains('mega-menu-active'); document.querySelectorAll('.main-nav li.mega-menu-active').forEach(item => { item.classList.remove('mega-menu-active'); }); if (!wasActive) { parentLi.classList.add('mega-menu-active'); } }); } });
+            document.addEventListener('click', function(event) { if (!event.target.closest('.main-nav')) { document.querySelectorAll('.main-nav li.mega-menu-active').forEach(item => { item.classList.remove('mega-menu-active'); }); } });
+            const allProducts = [
+                { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.pexels.com/photos/10437632/pexels-photo-10437632.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new'] }, { id: 2, name: 'Men\'s Oxford Formal Shirt', category: 'Shirts', price: 1499.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://images.pexels.com/photos/2955375/pexels-photo-2955375.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'toprated'] }, { id: 3, name: 'Floral Chiffon Saree', category: 'Sarees', price: 1899.00, originalPrice: null, rating: 4, reviews: 22, img: 'https://images.pexels.com/photos/15949169/pexels-photo-15949169/free-photo-of-indian-woman-in-a-sari.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'bestselling'] }, { id: 4, name: 'Linen Blend Casual Shirt', category: 'Shirts', price: 1100.00, originalPrice: 1500.00, rating: 5, reviews: 11, img: 'https://images.pexels.com/photos/3765114/pexels-photo-3765114.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'bestselling', 'toprated'] }, { id: 5, name: 'Bandhani Print Saree', category: 'Sarees', price: 2999.00, originalPrice: null, rating: 5, reviews: 19, img: 'https://images.pexels.com/photos/16768399/pexels-photo-16768399/free-photo-of-portrait-of-a-woman-in-a-traditional-indian-sari-posing-in-a-garden.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'toprated'] }, { id: 6, name: 'Men\'s Denim Shirt', category: 'Shirts', price: 1899.00, originalPrice: 2499.00, rating: 4, reviews: 25, img: 'https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'bestselling'] }, { id: 7, name: 'Light Blue Cotton Saree', category: 'Sarees', price: 2350.00, originalPrice: null, rating: 4, reviews: 9, img: 'https://images.pexels.com/photos/16280456/pexels-photo-16280456/free-photo-of-a-woman-in-a-saree-standing-on-a-balcony.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new'] }, { id: 8, name: 'Checked Flannel Shirt', category: 'Shirts', price: 1399.00, originalPrice: null, rating: 4, reviews: 18, img: 'https://images.pexels.com/photos/6069552/pexels-photo-6069552.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'bestselling'] }, { id: 9, name: 'Classic Kanjeevaram Saree', category: 'Sarees', price: 4999.00, originalPrice: 6200.00, rating: 5, reviews: 152, img: 'https://images.pexels.com/photos/17656754/pexels-photo-17656754/free-photo-of-woman-in-a-traditional-sari-and-jewelry.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling', 'toprated'] }, { id: 10, name: 'Men\'s Solid White Shirt', category: 'Shirts', price: 999.00, originalPrice: null, rating: 5, reviews: 250, img: 'https://images.pexels.com/photos/12431633/pexels-photo-12431633.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling', 'toprated'] }, { id: 11, name: 'Banarasi Silk Saree', category: 'Sarees', price: 5450.00, originalPrice: 7000.00, rating: 4, reviews: 95, img: 'https://images.pexels.com/photos/10636402/pexels-photo-10636402.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling'] }, { id: 12, name: 'Striped Casual Shirt', category: 'Shirts', price: 1299.00, originalPrice: null, rating: 5, reviews: 180, img: 'https://images.pexels.com/photos/3775120/pexels-photo-3775120.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling', 'toprated'] }, { id: 14, name: 'Embroidered Net Saree', category: 'Sarees', price: 3999.00, originalPrice: null, rating: 5, reviews: 99, img: 'https://images.pexels.com/photos/16086782/pexels-photo-16086782/free-photo-of-woman-in-a-sari-posing-by-a-vintage-car.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['toprated'] }, { id: 16, name: 'Men\'s Formal Black Shirt', category: 'Shirts', price: 1500.00, originalPrice: null, rating: 5, reviews: 88, img: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['toprated'] }, { id: 17, name: 'Patola Art Silk Saree', category: 'Sarees', price: 4250.00, originalPrice: 5500.00, rating: 5, reviews: 102, img: 'https://images.pexels.com/photos/11019992/pexels-photo-11019992.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['toprated', 'bestselling'] }, { id: 18, name: 'Mandarin Collar Shirt', category: 'Shirts', price: 1350.00, originalPrice: null, rating: 5, reviews: 75, img: 'https://images.pexels.com/photos/6311652/pexels-photo-6311652.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['toprated'] }, { id: 19, name: 'Elegant Tussar Silk Saree', category: 'Sarees', price: 3150.00, originalPrice: null, rating: 4, reviews: 12, img: 'https://images.pexels.com/photos/18029647/pexels-photo-18029647/free-photo-of-woman-in-a-sari-and-golden-jewelry.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new'] }, { id: 20, name: 'Printed Rayon Shirt', category: 'Shirts', price: 950.00, originalPrice: 1200.00, rating: 4, reviews: 31, img: 'https://images.pexels.com/photos/6342782/pexels-photo-6342782.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new'] }, { id: 21, name: 'Georgette Ruffle Saree', category: 'Sarees', price: 2899.00, originalPrice: null, rating: 5, reviews: 7, img: 'https://images.pexels.com/photos/14837339/pexels-photo-14837339.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'toprated'] }, { id: 22, name: 'Cuban Collar Summer Shirt', category: 'Shirts', price: 1650.00, originalPrice: null, rating: 5, reviews: 14, img: 'https://images.pexels.com/photos/10699261/pexels-photo-10699261.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'bestselling'] }, { id: 23, name: 'Men\'s Slim Fit Chinos', category: 'Trousers', price: 1799.00, originalPrice: 2200.00, rating: 5, reviews: 130, img: 'https://images.pexels.com/photos/1598507/pexels-photo-1598507.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling', 'toprated'] }, { id: 24, name: 'Chikankari Kurta Set', category: 'Ethnic Wear', price: 3200.00, originalPrice: null, rating: 5, reviews: 85, img: 'https://images.pexels.com/photos/16715629/pexels-photo-16715629/free-photo-of-woman-in-white-dress.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'toprated'] }, { id: 25, name: 'Heavy Work Lehenga Choli', category: 'Ethnic Wear', price: 8999.00, originalPrice: 12500.00, rating: 5, reviews: 210, img: 'https://images.pexels.com/photos/10357335/pexels-photo-10357335.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling', 'toprated'] }, { id: 26, name: 'Men\'s Polo T-Shirt', category: 'T-Shirts', price: 899.00, originalPrice: null, rating: 4, reviews: 350, img: 'https://images.pexels.com/photos/40662/man-male-model-portrait-40662.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling'] }, { id: 27, name: 'Women\'s Silk Blend Kurta', category: 'Ethnic Wear', price: 2150.00, originalPrice: null, rating: 5, reviews: 92, img: 'https://images.pexels.com/photos/11019996/pexels-photo-11019996.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling', 'toprated'] }, { id: 28, name: 'Designer Gown for Women', category: 'Dresses', price: 4500.00, originalPrice: 5500.00, rating: 4, reviews: 48, img: 'https://images.pexels.com/photos/1183099/pexels-photo-1183099.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new'] }, { id: 29, name: 'Men\'s Casual Blazer', category: 'Jackets', price: 3899.00, originalPrice: null, rating: 5, reviews: 115, img: 'https://images.pexels.com/photos/1183266/pexels-photo-1183266.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['new', 'toprated'] }, { id: 30, name: 'Women\'s High-Waist Jeans', category: 'Jeans', price: 1999.00, originalPrice: 2499.00, rating: 5, reviews: 280, img: 'https://images.pexels.com/photos/1598508/pexels-photo-1598508.jpeg?auto=compress&cs=tinysrgb&w=400', type: ['bestselling'] }
+            ];
             const productGrid = document.getElementById('product-grid');
             const filterButtons = document.querySelectorAll('.product-filters button');
+            const mainContentWrapper = document.getElementById('main-content-wrapper');
+            const logoLink = document.getElementById('logo-link');
+            const homeLink = document.getElementById('home-link');
+            const cartPage = document.getElementById('cart-page');
+            const cartContentWrapper = document.getElementById('cart-content-wrapper');
+            const cartLink = document.getElementById('view-cart-link');
+            const cartCountEl = document.querySelector('.cart-count');
+            const wishlistPage = document.getElementById('wishlist-page');
+            const wishlistGrid = document.getElementById('wishlist-grid');
+            const wishlistLink = document.getElementById('view-wishlist-link');
+            const wishlistCountEl = document.querySelector('.wishlist-count');
+            const loginPage = document.getElementById('login-page');
+            const accountLink = document.getElementById('account-link');
+            let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+            let wishlist = JSON.parse(sessionStorage.getItem('wishlist')) || [];
+            const showPage = (pageToShow) => { [mainContentWrapper, cartPage, wishlistPage, loginPage].forEach(page => { page.style.display = 'none'; }); pageToShow.style.display = 'block'; window.scrollTo(0, 0); };
+            const showMainPage = () => showPage(mainContentWrapper);
+            const showLoginPage = () => showPage(loginPage);
+            const showCartPage = () => { showPage(cartPage); renderCart(); };
+            const showWishlistPage = () => { showPage(wishlistPage); renderWishlist(); };
+            const saveWishlist = () => { sessionStorage.setItem('wishlist', JSON.stringify(wishlist)); updateWishlistIcon(); };
+            const updateWishlistIcon = () => { wishlistCountEl.textContent = wishlist.length; wishlistCountEl.classList.toggle('visible', wishlist.length > 0); };
+            const toggleWishlist = (productId) => { const productIndex = wishlist.findIndex(pId => pId === productId); if (productIndex > -1) { wishlist.splice(productIndex, 1); } else { wishlist.push(productId); } saveWishlist(); const activeFilter = document.querySelector('.product-filters button.active').dataset.filter; renderProducts(allProducts.filter(p => p.type.includes(activeFilter))); };
+            const saveCart = () => { sessionStorage.setItem('cart', JSON.stringify(cart)); updateCartIcon(); };
+            const updateCartIcon = () => { const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0); cartCountEl.textContent = totalItems; cartCountEl.classList.toggle('visible', totalItems > 0); };
+            const addToCart = (productId) => { const product = allProducts.find(p => p.id === productId); if (!product) return; const existingItem = cart.find(item => item.id === productId); if (existingItem) { existingItem.quantity++; } else { cart.push({ ...product, quantity: 1 }); } saveCart(); };
+            const updateCartItem = (productId, newQuantity) => { const itemIndex = cart.findIndex(item => item.id === productId); if (itemIndex === -1) return; if (newQuantity <= 0) { cart.splice(itemIndex, 1); } else { cart[itemIndex].quantity = newQuantity; } saveCart(); renderCart(); };
+            const renderCart = () => { if (cart.length === 0) { cartContentWrapper.innerHTML = `<div class="cart-empty"><p>Your cart is currently empty.</p><a href="#" class="btn btn-primary" id="continue-shopping-btn">Continue Shopping</a></div>`; document.getElementById('continue-shopping-btn').addEventListener('click', (e) => { e.preventDefault(); showMainPage(); }); return; } let subtotal = 0; const cartItemsHTML = cart.map(item => { const itemSubtotal = item.price * item.quantity; subtotal += itemSubtotal; return `<div class="cart-item" data-product-id="${item.id}"><img src="${item.img}" alt="${item.name}" class="cart-item-img"><div class="cart-item-details"><p class="title">${item.name}</p><p class="price">₹${item.price.toFixed(2)}</p><div class="quantity-selector"><button class="quantity-decrease" aria-label="Decrease quantity">-</button><span class="quantity">${item.quantity}</span><button class="quantity-increase" aria-label="Increase quantity">+</button></div></div><div class="cart-item-actions"><p class="subtotal">₹${itemSubtotal.toFixed(2)}</p><button class="remove-item-btn">Remove</button></div></div>`; }).join(''); const shipping = subtotal > 499 ? 0 : 50; const total = subtotal + shipping; cartContentWrapper.innerHTML = `<div class="cart-grid"><div class="cart-items-list">${cartItemsHTML}</div><div class="cart-summary"><h3>Order Summary</h3><div class="summary-row"><span>Subtotal</span><span>₹${subtotal.toFixed(2)}</span></div><div class="summary-row"><span>Shipping</span><span>${shipping === 0 ? 'FREE' : `₹${shipping.toFixed(2)}`}</span></div><div class="summary-row total"><span>Total</span><span>₹${total.toFixed(2)}</span></div><a href="#" class="btn btn-primary">Proceed to Checkout</a></div></div>`; };
+            const renderWishlist = () => { if (wishlist.length === 0) { wishlistGrid.innerHTML = `<div class="wishlist-empty" style="grid-column: 1 / -1;"><p>Your wishlist is empty. Add items by clicking the heart icon!</p><a href="#" class="btn btn-primary" id="continue-shopping-wishlist-btn">Continue Shopping</a></div>`; document.getElementById('continue-shopping-wishlist-btn').addEventListener('click', (e) => { e.preventDefault(); showMainPage(); }); return; } wishlistGrid.innerHTML = ''; wishlist.forEach(productId => { const product = allProducts.find(p => p.id === productId); if (!product) return; const originalPriceHTML = product.originalPrice ? `<span class="original-price">₹${product.originalPrice.toFixed(2)}</span>` : ''; const ratingStars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating); const wishlistCardHTML = `<div class="product-card"><div class="product-image"><a href="#"><img src="${product.img}" alt="${product.name}"></a></div><div class="product-info"><p class="category">${product.category}</p><a href="#" class="title">${product.name}</a><div class="product-rating">${ratingStars} <span class="count">(${product.reviews})</span></div><p class="product-price">₹${product.price.toFixed(2)} ${originalPriceHTML}</p></div><div class="wishlist-card-actions"><a href="#" class="btn btn-outline move-to-cart-btn" data-product-id="${product.id}">Move to Cart</a><a href="#" class="remove-wishlist-btn" data-product-id="${product.id}">Remove from Wishlist</a></div></div>`; wishlistGrid.innerHTML += wishlistCardHTML; }); };
+            const renderProducts = (productsToRender) => { productGrid.innerHTML = ''; if (productsToRender.length === 0) { productGrid.innerHTML = '<p>No products found for this category.</p>'; return; } productsToRender.forEach(product => { const isWishlisted = wishlist.includes(product.id); const wishlistedClass = isWishlisted ? 'wishlisted' : ''; let tagHTML = ''; if (product.originalPrice) { const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100); tagHTML = `<div class="product-tag tag-discount">-${discount}%</div>`; } else if (product.type.includes('bestselling') && !product.type.includes('new')) { tagHTML = `<div class="product-tag tag-bestseller">BESTSELLER</div>`; } else if (product.type.includes('new')) { tagHTML = `<div class="product-tag tag-new">NEW</div>`; } const originalPriceHTML = product.originalPrice ? `<span class="original-price">₹${product.originalPrice.toFixed(2)}</span>` : ''; const ratingStars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating); const productCardHTML = `<div class="product-card"><div class="product-image"><a href="#"><img src="${product.img}" alt="${product.name}"></a>${tagHTML}<div class="product-actions"><a href="#" class="add-to-cart-btn" data-product-id="${product.id}" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a><a href="#" class="add-to-wishlist-btn ${wishlistedClass}" data-product-id="${product.id}" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a></div></div><div class="product-info"><p class="category">${product.category}</p><a href="#" class="title">${product.name}</a><div class="product-rating">${ratingStars} <span class="count">(${product.reviews})</span></div><p class="product-price">₹${product.price.toFixed(2)} ${originalPriceHTML}</p></div></div>`; productGrid.innerHTML += productCardHTML; }); };
+            filterButtons.forEach(button => { button.addEventListener('click', function() { filterButtons.forEach(btn => btn.classList.remove('active')); this.classList.add('active'); const filterType = this.dataset.filter; const filteredProducts = allProducts.filter(p => p.type.includes(filterType)); renderProducts(filteredProducts); }); });
+            productGrid.addEventListener('click', (e) => { const cartBtn = e.target.closest('.add-to-cart-btn'); const wishlistBtn = e.target.closest('.add-to-wishlist-btn'); if (cartBtn) { e.preventDefault(); addToCart(parseInt(cartBtn.dataset.productId, 10)); } if (wishlistBtn) {  e.preventDefault(); toggleWishlist(parseInt(wishlistBtn.dataset.productId, 10)); } });
+            cartContentWrapper.addEventListener('click', (e) => { const itemEl = e.target.closest('.cart-item'); if (!itemEl) return; const productId = parseInt(itemEl.dataset.productId, 10); const itemInCart = cart.find(item => item.id === productId); if (e.target.matches('.quantity-increase')) { updateCartItem(productId, itemInCart.quantity + 1); } else if (e.target.matches('.quantity-decrease')) { updateCartItem(productId, itemInCart.quantity - 1); } else if (e.target.matches('.remove-item-btn')) { updateCartItem(productId, 0); } });
+            wishlistGrid.addEventListener('click', (e) => { e.preventDefault(); const moveToCartBtn = e.target.closest('.move-to-cart-btn'); const removeBtn = e.target.closest('.remove-wishlist-btn'); if (moveToCartBtn) { const productId = parseInt(moveToCartBtn.dataset.productId, 10); addToCart(productId); toggleWishlist(productId); renderWishlist(); } if (removeBtn) { const productId = parseInt(removeBtn.dataset.productId, 10); toggleWishlist(productId); renderWishlist(); } });
+            cartLink.addEventListener('click', (e) => { e.preventDefault(); if (cartPage.style.display === 'block') { showMainPage(); } else { showCartPage(); } });
+            wishlistLink.addEventListener('click', (e) => { e.preventDefault(); if (wishlistPage.style.display === 'block') { showMainPage(); } else { showWishlistPage(); } });
+            accountLink.addEventListener('click', (e) => { e.preventDefault(); if (loginPage.style.display === 'block') { showMainPage(); } else { showLoginPage(); } });
+            homeLink.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
+            logoLink.addEventListener('click', (e) => { e.preventDefault(); showMainPage(); });
+            document.querySelector('.product-filters button[data-filter="new"]').click();
+            updateCartIcon();
+            updateWishlistIcon();
 
-            const renderProducts = (productsToRender) => {
-                if(!productGrid) return;
-                productGrid.innerHTML = '';
-                if (productsToRender.length === 0) {
-                    productGrid.innerHTML = '<p>No products found for this category.</p>';
-                    return;
-                }
-                productsToRender.forEach(product => {
-                    let tagHTML = '';
-                    if (product.originalPrice) {
-                        const discount = Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100);
-                        tagHTML = `<div class="product-tag tag-discount">-${discount}%</div>`;
-                    } else if (product.type.includes('bestselling') && !product.type.includes('new')) {
-                         tagHTML = `<div class="product-tag tag-bestseller">BESTSELLER</div>`;
-                    } else if (product.type.includes('new')) {
-                        tagHTML = `<div class="product-tag tag-new">NEW</div>`;
-                    }
-                    const originalPriceHTML = product.originalPrice ? `<span class="original-price">₹${product.originalPrice.toFixed(2)}</span>` : '';
-                    const ratingStars = '★'.repeat(product.rating) + '☆'.repeat(5 - product.rating);
-                    const productCardHTML = `<div class="product-card"><div class="product-image"><a href="#"><img src="${product.img}" alt="${product.name}"></a>${tagHTML}<div class="product-actions"><a href="#" aria-label="Add to cart"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg></a><a href="#" aria-label="Add to wishlist"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a></div></div><div class="product-info"><p class="category">${product.category}</p><a href="#" class="title">${product.name}</a><div class="product-rating">${ratingStars} <span class="count">(${product.reviews})</span></div><p class="product-price">₹${product.price.toFixed(2)} ${originalPriceHTML}</p></div></div>`;
-                    productGrid.innerHTML += productCardHTML;
-                });
-            };
+            // --- SCRIPT LOGIC FROM SECTION 2 ---
 
-            if (filterButtons.length > 0) {
-                filterButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        filterButtons.forEach(btn => btn.classList.remove('active'));
-                        this.classList.add('active');
-                        const filterType = this.dataset.filter;
-                        const filteredProducts = allProducts.filter(p => p.type.includes(filterType));
-                        const productsToShow = filteredProducts.slice(0, 8);
-                        renderProducts(productsToShow);
-                    });
-                });
-                document.querySelector('.product-filters button[data-filter="new"]').click();
-            }
-
-            // --- SCRIPT FOR SECTION 2: PRODUCT CAROUSEL ---
-            const productList = document.querySelector('.product-list');
-            const prevBtn = document.querySelector('.prev-arrow');
-            const nextBtn = document.querySelector('.next-arrow');
+            const productList = document.querySelector('.product-carousel .product-list');
+            const prevBtn = document.querySelector('.product-carousel .prev-arrow');
+            const nextBtn = document.querySelector('.product-carousel .next-arrow');
 
             if (productList && prevBtn && nextBtn) {
                 let position = 0;
@@ -641,9 +892,7 @@
                     const cardMargin = window.innerWidth <= 768 ? 10 : 20;
                     const cardWidth = document.querySelector('.product-carousel .product-card').offsetWidth + cardMargin;
                     position -= cardWidth;
-                    if (position <= -scrollWidth) {
-                        position = 0;
-                    }
+                    if (position <= -scrollWidth) { position = 0; }
                     productList.style.transform = `translateX(${position}px)`;
                 });
 
@@ -651,13 +900,11 @@
                     const cardMargin = window.innerWidth <= 768 ? 10 : 20;
                     const cardWidth = document.querySelector('.product-carousel .product-card').offsetWidth + cardMargin;
                     position += cardWidth;
-                    if (position > 0) {
-                        position = -scrollWidth + cardWidth;
-                    }
+                    if (position > 0) { position = -scrollWidth + cardWidth; }
                     productList.style.transform = `translateX(${position}px)`;
                 });
 
-                const carouselWrapper = document.querySelector('.carousel-wrapper');
+                const carouselWrapper = document.querySelector('.product-carousel .carousel-wrapper');
                 carouselWrapper.addEventListener('mouseenter', () => { isPaused = true; });
                 carouselWrapper.addEventListener('mouseleave', () => { isPaused = false; });
 
