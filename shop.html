@@ -172,7 +172,6 @@
         .product-actions { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; opacity: 0; transition: opacity var(--transition-speed), transform var(--transition-speed); z-index: 3; }
         .product-card:hover .product-actions { opacity: 1; transform: translateX(-50%) translateY(-5px); }
 
-        /* MODIFICATION: Made icons larger and more visible */
         .product-actions a { 
             width: 48px; 
             height: 48px; 
@@ -221,7 +220,7 @@
         .sale-banner:hover img { transform: scale(1.05); }
 
         /* --- CART PAGE STYLES --- */
-        .cart-section, .wishlist-section { 
+        .cart-section, .wishlist-section, .login-section { 
             padding: 80px 0; 
             background-color: var(--background-white); 
         }
@@ -287,30 +286,78 @@
             text-decoration: underline; 
         }
         
+        /* --- LOGIN PAGE STYLES --- */
+        .login-form-wrapper {
+            max-width: 450px;
+            margin: 40px auto 0;
+            padding: 40px;
+            background-color: var(--background-white);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-color);
+        }
+        .form-group {
+            margin-bottom: 25px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-charcoal);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 15px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.2);
+        }
+        .login-form-wrapper .btn {
+            width: 100%;
+        }
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        .form-footer a {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        .form-footer a:hover {
+            text-decoration: underline;
+            color: var(--primary-dark);
+        }
+
         /* Responsive Styles */
         @media (max-width: 992px) {
-            .hero-section .container { flex-direction: column; text-align: center; }
-            .hero-buttons { justify-content: center; }
-            .product-grid, .wishlist-grid { grid-template-columns: repeat(3, 1fr); }
-            .categories-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 250px 250px; }
-            .cat-women { grid-column: 1/3; grid-row: 1/2; }
-            .cat-men { grid-column: 1/2; grid-row: 2/3; }
-            .cat-ethnic { grid-column: 2/3; grid-row: 2/3; }
-            .cat-casual { display: none; }
-            .cart-grid { grid-template-columns: 1fr; }
+            .hero-content .title { font-size: 48px; }
+            .hero-content .sub-title { font-size: 36px; }
+            .section-title { font-size: 32px; }
         }
         @media (max-width: 768px) {
-             .main-nav { display: none; }
-             .product-grid, .wishlist-grid { grid-template-columns: repeat(2, 1fr); }
-             .sale-banners-grid { grid-template-columns: 1fr; }
-             .features-grid { grid-template-columns: 1fr; }
-             .categories-grid { grid-template-columns: 1fr; grid-template-rows: repeat(4, 200px); }
-             .cat-women, .cat-men, .cat-ethnic, .cat-casual { grid-column: auto; grid-row: auto; display: flex; }
+            body { font-size: 15px; }
+            .hero-content .title { font-size: 40px; }
+            .hero-content .sub-title { font-size: 30px; }
+            .logo { font-size: 28px; }
+            .main-nav ul { gap: 20px; }
+            .main-nav a { font-size: 15px; }
         }
         @media (max-width: 480px) {
-            .product-grid, .wishlist-grid { grid-template-columns: 1fr; }
-            .top-bar { display: none; }
-            .hero-content .title { font-size: 40px; }
+            body { font-size: 14px; }
+            .hero-content .title { font-size: 32px; }
+            .hero-content .discount { font-size: 18px; }
+            .main-nav ul { gap: 15px; }
+            .main-nav a { font-size: 14px; }
         }
     </style>
 </head>
@@ -451,15 +498,15 @@
                 </nav>
                 <div class="header-icons">
                     <a href="#" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>
-                    <a href="#" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+                    <a href="#" id="account-link" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
                     
                     <a href="#" id="view-wishlist-link" aria-label="Wishlist">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
                         <span class="wishlist-count">0</span>
                     </a>
 
                     <a href="#" id="view-cart-link" aria-label="Shopping Cart">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
                         <span class="cart-count">0</span>
                     </a>
                 </div>
@@ -489,10 +536,10 @@
             <section class="features-section">
                 <div class="container">
                     <div class="features-grid">
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
-                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg><div><h3>Free Shipping</h3><p>On All Orders Over ₹499</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg><div><h3>Secure Payment</h3><p>We ensure secure payment</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m6-7l-7 7 7 7"></path></svg><div><h3>Easy Returns</h3><p>30 Days Return Policy</p></div></div>
+                        <div class="feature-item"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><div><h3>Online Support</h3><p>24/7 Dedicated Support</p></div></div>
                     </div>
                 </div>
             </section>
@@ -553,6 +600,32 @@
                 </div>
             </section>
         </div>
+
+        <section id="login-page" class="login-section" style="display: none;">
+            <div class="container">
+                 <div class="section-header">
+                    <h2 class="section-title">Login to Your Account</h2>
+                    <p class="section-subtitle">Welcome back! Please enter your details.</p>
+                </div>
+                <div class="login-form-wrapper">
+                    <form>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Sign In</button>
+                        <div class="form-footer">
+                            <a href="#">Forgot Password?</a>
+                            <a href="#">Create an Account</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
 
         <section id="cart-page" class="cart-section" style="display: none;">
             <div class="container">
@@ -616,7 +689,6 @@
             
             // --- PRODUCT, CART, AND WISHLIST LOGIC ---
 
-            // MODIFICATION: Ensured all product images are relevant and high-quality
             const allProducts = [
                 { id: 1, name: 'Pastel Georgette Saree', category: 'Sarees', price: 2599.00, originalPrice: 3200.00, rating: 4, reviews: 15, img: 'https://images.unsplash.com/photo-1620722359172-82315286b183?auto=format&fit=crop&w=300', type: ['new'] },
                 { id: 2, name: 'Men\'s Oxford Formal Shirt', category: 'Shirts', price: 1499.00, originalPrice: null, rating: 5, reviews: 8, img: 'https://images.unsplash.com/photo-1598032895397-b9472444bf93?auto=format&fit=crop&w=300', type: ['new', 'toprated'] },
@@ -653,12 +725,14 @@
             const wishlistGrid = document.getElementById('wishlist-grid');
             const wishlistLink = document.getElementById('view-wishlist-link');
             const wishlistCountEl = document.querySelector('.wishlist-count');
+            const loginPage = document.getElementById('login-page');
+            const accountLink = document.getElementById('account-link');
 
             let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
             let wishlist = JSON.parse(sessionStorage.getItem('wishlist')) || [];
 
             const showPage = (pageToShow) => {
-                [mainContentWrapper, cartPage, wishlistPage].forEach(page => {
+                [mainContentWrapper, cartPage, wishlistPage, loginPage].forEach(page => {
                     page.style.display = 'none';
                 });
                 pageToShow.style.display = 'block';
@@ -666,6 +740,7 @@
             };
 
             const showMainPage = () => showPage(mainContentWrapper);
+            const showLoginPage = () => showPage(loginPage);
             const showCartPage = () => { showPage(cartPage); renderCart(); };
             const showWishlistPage = () => { showPage(wishlistPage); renderWishlist(); };
 
@@ -910,6 +985,7 @@
                 }
             });
             
+            // MODIFICATION: Logic to toggle pages on icon click
             cartLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (cartPage.style.display === 'block') {
@@ -925,6 +1001,15 @@
                     showMainPage();
                 } else {
                     showWishlistPage();
+                }
+            });
+            
+            accountLink.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (loginPage.style.display === 'block') {
+                    showMainPage();
+                } else {
+                    showLoginPage();
                 }
             });
 
