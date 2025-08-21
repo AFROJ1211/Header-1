@@ -59,10 +59,50 @@
         .main-nav a::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 2px; background-color: var(--primary-color); transform: scaleX(0); transform-origin: left; transition: transform var(--transition-speed); }
         .main-nav a:hover, .main-nav a.active { color: var(--primary-color); }
         .main-nav a:hover::after, .main-nav a.active::after { transform: scaleX(1); }
-        .header-icons { display: flex; gap: 20px; }
+        .header-icons { display: flex; align-items: center; gap: 20px; }
         .header-icons a { position: relative; display: flex; align-items: center; justify-content: center; color: var(--dark-charcoal); }
         .header-icons a:hover { color: var(--primary-color); }
         .header-icons svg { width: 24px; height: 24px; }
+
+        /* --- NEW: Search Widget Styles --- */
+        .search-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .search-input {
+            width: 0;
+            padding: 10px 0;
+            border: none;
+            border-bottom: 2px solid transparent;
+            background-color: transparent;
+            position: absolute;
+            right: 35px; /* Position it to the left of the icon */
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-speed);
+            font-size: 15px;
+            outline: none;
+            font-family: var(--font-primary);
+        }
+        .search-container.active .search-input {
+            width: 220px;
+            padding: 10px 15px 10px 5px; /* Adjust padding */
+            border-bottom: 2px solid var(--border-color);
+            opacity: 1;
+            visibility: visible;
+        }
+        .search-input:focus {
+            border-bottom-color: var(--primary-color);
+        }
+        .search-toggle {
+            z-index: 10; /* Keep icon on top */
+        }
+        .search-container.active .search-toggle {
+            color: var(--primary-color); /* Highlight icon when active */
+        }
+        /* --- End of Search Widget Styles --- */
+
 
         .cart-count, .wishlist-count {
             position: absolute;
@@ -497,7 +537,13 @@
                     </ul>
                 </nav>
                 <div class="header-icons">
-                    <a href="#" aria-label="Search"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></a>
+                    <!-- MODIFICATION: Search icon replaced with a functional search widget -->
+                    <div class="search-container">
+                        <input type="search" class="search-input" id="searchInput" placeholder="Search for products...">
+                        <a href="#" class="search-toggle" id="searchToggle" aria-label="Search">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        </a>
+                    </div>
                     <a href="#" id="account-link" aria-label="My Account"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
                     
                     <a href="#" id="view-wishlist-link" aria-label="Wishlist">
@@ -657,6 +703,30 @@
     
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+
+            // --- SEARCH WIDGET LOGIC ---
+            const searchToggle = document.getElementById('searchToggle');
+            const searchContainer = document.querySelector('.search-container');
+            const searchInput = document.getElementById('searchInput');
+
+            searchToggle.addEventListener('click', function(event) {
+                event.preventDefault();
+                searchContainer.classList.toggle('active');
+
+                if (searchContainer.classList.contains('active')) {
+                    searchInput.focus();
+                }
+            });
+
+            // Logic to close the search bar when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.search-container')) {
+                    if (searchContainer.classList.contains('active')) {
+                        searchContainer.classList.remove('active');
+                    }
+                }
+            });
+
             // --- MEGA MENU CLICK LOGIC ---
             const navLinksWithMegaMenu = document.querySelectorAll('.main-nav > ul > li > a');
 
@@ -985,7 +1055,6 @@
                 }
             });
             
-            // MODIFICATION: Logic to toggle pages on icon click
             cartLink.addEventListener('click', (e) => {
                 e.preventDefault();
                 if (cartPage.style.display === 'block') {
